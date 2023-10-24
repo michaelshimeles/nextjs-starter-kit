@@ -15,10 +15,10 @@ Zod - Type Schema
 
 Tanstack Query - Querying Data & State Management
 
+Supabase - Database
+
 ## Not Included but add if needed
 Redis & Upstash - Caching
-
-Supabase - Database
 
 Sanity - CMS
 
