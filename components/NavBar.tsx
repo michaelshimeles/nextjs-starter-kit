@@ -59,28 +59,16 @@ export function NavBar() {
                                 <Button variant="outline" className="w-full">Contact Us</Button>
                             </Link>
                         </DialogClose>
-                        <DialogClose asChild>
-                            <Link href="/about">
-                                <Button variant="outline" className="w-full">About Us</Button>
-                            </Link>
-                        </DialogClose>
                     </div>
                 </SheetContent>
             </Dialog>
 
             <NavigationMenu>
                 <NavigationMenuList className="max-[825px]:hidden ">
-                    {/* <Link href="/">
-                        <Image src="/next.svg" width={75} height={50} alt="logo" />
-                    </Link> */}
-                    <NavigationMenuItem>
-                        <Link href="/" legacyBehavior passHref className="cursor-pointer">
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                Home
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
+                    <Link href="/">
+                        <Image src="/bridge.svg" width={45} height={30} alt="logo" />
+                    </Link>
+                    {/* <NavigationMenuItem>
                         <NavigationMenuTrigger>Exodus Labs</NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -105,18 +93,25 @@ export function NavBar() {
                                 </ListItem>
                             </ul>
                         </NavigationMenuContent>
+                    </NavigationMenuItem> */}
+                    <NavigationMenuItem>
+                        <Link href="/#pricing" legacyBehavior passHref className="cursor-pointer">
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                Pricing
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <Link href="/#demo" legacyBehavior passHref className="cursor-pointer">
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                Demo
+                            </NavigationMenuLink>
+                        </Link>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
                         <Link href="/contact-us" legacyBehavior passHref className="cursor-pointer">
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                 Contact Us
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <Link href="/about" legacyBehavior passHref className="cursor-pointer">
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                About Us
                             </NavigationMenuLink>
                         </Link>
                     </NavigationMenuItem>

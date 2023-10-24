@@ -9,8 +9,8 @@ import { NavBar } from '@/components/NavBar'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Church Platform',
-  description: 'The Complete Church Platform',
+  title: 'Nextjs 13 Starter Template',
+  description: 'Build your next SAAS product',
 }
 
 export default function RootLayout({

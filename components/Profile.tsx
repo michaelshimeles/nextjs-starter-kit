@@ -44,13 +44,6 @@ export function Profile() {
                             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                         </DropdownMenuItem>
                     </Link>
-                    <Link href="/donations">
-                        <DropdownMenuItem>
-                            <CreditCard className="mr-2 h-4 w-4" />
-                            <span>Donations</span>
-                            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                    </Link>
                     <DropdownMenuItem>
                         <Settings className="mr-2 h-4 w-4" />
                         <span>Settings</span>
