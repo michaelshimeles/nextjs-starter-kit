@@ -59,9 +59,9 @@ export const userCreate = async ({
     console.log("data", data);
     console.log("error", error);
 
-    if (data) return data;
+    if (error?.code) return error;
 
-    if (error) return error;
+    return data;
   } catch (error: any) {
     throw new Error(error.message);
   }

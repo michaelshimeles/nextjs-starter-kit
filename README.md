@@ -17,6 +17,29 @@ Tanstack Query - Querying Data & State Management
 
 Supabase - Database
 
+## ENV variables needed
+
+You'll need to signup at Clerk.com & Supabase.com
+
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+
+CLERK_SECRET_KEY=
+
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+
+WEBHOOK_SECRET=
+
+NEXT_PUBLIC_SUPABASE_URL=
+
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+
+
 ## Not Included but add if needed
 Redis & Upstash - Caching
 
