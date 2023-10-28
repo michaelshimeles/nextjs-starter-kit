@@ -6,7 +6,6 @@ const userCreateSchema = z.object({
   email: z
     .string()
     .email({ message: "Invalid email" })
-    .nonempty({ message: "Email is required" })
     .describe("user email"),
   first_name: z
     .string()
