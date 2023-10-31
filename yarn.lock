@@ -19,6 +19,48 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@biomejs/biome@^1.3.0":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@biomejs/biome/-/biome-1.3.1.tgz#6ab36d619e04ebd22ca96a7ea3386acd3bddd1d8"
+  integrity sha512-ufGCBj8ZNbF+vZDZscqvvLIGsh8M4BduQoJ1X3nm8c9Dupp8gzAKibZSWDLLcgnsAVeKEmWwY6r3Wv/JIa0LgA==
+  optionalDependencies:
+    "@biomejs/cli-darwin-arm64" "1.3.1"
+    "@biomejs/cli-darwin-x64" "1.3.1"
+    "@biomejs/cli-linux-arm64" "1.3.1"
+    "@biomejs/cli-linux-x64" "1.3.1"
+    "@biomejs/cli-win32-arm64" "1.3.1"
+    "@biomejs/cli-win32-x64" "1.3.1"
+
+"@biomejs/cli-darwin-arm64@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-arm64/-/cli-darwin-arm64-1.3.1.tgz#170b0063686112dc667f1b40170d83da19216241"
+  integrity sha512-m3cBroQftLFYFh3to6RO4ooLqZsE2K9yf5xOlDjm6D4Vrgq85XFwDOxjjJyGGDjDPQ55xGunm80qmGr8jTjiyA==
+
+"@biomejs/cli-darwin-x64@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-x64/-/cli-darwin-x64-1.3.1.tgz#170569dbdc874e2b926790dbf66f32bf05ea0a85"
+  integrity sha512-i2yDivc/HHBRFJMoRUUPsFs9pKK0NnS/8tQg/uqNsAkLMF9OKZCCxtUJPmpUBHpdQ2f39An1cVpFmCIEv0uYJQ==
+
+"@biomejs/cli-linux-arm64@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-arm64/-/cli-linux-arm64-1.3.1.tgz#8c26ad89eb8bab3a680ede83430e593ceed4ac0a"
+  integrity sha512-H56MB7Mf59snzG+nLpfS2j3jXsJ+a6aQOBeRiT0rgn44FZ63yI9jWNIgN1+Xylsa8shmwtquOkoxLS/4KKt0Qg==
+
+"@biomejs/cli-linux-x64@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-x64/-/cli-linux-x64-1.3.1.tgz#47604e949f4cb9c4343e03a088cd86f7768a4359"
+  integrity sha512-8ENayCpYXXC77a7AxDNjC+pPKMYteLzysxhkCCZ7Gd2sWtrH8iMM45JL8wQJhoHz5NT3+qgsfGafiNuxeVAVlg==
+
+"@biomejs/cli-win32-arm64@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-arm64/-/cli-win32-arm64-1.3.1.tgz#0a32fee3f71971854df5bf126250661dd09b2465"
+  integrity sha512-gAx/E949/1/jQDwG9nTspVtjikBI/y7RbbUwwBVABF1bcAUC63VhrHfKJRbM7VTXMlZ7n9YrxkyMww8vf40qcQ==
+
+"@biomejs/cli-win32-x64@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-x64/-/cli-win32-x64-1.3.1.tgz#dc5d5f4198333de084ee35773a3f8681847cd2d0"
+  integrity sha512-+08eKmEdVM7d4UxY/tff2aPXbeUNNp6wwH7v0FbrE+25mH9lhELgylEk4+k6OLXOcDT7KDAduzP2f9CuM/Aj9w==
+
 "@clerk/backend@^0.29.2":
   version "0.29.2"
   resolved "https://registry.yarnpkg.com/@clerk/backend/-/backend-0.29.2.tgz#00aadd804a09e69f9103ff382c5488e75929c9e1"
@@ -994,6 +1036,28 @@
     "@typescript-eslint/types" "6.7.3"
     eslint-visitor-keys "^3.4.1"
 
+"@upstash/core-analytics@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@upstash/core-analytics/-/core-analytics-0.0.6.tgz#8680e7697e0f2660c2507bbc56348f5541bb0237"
+  integrity sha512-cpPSR0XJAJs4Ddz9nq3tINlPS5aLfWVCqhhtHnXt4p7qr5+/Znlt1Es736poB/9rnl1hAHrOsOvVj46NEXcVqA==
+  dependencies:
+    "@upstash/redis" "^1.19.3"
+
+"@upstash/ratelimit@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@upstash/ratelimit/-/ratelimit-0.4.4.tgz#99b4d9e2428c18ef0946ec347b5f22dac0184e60"
+  integrity sha512-y3q6cNDdcRQ2MRPRf5UNWBN36IwnZ4kAEkGoH3i6OqdWwz4qlBxNsw4/Rpqn9h93+Nx1cqg5IOq7O2e2zMJY1w==
+  dependencies:
+    "@upstash/core-analytics" "^0.0.6"
+
+"@upstash/redis@^1.19.3", "@upstash/redis@^1.24.2":
+  version "1.24.2"
+  resolved "https://registry.yarnpkg.com/@upstash/redis/-/redis-1.24.2.tgz#e7576aba9cf84646edfb8b52dd362f25756eaf7a"
+  integrity sha512-R2kqb6akTTO8F1fVXoqc3+7ueyKOgen2Q0ObHxNvRQwc1cN4xggxuuQGYYvGiMOVfmMrkGvVRKLmVtmkGjC/2g==
+  dependencies:
+    "@biomejs/biome" "^1.3.0"
+    crypto-js "^4.1.1"
+
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
@@ -1372,6 +1436,11 @@ cross-spawn@^7.0.2:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+crypto-js@^4.1.1:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
+  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
 
 cssesc@^3.0.0:
   version "3.0.0"
