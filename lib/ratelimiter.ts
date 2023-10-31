@@ -9,3 +9,5 @@ export const ratelimit = new Ratelimit({
   timeout: 10000, // 10 second
 });
  
+
+// For more details on ratelimiting https://github.com/upstash/ratelimit
