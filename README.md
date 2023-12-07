@@ -1,4 +1,4 @@
-## NextJS 13 Starter Template 
+## NextJS 14 Starter Template 
 
 ## Tech Stack
 NextJS 13 - Full Stack framework 
