@@ -17,6 +17,8 @@ Tanstack Query - Querying Data & State Management
 
 Supabase - Database
 
+Redis & Upstash - Rate limit + Caching
+
 ## ENV variables needed
 
 You'll need to signup at Clerk.com & Supabase.com
@@ -41,7 +43,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 
 
 ## Not Included but add if needed
-Redis & Upstash - Caching
 
 Sanity - CMS
 
