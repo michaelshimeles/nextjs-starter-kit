@@ -17,9 +17,6 @@ const userCreateSchema = z.object({
     .regex(/^[a-zA-Z]+$/, { message: "Last name must only contain letters" })
     .min(3, { message: "Last name is required" })
     .describe("user last name"),
-  gender: z
-    .enum(["Male", "Female", "Preferred not to say"])
-    .describe("user gender"),
   profile_image_url: z
     .string()
     .url({ message: "Invalid URL" })
@@ -34,7 +31,6 @@ export const userCreate = async ({
   email,
   first_name,
   last_name,
-  gender,
   profile_image_url,
   user_id,
 }: userCreateProps) => {
@@ -48,7 +44,6 @@ export const userCreate = async ({
           email,
           first_name,
           last_name,
-          gender,
           profile_image_url,
           user_id,
         },
