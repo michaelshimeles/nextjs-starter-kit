@@ -1,7 +1,7 @@
 ## NextJS 14 Starter Template 
 
 ## Tech Stack
-NextJS 13 - Full Stack framework 
+NextJS 14 - Full Stack framework 
 
 TailwindCSS - CSS framework
 
