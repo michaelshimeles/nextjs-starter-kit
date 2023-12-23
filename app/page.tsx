@@ -1,4 +1,9 @@
-export default function Home() {
+import { serverClient } from "./_trpc/server"
+
+export default async function Home() {
+  const getTodos = await serverClient.getTodos()
+
+  console.log('server', getTodos)
   return (
     <main className="flex min-w-screen flex-col items-center justify-between">
       <div className='flex flex-col items-center mt-[4rem] p-3 '>

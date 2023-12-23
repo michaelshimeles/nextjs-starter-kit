@@ -5,7 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { NavBar } from '@/components/NavBar'
-import Provider from '@/utils/provider'
+import Provider from '@/app/_trpc/provider'
 
 const inter = Inter({ subsets: ['latin'] })
 

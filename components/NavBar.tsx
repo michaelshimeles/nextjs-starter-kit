@@ -1,15 +1,15 @@
 "use client"
 
+import { trpc } from "@/app/_trpc/client"
 import {
     NavigationMenu,
-    NavigationMenuContent,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger,
-    navigationMenuTriggerStyle,
+    navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
+import { useAuth } from "@clerk/nextjs"
 import { Dialog, DialogClose } from "@radix-ui/react-dialog"
 import Image from "next/image"
 import Link from "next/link"
@@ -17,10 +17,8 @@ import * as React from "react"
 import { GiHamburgerMenu } from "react-icons/gi"
 import { ModeToggle } from "./ModeToggle"
 import { Profile } from "./Profile"
-import { SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
-import { useAuth } from "@clerk/nextjs";
 import { Button } from "./ui/button"
-import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover"
+import { SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -34,6 +32,9 @@ const components: { title: string; href: string; description: string }[] = [
 export function NavBar() {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
 
+    const getTodos = trpc.getTodos.useQuery();
+
+    console.log('trpc', getTodos?.data)
 
     return (
         <div className="flex min-w-full justify-between p-2 border-b z-10">
