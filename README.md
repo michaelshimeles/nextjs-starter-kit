@@ -1,7 +1,7 @@
-## NextJS 13 Starter Template 
+## NextJS 14 Starter Template 
 
 ## Tech Stack
-NextJS 13 - Full Stack framework 
+NextJS 14 - Full Stack framework 
 
 TailwindCSS - CSS framework
 
@@ -16,6 +16,8 @@ Zod - Type Schema
 Tanstack Query - Querying Data & State Management
 
 Supabase - Database
+
+Redis & Upstash - Rate limit + Caching
 
 ## ENV variables needed
 
@@ -41,7 +43,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 
 
 ## Not Included but add if needed
-Redis & Upstash - Caching
 
 Sanity - CMS
 
