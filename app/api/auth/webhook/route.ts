@@ -60,7 +60,6 @@ export async function POST(req: Request) {
         email: payload?.data?.email_addresses?.[0]?.email_address,
         first_name: payload?.data?.first_name,
         last_name: payload?.data?.last_name,
-        gender: payload?.data?.gender,
         profile_image_url: payload?.data?.profile_image_url,
         user_id: payload?.data?.id,
       });
@@ -75,7 +74,6 @@ export async function POST(req: Request) {
         email: payload?.data?.email_addresses?.[0]?.email_address,
         first_name: payload?.data?.first_name,
         last_name: payload?.data?.last_name,
-        gender: payload?.data?.gender,
         profile_image_url: payload?.data?.profile_image_url,
         user_id: payload?.data?.id,
       });
