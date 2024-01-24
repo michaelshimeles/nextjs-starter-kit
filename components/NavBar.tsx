@@ -19,6 +19,7 @@ import { ModeToggle } from "./ModeToggle"
 import { Profile } from "./Profile"
 import { Button } from "./ui/button"
 import { SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
+import { Rocket } from "lucide-react"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -66,8 +67,8 @@ export function NavBar() {
 
             <NavigationMenu>
                 <NavigationMenuList className="max-[825px]:hidden ">
-                    <Link href="/">
-                        <Image src="/bridge.svg" width={45} height={30} alt="logo" />
+                    <Link href="/" className="pl-2">
+                        <Rocket />
                     </Link>
                     {/* <NavigationMenuItem>
                         <NavigationMenuTrigger>Exodus Labs</NavigationMenuTrigger>
@@ -99,13 +100,6 @@ export function NavBar() {
                         <Link href="/#pricing" legacyBehavior passHref className="cursor-pointer">
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                 Pricing
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <Link href="/#demo" legacyBehavior passHref className="cursor-pointer">
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                Demo
                             </NavigationMenuLink>
                         </Link>
                     </NavigationMenuItem>
