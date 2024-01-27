@@ -70,32 +70,6 @@ export function NavBar() {
                     <Link href="/" className="pl-2">
                         <Rocket />
                     </Link>
-                    {/* <NavigationMenuItem>
-                        <NavigationMenuTrigger>Exodus Labs</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                                <li className="row-span-3">
-                                    <NavigationMenuLink asChild>
-                                        <a
-                                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                                            href="/"
-                                        >
-                                            <Image src="/next.svg" width={75} height={50} alt="logo" />
-                                            <div className="mb-2 mt-4 text-lg font-medium">
-                                                Nextjs Starter Template
-                                            </div>
-                                            <p className="text-sm leading-tight text-muted-foreground">
-                                                Plan, Build & Scale.
-                                            </p>
-                                        </a>
-                                    </NavigationMenuLink>
-                                </li>
-                                <ListItem href="/english-ministry" title="Exodus Labs">
-                                    Exodus Lab is an Engineering Firm that builds products that solve real problems
-                                </ListItem>
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem> */}
                     <NavigationMenuItem>
                         <Link href="/#pricing" legacyBehavior passHref className="cursor-pointer">
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>

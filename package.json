@@ -33,6 +33,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "encoding": "^0.1.13",
+    "framer-motion": "^11.0.3",
     "lucide-react": "^0.279.0",
     "next": "latest",
     "next-themes": "^0.2.1",
