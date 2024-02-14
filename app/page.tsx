@@ -1,4 +1,6 @@
+import AnimationTest from "@/components/AnimationTest"
 import { serverClient } from "./_trpc/server"
+import { Bento } from "@/components/Bento"
 
 export default async function Home() {
   const getTodos = await serverClient.getTodos()
@@ -13,6 +15,7 @@ export default async function Home() {
         <p className="leading-7 [&:not(:first-child)]:mt-3">
           Plan, Build & Scale.
         </p>
+        {/* <AnimationTest /> */}
       </div>
     </main>
   )

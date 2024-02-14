@@ -29,6 +29,7 @@ const ContactUsForm = z.object({
 type ContactUsFormInput = z.infer<typeof ContactUsForm>
 
 export default function ContactUs() {
+
     const { register, handleSubmit, watch, formState: { errors, isSubmitting }, reset, } = useForm<ContactUsFormInput>({
         resolver: zodResolver(ContactUsForm),
         defaultValues: {
@@ -83,7 +84,6 @@ export default function ContactUs() {
                                         <Label>
                                             First name
                                         </Label>
-                                        <Input {...register("firstName", { required: true })} placeholder="Enter your first name" />
                                         {errors?.firstName?.message && <p className="text-red-500 text-sm">{errors.firstName.message}</p>}
                                     </div>
                                     <div className="space-y-2">
