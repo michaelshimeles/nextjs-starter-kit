@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE "payments" ALTER COLUMN "created_time" SET DEFAULT CURRENT_TIMESTAMP;
-
--- AlterTable
-ALTER TABLE "user" ALTER COLUMN "created_time" SET DEFAULT CURRENT_TIMESTAMP;
