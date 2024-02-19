@@ -41,10 +41,6 @@ NEXT_PUBLIC_SUPABASE_URL=
 
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 
+DATABASE_URL=
 
-## Not Included but add if needed
-
-Sanity - CMS
-
-Sentry - Logging
-
+DIRECT_URL=
