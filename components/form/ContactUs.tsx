@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
+import { useTemplate } from "@/utils/hook/useTemplate"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { useRef } from 'react'
@@ -29,6 +30,8 @@ const ContactUsForm = z.object({
 type ContactUsFormInput = z.infer<typeof ContactUsForm>
 
 export default function ContactUs() {
+    const { data } = useTemplate()
+    console.log("Template data", data)
 
     const { register, handleSubmit, watch, formState: { errors, isSubmitting }, reset, } = useForm<ContactUsFormInput>({
         resolver: zodResolver(ContactUsForm),

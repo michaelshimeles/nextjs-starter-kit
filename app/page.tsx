@@ -1,22 +1,24 @@
-import AnimationTest from "@/components/AnimationTest"
-import { serverClient } from "./_trpc/server"
-import { Bento } from "@/components/Bento"
+import PageWrapper from "@/components/Container/PageWrapper";
+import { AccordionComponent } from "@/components/LandingPage/AccordionComponent";
+import BlogSample from "@/components/LandingPage/BlogSamples";
+import Footer from "@/components/LandingPage/Footer";
+import HeroSection from "@/components/LandingPage/HeroSection";
+import MarketingCards from "@/components/LandingPage/MarketingCards";
 
-export default async function Home() {
-  const getTodos = await serverClient.getTodos()
-
-  console.log('server', getTodos)
+export default function Home() {
   return (
-    <main className="flex min-w-screen flex-col items-center justify-between">
-      <div className='flex flex-col items-center mt-[4rem] p-3 '>
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
-          Nextjs Starter Template
-        </h1>
-        <p className="leading-7 [&:not(:first-child)]:mt-3">
-          Plan, Build & Scale.
-        </p>
-        {/* <AnimationTest /> */}
+    <PageWrapper>
+      <HeroSection />
+      <div className="flex flex-col mb-[3rem] mt-[4rem] gap-[6rem]">
+        <MarketingCards />
       </div>
-    </main>
-  )
+      <BlogSample />
+      <div className="flex justify-center items-center w-full">
+        <AccordionComponent />
+      </div>
+      <div className=" w-full">
+        <Footer />
+      </div>
+    </PageWrapper>
+  );
 }

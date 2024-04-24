@@ -14,5 +14,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json("Rate Limited", { status: 429 });
   }
+  console.log('remaining', remaining)
+
   return NextResponse.json("Success", { status: 200 });
 }
