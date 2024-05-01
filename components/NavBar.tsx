@@ -57,8 +57,8 @@ export function NavBar() {
                             </Link>
                         </DialogClose>
                         <DialogClose asChild>
-                            <Link href="/contact-us">
-                                <Button variant="outline" className="w-full">Contact Us</Button>
+                            <Link href="/dashboard">
+                                <Button variant="outline" className="w-full">Dashboard</Button>
                             </Link>
                         </DialogClose>
                     </div>
@@ -71,16 +71,9 @@ export function NavBar() {
                         <Rocket />
                     </Link>
                     <NavigationMenuItem>
-                        <Link href="/#pricing" legacyBehavior passHref className="cursor-pointer">
+                        <Link href="/dashboard" legacyBehavior passHref className="cursor-pointer">
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                Pricing
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <Link href="/contact-us" legacyBehavior passHref className="cursor-pointer">
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                Contact Us
+                                Dashboard
                             </NavigationMenuLink>
                         </Link>
                     </NavigationMenuItem>

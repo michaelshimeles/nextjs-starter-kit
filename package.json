@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.24.1",
-    "@hookform/resolvers": "^3.3.2",
+    "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "^5.9.1",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -40,17 +40,18 @@
     "framer-motion": "^11.0.3",
     "lucide-react": "^0.279.0",
     "next": "latest",
-    "next-themes": "^0.2.1",
+    "next-themes": "^0.3.0",
     "prisma": "^5.9.1",
     "react": "latest",
     "react-dom": "latest",
-    "react-hook-form": "^7.46.2",
+    "react-hook-form": "^7.51.3",
     "react-icons": "^4.11.0",
+    "sonner": "^1.4.41",
     "stripe": "^14.16.0",
     "svix": "^1.13.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4"
+    "zod": "^3.23.5"
   },
   "devDependencies": {
     "@types/node": "latest",

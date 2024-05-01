@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <PageWrapper>
       <HeroSection />
-      <div className="flex flex-col mb-[3rem] mt-[4rem] gap-[6rem]">
+      <div className="flex flex-col mb-[3rem] mt-[4rem]">
         <MarketingCards />
       </div>
       <BlogSample />

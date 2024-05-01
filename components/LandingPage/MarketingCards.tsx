@@ -1,71 +1,113 @@
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card";
-import { Button } from "../ui/button";
 
-export default function MarketingCards() {
+"use client"
+import { motion } from 'framer-motion'
+import Image from 'next/image'
 
-  const cardInfo = [
-    {
-      title: "Beacon",
-      description: "Automate and streamline your content tracking with Beacon, effortlessly keeping tabs on competitor updates and new content"
-    },
-    {
-      title: "SEO Heisting",
-      description: "Leverage SEO Heisting to smartly repurpose competitor insights, enhancing your site's traffic and content relevance."
-    },
-    {
-      title: "AI Article Generation",
-      description: "Generate compelling, high-quality articles tailored to your specifications with our advanced article generation tool.      "
-    },
-    {
-      title: "Advanced Logic Layers",
-      description: "Enhance content accuracy and depth with our three-tiered logic layers, ensuring data-driven, contextually relevant articles.      "
-    },
-    {
-      title: "Intuitive User Interface",
-      description: "Navigate content creation effortlessly with our Intuitive User Interface, designed for optimal user experience and efficient management of multiple projects."
-    },
-    {
-      title: "Custom Content Structuring",
-      description: "Tailor every aspect of your content with our Custom Content Structuring, enabling detailed control over titles and subheadings for perfectly organized articles."
-    },
-    {
-      title: "Precision Internal Linking",
-      description: "Boost your SEO efforts with Precision Internal Linking, smartly weaving related articles within your site to enhance user engagement and site authority."
-    },
-    {
-      title: "Multi-Category Classification",
-      description: "Simplify content organization with Multi-Category Classification, allowing you to assign and manage article topics seamlessly for better content strategy."
-    }
-  ]
+const ProjectsData = [
+  {
+    id: 1,
+    name: 'Prettyfolio',
+    description: 'A curated collection of portfolios for inspiration.',
+    link: 'https://prettyfolio.com',
+    image: 'https://ansubkhan.com/images/projects/prettyfolio.png',
+  },
+  {
+    id: 2,
+    name: 'Enchant',
+    description: 'A vibrant theme for Visual Studio Code.',
+    link: 'https://enchant.ansubkhan.com',
+    image: 'https://ansubkhan.com/images/projects/enchant.png',
+  },
+  {
+    id: 3,
+    name: 'Ansubkhan.com',
+    description: 'My personal website, blogs and newsletter.',
+    link: 'https://ansubkhan.com',
+    image: 'https://ansubkhan.com/images/projects/portfolio.png',
+  },
+  {
+    id: 4,
+    name: 'Quote Vault',
+    description: 'Social media, but for sharing quotes.',
+    link: 'https://quote-vault.vercel.app',
+    image: 'https://ansubkhan.com/images/projects/quote-vault.png',
+  },
+  {
+    id: 5,
+    name: 'Quote Vault',
+    description: 'Social media, but for sharing quotes.',
+    link: 'https://quote-vault.vercel.app',
+    image: 'https://ansubkhan.com/images/projects/quote-vault.png',
+  },
+  {
+    id: 6,
+    name: 'Quote Vault',
+    description: 'Social media, but for sharing quotes.',
+    link: 'https://quote-vault.vercel.app',
+    image: 'https://ansubkhan.com/images/projects/quote-vault.png',
+  },
+  {
+    id: 7,
+    name: 'Quote Vault',
+    description: 'Social media, but for sharing quotes.',
+    link: 'https://quote-vault.vercel.app',
+    image: 'https://ansubkhan.com/images/projects/quote-vault.png',
+  },
+  {
+    id: 8,
+    name: 'Quote Vault',
+    description: 'Social media, but for sharing quotes.',
+    link: 'https://quote-vault.vercel.app',
+    image: 'https://ansubkhan.com/images/projects/quote-vault.png',
+  },
+]
 
+const SpringAnimatedFeatures = () => {
   return (
-    <div className="flex flex-col justify-center items-center p-4 max-w-[1300px]">
-      <div>
+    <div className="flex flex-col justify-center items-center">
+      <div className='flex flex-col mb-[3rem]'>
         <h1 className="scroll-m-20 text-3xl sm:text-xl md:text-3xl font-semibold tracking-tight lg:text-4xl text-center max-w-[700px]">
-          Not &apos;another&apos; gpt wrapper
+          Insert cool headline here
         </h1>
         <p className="mx-auto max-w-[500px] text-gray-500 md:text-lg text-center mt-2 dark:text-gray-400">
-          RankBoost AI stands out from regular GPT wrapper article writers with its articulate design to boost your website&apos;s traffic by crafting top-notch articles.
+          Make sure to add a headline and subheadline that makes potential users say wow.
         </p>
       </div>
-      <div className="flex flex-wrap justify-center items-center w-full mt-[4rem] gap-4">
-        {
-          cardInfo?.map((info, index) => (
-            <Card className="max-w-[300px] hover:drop-shadow-xl" key={index}>
-              <CardHeader>
-                <CardTitle>{info?.title}</CardTitle>
-                <CardDescription>{info?.description}</CardDescription>
-              </CardHeader>
-            </Card>
-          ))}
-
+      <div className="grid w-full grid-cols-1 md:grid-cols-4 gap-6">
+        {ProjectsData.map((project) => {
+          return (
+            <motion.div
+              whileHover={{
+                y: -8,
+              }}
+              transition={{
+                type: 'spring',
+                bounce: 0.7,
+              }}
+              key={project.id}
+              className="mt-5 text-left border p-6 rounded-md"
+            >
+              <a target="_blank" rel="noopener noreferrer" href={project.link}>
+                <Image
+                  src={project.image}
+                  width={30}
+                  height={30}
+                  className="mb-3 rounded-lg"
+                  alt={project.name}
+                />
+                <div className="mb-1 text-sm font-medium text-gray-900">
+                  {project.name}
+                </div>
+                <div className="max-w-[250px] text-sm font-normal text-gray-500">
+                  {project.description}
+                </div>
+              </a>
+            </motion.div>
+          )
+        })}
       </div>
     </div>
   )
 }
+
+export default SpringAnimatedFeatures
