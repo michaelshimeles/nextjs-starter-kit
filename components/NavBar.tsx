@@ -1,36 +1,47 @@
 "use client"
-
 import {
     NavigationMenu,
+    NavigationMenuContent,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    navigationMenuTriggerStyle
+    NavigationMenuTrigger
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@clerk/nextjs"
 import { Dialog, DialogClose } from "@radix-ui/react-dialog"
-import { Rocket } from "lucide-react"
-import Link from "next/link"
+import Link from 'next/link'
 import * as React from "react"
 import { GiHamburgerMenu } from "react-icons/gi"
 import { ModeToggle } from "./ModeToggle"
 import { Profile } from "./Profile"
 import { Button } from "./ui/button"
-import { SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
+import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
+import { Blocks, BlocksIcon } from "lucide-react"
 
 const components: { title: string; href: string; description: string }[] = [
     {
-        title: "Blog",
-        href: "/resources/blog",
+        title: "First Tab",
+        href: "/",
         description:
-            "Deepen your knowledge.",
+            "Write some wavy here to get them to click.",
+    },
+    {
+        title: "Second Tab",
+        href: "/",
+        description:
+            "Write some wavy here to get them to click.",
+    },
+    {
+        title: "Third Tab",
+        href: "/",
+        description:
+            "Write some wavy here to get them to click.",
     },
 ]
 
 export function NavBar() {
-    const { isLoaded, userId, sessionId, getToken } = useAuth();
-
+    const { userId } = useAuth();
 
     return (
         <div className="flex min-w-full justify-between p-2 border-b z-10">
@@ -40,10 +51,7 @@ export function NavBar() {
                 </SheetTrigger>
                 <SheetContent side="left">
                     <SheetHeader>
-                        <SheetTitle>Nextjs Start Template</SheetTitle>
-                        <SheetDescription>
-                            Plan, Build & Scale.
-                        </SheetDescription>
+                        <SheetTitle>Next Starter</SheetTitle>
                     </SheetHeader>
                     <div className="flex flex-col space-y-3 mt-[1rem]">
                         <DialogClose asChild>
@@ -52,31 +60,70 @@ export function NavBar() {
                             </Link>
                         </DialogClose>
                         <DialogClose asChild>
-                            <Link href="/dashboard">
-                                <Button variant="outline" className="w-full">Dashboard</Button>
+                            <Link href="/" legacyBehavior passHref className="cursor-pointer">
+                                <Button variant="outline">
+                                    Methodology
+                                </Button>
+                            </Link>
+                        </DialogClose>
+                        <DialogClose asChild>
+                            <Link target="_blank" href="/" rel="noopener noreferrer" legacyBehavior passHref className="cursor-pointer">
+                                <Button variant="outline">
+                                    Docs
+                                </Button>
+                            </Link>
+                        </DialogClose>
+                        <DialogClose asChild>
+                            <Link href="/dashboard" legacyBehavior passHref className="cursor-pointer">
+                                <Button variant="outline">
+                                    Dashboard
+                                </Button>
                             </Link>
                         </DialogClose>
                     </div>
                 </SheetContent>
             </Dialog>
-
             <NavigationMenu>
-                <NavigationMenuList className="max-[825px]:hidden ">
+                <NavigationMenuList className="max-[825px]:hidden flex gap-3 w-[100%] justify-between">
                     <Link href="/" className="pl-2">
-                        <Rocket />
+                        <BlocksIcon />
                     </Link>
-                    <NavigationMenuItem>
-                        <Link href="/dashboard" legacyBehavior passHref className="cursor-pointer">
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                Dashboard
-                            </NavigationMenuLink>
-                        </Link>
+                </NavigationMenuList>
+                <NavigationMenuList>
+                    <Link href="/" className="max-[825px]:hidden ml-3">
+                        <Button variant="ghost">Methodology</Button>
+                    </Link>
+                </NavigationMenuList>
+                <NavigationMenuList>
+                    <Link className="max-[825px]:hidden" href="/" target="_blank">
+                        <Button variant="ghost">Docs</Button>
+                    </Link>
+                </NavigationMenuList>
+                <NavigationMenuList>
+                    <NavigationMenuItem className="max-[825px]:hidden">
+                        <NavigationMenuTrigger>Features</NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                            <ul className="flex flex-col w-[400px] gap-3 p-4  lg:w-[500px] ">
+                                {components.map((component) => (
+                                    <ListItem
+                                        key={component.title}
+                                        title={component.title}
+                                        href={component.href}
+                                    >
+                                        {component.description}
+                                    </ListItem>
+                                ))}
+                            </ul>
+                        </NavigationMenuContent>
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 max-[825px]:hidden">
+
+                <Link href="/dashboard" className="max-[825px]:hidden">
+                    <Button className="bg-black" size="sm">Dashboard</Button>
+                </Link>
                 {userId && <Profile />}
-                {/* <ModeToggle /> */}
             </div>
         </div>
 

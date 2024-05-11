@@ -1,9 +1,8 @@
-"use client"
 import { cn } from "@/lib/utils";
 import AnimatedGradientText from "@/components/magicui/animated-gradient-text";
 import { ChevronRight } from "lucide-react";
 
-export async function AnimatedGradientTextComponent() {
+export function AnimatedGradientTextComponent() {
   return (
     <div className="z-10 flex items-center justify-center">
       <AnimatedGradientText>
