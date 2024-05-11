@@ -95,7 +95,7 @@ export function NavBar() {
                     </Link>
                 </NavigationMenuList>
                 <NavigationMenuList>
-                    <Link className="max-[825px]:hidden" href="/" target="_blank">
+                    <Link className="max-[825px]:hidden" href="/">
                         <Button variant="ghost">Docs</Button>
                     </Link>
                 </NavigationMenuList>
