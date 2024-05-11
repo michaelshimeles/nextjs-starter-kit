@@ -1,7 +1,6 @@
-import { Badge } from "@/components/ui/badge"
 import Image from 'next/image'
 import Link from "next/link"
-export default async function BlogSample() {
+export default function BlogSample() {
 
   const articles = [
     {

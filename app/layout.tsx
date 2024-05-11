@@ -5,7 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { NavBar } from '@/components/NavBar'
-import Provider from '@/app/_trpc/provider'
+import Provider from '@/app/provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,15 +24,15 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <Provider>
-            <ThemeProvider
+            {/* <ThemeProvider
               attribute="class"
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
-            >
+            > */}
               {children}
               <Toaster />
-            </ThemeProvider>
+            {/* </ThemeProvider> */}
           </Provider>
         </body>
       </html>

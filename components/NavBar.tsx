@@ -1,6 +1,5 @@
 "use client"
 
-import { trpc } from "@/app/_trpc/client"
 import {
     NavigationMenu,
     NavigationMenuItem,
@@ -11,7 +10,7 @@ import {
 import { cn } from "@/lib/utils"
 import { useAuth } from "@clerk/nextjs"
 import { Dialog, DialogClose } from "@radix-ui/react-dialog"
-import Image from "next/image"
+import { Rocket } from "lucide-react"
 import Link from "next/link"
 import * as React from "react"
 import { GiHamburgerMenu } from "react-icons/gi"
@@ -19,7 +18,6 @@ import { ModeToggle } from "./ModeToggle"
 import { Profile } from "./Profile"
 import { Button } from "./ui/button"
 import { SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
-import { Rocket } from "lucide-react"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -33,9 +31,6 @@ const components: { title: string; href: string; description: string }[] = [
 export function NavBar() {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
 
-    const getTodos = trpc.getTodos.useQuery();
-
-    console.log('trpc', getTodos?.data)
 
     return (
         <div className="flex min-w-full justify-between p-2 border-b z-10">
@@ -81,7 +76,7 @@ export function NavBar() {
             </NavigationMenu>
             <div className="flex items-center gap-3">
                 {userId && <Profile />}
-                <ModeToggle />
+                {/* <ModeToggle /> */}
             </div>
         </div>
 
