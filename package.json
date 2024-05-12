@@ -34,6 +34,7 @@
     "@trpc/server": "^10.44.1",
     "@upstash/ratelimit": "^0.4.4",
     "@upstash/redis": "^1.24.2",
+    "@vercel/analytics": "^1.2.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",

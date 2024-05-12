@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { NavBar } from '@/components/NavBar'
 import Provider from '@/app/provider'
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,10 +31,11 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             > */}
-              {children}
-              <Toaster />
+            {children}
+            <Toaster />
             {/* </ThemeProvider> */}
           </Provider>
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
