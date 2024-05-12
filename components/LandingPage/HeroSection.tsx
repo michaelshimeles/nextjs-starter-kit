@@ -7,7 +7,7 @@ import { AnimatedGradientTextComponent } from './AnimatedGradientComponent';
 export default function HeroSection() {
 
     return (
-        <div className='flex flex-col items-center justify-center mt-[2rem] p-3'>
+        <div className='flex flex-col items-center justify-center p-3'>
             <div className="my-5">
                 <AnimatedGradientTextComponent />
             </div>
