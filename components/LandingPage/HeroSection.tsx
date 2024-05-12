@@ -21,27 +21,20 @@ export default function HeroSection() {
                 <Link href="/dashboard" className="mt-5">
                     <Button className="animate-buttonheartbeat rounded-md bg-blue-600 text-sm font-semibold text-white">Get Started</Button>
                 </Link>
-                <Link href="/methodology" className="mt-5">
+                <Link href="/" className="mt-5">
                     <Button variant="ghost" className="flex gap-1 text-blue-600 hover:text-blue-600 hover:bg-blue-100">Our Secret Sauce<ArrowRight className='w-4 h-4' /></Button>
                 </Link>
             </div>
             <div>
                 <div className="relative flex max-w-6xl justify-center overflow-hidden mt-7">
                     <div className="relative rounded-xl">
-                        {/* <img
-                            src="/dashboard-dark.png"
-                            alt="Hero Image"
-                            className="hidden w-[700px] rounded-[inherit] border object-contain shadow-lg dark:block"
-                        /> */}
                         <img
                             src="/dash-light.png"
                             alt="Hero Image"
                             className="block w-[900px] rounded-[inherit] border object-contain shadow-lg dark:hidden"
                         />
-                        {/* <Image src={"/dash-light.png"} alt='' width={900} height={400} className='border border-gray-100 rounded-lg drop-shadow-xl' /> */}
                         <BorderBeam size={250} duration={12} delay={9} />
                     </div>
-                    {/* <div className="from-1% absolute inset-0 bg-gradient-to-t from-white to-35%" /> */}
                 </div>
             </div>
 
