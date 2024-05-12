@@ -10,14 +10,13 @@ import {
 import { cn } from "@/lib/utils"
 import { useAuth } from "@clerk/nextjs"
 import { Dialog, DialogClose } from "@radix-ui/react-dialog"
+import { BlocksIcon } from "lucide-react"
 import Link from 'next/link'
 import * as React from "react"
 import { GiHamburgerMenu } from "react-icons/gi"
-import { ModeToggle } from "./ModeToggle"
 import { Profile } from "./Profile"
 import { Button } from "./ui/button"
 import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
-import { Blocks, BlocksIcon } from "lucide-react"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -59,7 +58,7 @@ export function NavBar() {
                                 <Button variant="outline" className="w-full">Home</Button>
                             </Link>
                         </DialogClose>
-                        <DialogClose asChild>
+                        {/* <DialogClose asChild>
                             <Link href="/" legacyBehavior passHref className="cursor-pointer">
                                 <Button variant="outline">
                                     Methodology
@@ -72,7 +71,7 @@ export function NavBar() {
                                     Docs
                                 </Button>
                             </Link>
-                        </DialogClose>
+                        </DialogClose> */}
                         <DialogClose asChild>
                             <Link href="/dashboard" legacyBehavior passHref className="cursor-pointer">
                                 <Button variant="outline">
@@ -87,16 +86,6 @@ export function NavBar() {
                 <NavigationMenuList className="max-[825px]:hidden flex gap-3 w-[100%] justify-between">
                     <Link href="/" className="pl-2">
                         <BlocksIcon />
-                    </Link>
-                </NavigationMenuList>
-                <NavigationMenuList>
-                    <Link href="/" className="max-[825px]:hidden ml-3">
-                        <Button variant="ghost">Methodology</Button>
-                    </Link>
-                </NavigationMenuList>
-                <NavigationMenuList>
-                    <Link className="max-[825px]:hidden" href="/">
-                        <Button variant="ghost">Docs</Button>
                     </Link>
                 </NavigationMenuList>
                 <NavigationMenuList>

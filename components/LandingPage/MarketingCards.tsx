@@ -6,59 +6,63 @@ import Image from 'next/image'
 const ProjectsData = [
   {
     id: 1,
-    name: 'Prettyfolio',
-    description: 'A curated collection of portfolios for inspiration.',
-    link: 'https://prettyfolio.com',
-    image: 'https://ansubkhan.com/images/projects/prettyfolio.png',
+    name: 'Nextjs 14',
+    description: 'A framework for React that enables server-side rendering and effortless deployment.',
+    image: '/nextjs.svg',
   },
   {
     id: 2,
-    name: 'Enchant',
-    description: 'A vibrant theme for Visual Studio Code.',
-    link: 'https://enchant.ansubkhan.com',
-    image: 'https://ansubkhan.com/images/projects/enchant.png',
+    name: 'TypeScript',
+    description: 'A typed superset of JavaScript that enhances code maintainability and scalability.',
+    image: '/typescript.png',
   },
   {
     id: 3,
-    name: 'Ansubkhan.com',
-    description: 'My personal website, blogs and newsletter.',
-    link: 'https://ansubkhan.com',
-    image: 'https://ansubkhan.com/images/projects/portfolio.png',
+    name: 'Tailwind CSS',
+    description: 'A utility-first CSS framework for building custom designs with ease.',
+    image: '/tailwind.png',
   },
   {
     id: 4,
-    name: 'Quote Vault',
-    description: 'Social media, but for sharing quotes.',
-    link: 'https://quote-vault.vercel.app',
-    image: 'https://ansubkhan.com/images/projects/quote-vault.png',
+    name: 'Shadcn UI',
+    description: 'Beautifully designed components by Shadcn.',
+    image: '/shadcn.png',
   },
   {
     id: 5,
-    name: 'Quote Vault',
-    description: 'Social media, but for sharing quotes.',
-    link: 'https://quote-vault.vercel.app',
-    image: 'https://ansubkhan.com/images/projects/quote-vault.png',
+    name: 'Syntax UI',
+    description: 'Beautifully designed components by Syntax UI.',
+    image: '/syntaxUI.svg',
   },
   {
     id: 6,
-    name: 'Quote Vault',
-    description: 'Social media, but for sharing quotes.',
-    link: 'https://quote-vault.vercel.app',
-    image: 'https://ansubkhan.com/images/projects/quote-vault.png',
+    name: 'Postgres (Supabase)',
+    description: 'PostgreSQL-based open-source database with Supabase for building scalable applications.',
+    image: '/supabase.png',
   },
   {
     id: 7,
-    name: 'Quote Vault',
-    description: 'Social media, but for sharing quotes.',
-    link: 'https://quote-vault.vercel.app',
-    image: 'https://ansubkhan.com/images/projects/quote-vault.png',
+    name: 'Prisma ORM',
+    description: 'Modern database toolkit for TypeScript and Node.js, simplifying database interactions.',
+    image: '/prisma.png',
   },
   {
     id: 8,
-    name: 'Quote Vault',
-    description: 'Social media, but for sharing quotes.',
-    link: 'https://quote-vault.vercel.app',
-    image: 'https://ansubkhan.com/images/projects/quote-vault.png',
+    name: 'Clerk Authentication',
+    description: 'Seamless and secure authentication service for web applications.',
+    image: '/clerk.png',
+  },
+  {
+    id: 9,
+    name: 'Stripe Subsctiptions & One time payments',
+    description: 'Payment processing solution for handling subscriptions and one-off transactions securely.',
+    image: '/stripe.png',
+  },
+  {
+    id: 10,
+    name: 'Upstash (Redis)',
+    description: 'Redis-based cloud database service for rate-limiting.',
+    image: '/upstash.png',
   },
 ]
 
@@ -67,10 +71,10 @@ const SpringAnimatedFeatures = () => {
     <div className="flex flex-col justify-center items-center">
       <div className='flex flex-col mb-[3rem]'>
         <h1 className="scroll-m-20 text-3xl sm:text-xl md:text-3xl font-semibold tracking-tight lg:text-4xl text-center max-w-[700px]">
-          Insert cool headline here
+          Built with the best
         </h1>
         <p className="mx-auto max-w-[500px] text-gray-500 md:text-lg text-center mt-2 dark:text-gray-400">
-          Make sure to add a headline and subheadline that makes potential users say wow.
+          Your SAAS is built with the best technologies in the market
         </p>
       </div>
       <div className="grid w-full grid-cols-1 md:grid-cols-4 gap-6">
@@ -87,12 +91,12 @@ const SpringAnimatedFeatures = () => {
               key={project.id}
               className="mt-5 text-left border p-6 rounded-md"
             >
-              <a target="_blank" rel="noopener noreferrer" href={project.link}>
+              <a target="_blank" rel="noopener noreferrer" >
                 <Image
                   src={project.image}
-                  width={30}
+                  width={40}
                   height={30}
-                  className="mb-3 rounded-lg"
+                  className="mb-3 rounded"
                   alt={project.name}
                 />
                 <div className="mb-1 text-sm font-medium text-gray-900">
