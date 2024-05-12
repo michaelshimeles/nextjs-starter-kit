@@ -1,16 +1,15 @@
 "use client"
-import React from 'react'
-import { UserProfile, useUser } from "@clerk/nextjs";
+import PageWrapper from '@/components/Container/PageWrapper';
+import { UserProfile } from "@clerk/nextjs";
 
 
 const UserProfilePage = () => {
-    const { isLoaded, isSignedIn, user } = useUser();
-
-    console.log("user", user)
     return (
-        <div className="h-full flex items-center justify-center p-9">
-            <UserProfile path="/user-profile" routing="path" />
-        </div>
+        <PageWrapper >
+            <div className="h-full flex items-center justify-center p-9">
+                <UserProfile path="/user-profile" routing="path" />
+            </div>
+        </PageWrapper>
     )
 }
 
