@@ -25,8 +25,8 @@ type PricingCardProps = {
 
 const PricingHeader = ({ title, subtitle }: { title: string; subtitle: string }) => (
   <section className="text-center">
-    <h2 className="text-3xl font-bold">{title}</h2>
-    <p className="text-xl pt-1">{subtitle}</p>
+    <h2 className="text-5xl font-bold">{title}</h2>
+    <p className="text-lg text-gray-400 pt-1">{subtitle}</p>
     <br />
   </section>
 )
@@ -125,7 +125,7 @@ export default function Pricing() {
     },
   ]
   return (
-    <div className="my-[4rem]">
+    <div>
       <PricingHeader title="Pricing Plans" subtitle="Choose the plan that's right for you" />
       <PricingSwitch onSwitch={togglePricingPeriod} />
       <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">

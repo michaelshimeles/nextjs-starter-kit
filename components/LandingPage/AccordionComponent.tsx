@@ -7,7 +7,7 @@ import {
 
 export function AccordionComponent() {
     return (
-        <div className="flex flex-col w-[70%] lg:w-[50%] py-6 mb-[5rem]">
+        <div className="flex flex-col w-[70%] lg:w-[50%]">
             <h1 className="scroll-m-20 pb-[3rem] text-center text-3xl font-semibold tracking-tight lg:text-4xl">
                 Frequently Asked Questions (FAQs)
             </h1>

@@ -9,6 +9,7 @@ const ProjectsData = [
     name: 'Nextjs 14',
     description: 'A framework for React that enables server-side rendering and effortless deployment.',
     image: '/nextjs.svg',
+    imageDark: "/nextjs-dark.png"
   },
   {
     id: 2,
@@ -27,6 +28,7 @@ const ProjectsData = [
     name: 'Shadcn UI',
     description: 'Beautifully designed components by Shadcn.',
     image: '/shadcn.png',
+    imageDark: "/shadcn-dark.png"
   },
   {
     id: 5,
@@ -64,6 +66,12 @@ const ProjectsData = [
     description: 'Redis-based cloud database service for rate-limiting.',
     image: '/upstash.png',
   },
+  {
+    id: 11,
+    name: 'Tanstack Query',
+    description: 'For client side fetching, caching, and revalidation.',
+    image: '/tanstack.png',
+  },
 ]
 
 const SpringAnimatedFeatures = () => {
@@ -93,7 +101,7 @@ const SpringAnimatedFeatures = () => {
             >
               <a target="_blank" rel="noopener noreferrer" >
                 <Image
-                  src={project.image}
+                  src={project?.imageDark ? project?.imageDark : project.image}
                   width={40}
                   height={30}
                   className="mb-3 rounded"

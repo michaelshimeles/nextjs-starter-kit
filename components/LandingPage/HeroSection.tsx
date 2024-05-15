@@ -7,7 +7,7 @@ import { AnimatedGradientTextComponent } from './AnimatedGradientComponent';
 export default function HeroSection() {
 
     return (
-        <div className='flex flex-col items-center justify-center mt-[1rem] p-3'>
+        <div className='flex flex-col items-center justify-center'>
             <div className="my-5">
                 <AnimatedGradientTextComponent />
             </div>
@@ -31,12 +31,12 @@ export default function HeroSection() {
                         <img
                             src="/dash-light.png"
                             alt="Hero Image"
-                            className="block w-[1000px] rounded-[inherit] border object-contain shadow-lg dark:hidden"
+                            className="block w-[1200px] rounded-[inherit] border object-contain shadow-lg dark:hidden"
                         />
                         <img
                             src="/dash.png"
                             alt="Hero Image"
-                            className="dark:block w-[1000px] rounded-[inherit] border object-contain shadow-lg hidden"
+                            className="dark:block w-[1200px] rounded-[inherit] border object-contain shadow-lg hidden"
                         />
                         <BorderBeam size={250} duration={12} delay={9} />
                     </div>

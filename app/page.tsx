@@ -9,16 +9,22 @@ import PricingPage from "@/components/LandingPage/Pricing";
 export default function Home() {
   return (
     <PageWrapper>
-      <HeroSection />
-      <div className="flex flex-col mb-[3rem] mt-[4rem] p-2 w-full justify-center items-center">
+      <div className="mt-[1rem] p-3">
+        <HeroSection />
+      </div>
+      <div className="flex flex-col my-[8rem] p-2 w-full justify-center items-center">
         <MarketingCards />
       </div>
-      <BlogSample />
-      <PricingPage />
-      <div className="flex justify-center items-center w-full">
+      <div className="max-w-[1200px] p-8">
+        <BlogSample />
+      </div>
+      <div className="my-[8rem]">
+        <PricingPage />
+      </div>
+      <div className="flex justify-center items-center w-full mt-[5rem] mb-[9rem]">
         <AccordionComponent />
       </div>
-      <div className=" w-full">
+      <div className="w-full">
         <Footer />
       </div>
     </PageWrapper>
