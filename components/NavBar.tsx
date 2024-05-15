@@ -21,8 +21,8 @@ import { ModeToggle } from "./ModeToggle"
 
 const components: { title: string; href: string; description: string }[] = [
     {
-        title: "First Tab",
-        href: "/",
+        title: "Marketing Page",
+        href: "/marketing-page",
         description:
             "Write some wavy here to get them to click.",
     },
@@ -45,44 +45,33 @@ export function NavBar() {
 
     return (
         <div className="flex min-w-full justify-between p-2 border-b z-10">
-            <Dialog>
-                <SheetTrigger className="min-[825px]:hidden p-2 transition">
-                    <GiHamburgerMenu />
-                </SheetTrigger>
-                <SheetContent side="left">
-                    <SheetHeader>
-                        <SheetTitle>Next Starter</SheetTitle>
-                    </SheetHeader>
-                    <div className="flex flex-col space-y-3 mt-[1rem]">
-                        <DialogClose asChild>
-                            <Link href="/">
-                                <Button variant="outline" className="w-full">Home</Button>
-                            </Link>
-                        </DialogClose>
-                        {/* <DialogClose asChild>
-                            <Link href="/" legacyBehavior passHref className="cursor-pointer">
-                                <Button variant="outline">
-                                    Methodology
-                                </Button>
-                            </Link>
-                        </DialogClose>
-                        <DialogClose asChild>
-                            <Link target="_blank" href="/" rel="noopener noreferrer" legacyBehavior passHref className="cursor-pointer">
-                                <Button variant="outline">
-                                    Docs
-                                </Button>
-                            </Link>
-                        </DialogClose> */}
-                        <DialogClose asChild>
-                            <Link href="/dashboard" legacyBehavior passHref className="cursor-pointer">
-                                <Button variant="outline">
-                                    Dashboard
-                                </Button>
-                            </Link>
-                        </DialogClose>
-                    </div>
-                </SheetContent>
-            </Dialog>
+            <div className="flex justify-between w-full min-[825px]:hidden">
+                <Dialog>
+                    <SheetTrigger className="p-2 transition">
+                        <GiHamburgerMenu />
+                    </SheetTrigger>
+                    <SheetContent side="left">
+                        <SheetHeader>
+                            <SheetTitle>Next Starter</SheetTitle>
+                        </SheetHeader>
+                        <div className="flex flex-col space-y-3 mt-[1rem]">
+                            <DialogClose asChild>
+                                <Link href="/">
+                                    <Button variant="outline" className="w-full">Home</Button>
+                                </Link>
+                            </DialogClose>
+                            <DialogClose asChild>
+                                <Link href="/dashboard" legacyBehavior passHref className="cursor-pointer">
+                                    <Button variant="outline">
+                                        Dashboard
+                                    </Button>
+                                </Link>
+                            </DialogClose>
+                        </div>
+                    </SheetContent>
+                </Dialog>
+                <ModeToggle />
+            </div>
             <NavigationMenu>
                 <NavigationMenuList className="max-[825px]:hidden flex gap-3 w-[100%] justify-between">
                     <Link href="/" className="pl-2">

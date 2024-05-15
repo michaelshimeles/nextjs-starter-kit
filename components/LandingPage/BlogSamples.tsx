@@ -24,7 +24,7 @@ export default function BlogSample() {
   ]
 
   return (
-    <div className="flex flex-col justify-center items-center max-w-[1200px] my-[5rem] p-8">
+    <div className="flex flex-col justify-center items-center max-w-[1200px] p-8">
       <div className='flex flex-col items-center p-3 w-full'>
         <div className='flex flex-col justify-start items-center gap-2 w-full'>
           <div className='flex gap-3 justify-start items-center w-full'>

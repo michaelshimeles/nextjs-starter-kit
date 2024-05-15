@@ -4,6 +4,7 @@ import BlogSample from "@/components/LandingPage/BlogSamples";
 import Footer from "@/components/LandingPage/Footer";
 import HeroSection from "@/components/LandingPage/HeroSection";
 import MarketingCards from "@/components/LandingPage/MarketingCards";
+import PricingPage from "@/components/LandingPage/Pricing";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
         <MarketingCards />
       </div>
       <BlogSample />
+      <PricingPage />
       <div className="flex justify-center items-center w-full">
         <AccordionComponent />
       </div>
