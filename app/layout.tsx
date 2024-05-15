@@ -25,15 +25,15 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <Provider>
-            {/* <ThemeProvider
+            <ThemeProvider
               attribute="class"
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
-            > */}
+            >
             {children}
             <Toaster />
-            {/* </ThemeProvider> */}
+            </ThemeProvider>
           </Provider>
           <Analytics />
         </body>
