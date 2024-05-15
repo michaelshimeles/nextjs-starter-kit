@@ -44,7 +44,7 @@ export function NavBar() {
     const { userId } = useAuth();
 
     return (
-        <div className="flex min-w-full justify-between p-2 border-b z-10">
+        <div className="flex min-w-full justify-between p-2 border-b z-10 dark:bg-black bg-white">
             <div className="flex justify-between w-full min-[825px]:hidden">
                 <Dialog>
                     <SheetTrigger className="p-2 transition">

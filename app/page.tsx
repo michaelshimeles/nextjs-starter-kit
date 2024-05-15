@@ -9,6 +9,7 @@ import PricingPage from "@/components/LandingPage/Pricing";
 export default function Home() {
   return (
     <PageWrapper>
+
       <div className="mt-[1rem] p-3">
         <HeroSection />
       </div>
@@ -24,9 +25,9 @@ export default function Home() {
       <div className="flex justify-center items-center w-full mt-[5rem] mb-[9rem]">
         <AccordionComponent />
       </div>
-      <div className="w-full">
+      {/* <div className="w-full">
         <Footer />
-      </div>
+      </div> */}
     </PageWrapper>
   );
 }

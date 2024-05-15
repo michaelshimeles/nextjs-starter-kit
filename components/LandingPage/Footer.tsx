@@ -18,7 +18,7 @@ export default function Footer() {
 
     };
     return (
-        <footer className="border-t">
+        <footer className="border-t dark:bg-black">
             <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                 <div className="lg:grid lg:grid-cols-2">
                     <div
