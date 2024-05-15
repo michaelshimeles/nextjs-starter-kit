@@ -79,7 +79,7 @@ export function NavBar() {
                     </Link>
                 </NavigationMenuList>
                 <NavigationMenuList>
-                    <NavigationMenuItem className="max-[825px]:hidden">
+                    <NavigationMenuItem className="max-[825px]:hidden ml-5">
                         <NavigationMenuTrigger>Features</NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <ul className="flex flex-col w-[400px] gap-3 p-4  lg:w-[500px] ">
@@ -95,6 +95,11 @@ export function NavBar() {
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
+                    <NavigationMenuList>
+                        <Link className="max-[825px]:hidden" href="https://learn.rankboost.ai" target="_blank">
+                            <Button variant="ghost">Docs</Button>
+                        </Link>
+                    </NavigationMenuList>
                 </NavigationMenuList>
             </NavigationMenu>
             <div className="flex items-center gap-3 max-[825px]:hidden">
