@@ -97,7 +97,7 @@ const SpringAnimatedFeatures = () => {
                 bounce: 0.7,
               }}
               key={project.id}
-              className="mt-5 text-left border p-6 rounded-md"
+              className="mt-5 text-left border p-6 rounded-md dark:bg-black"
             >
               <a target="_blank" rel="noopener noreferrer" >
                 <Image
