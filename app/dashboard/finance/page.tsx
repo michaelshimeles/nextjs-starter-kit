@@ -37,7 +37,7 @@ export default function Category() {
 
 
   return (
-    <div className='flex justify-start items-center flex-wrap px-3 pt-3 gap-4'>
+    <div className='flex justify-start items-center flex-wrap px-4 pt-5 gap-4'>
       <div className="flex flex-col gap-3 mb-[5rem] w-full">
         <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight lg:text-5xl">
           Random Finance

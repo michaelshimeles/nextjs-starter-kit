@@ -7,7 +7,7 @@ export default function Settings() {
   const user = useUser()
 
   return (
-    <div className='flex justify-start items-center flex-wrap px-3 pt-3 gap-4'>
+    <div className='flex justify-start items-center flex-wrap px-4 pt-5 gap-4'>
       <div className="flex flex-col gap-3 mb-[5rem] w-full max-w-[700px]">
         <h2 className="mt-10 scroll-m-20 border-b pb-2 w-full text-3xl font-semibold tracking-tight transition-colors first:mt-0">
           My Profile
