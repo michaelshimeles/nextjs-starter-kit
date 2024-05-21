@@ -8,8 +8,9 @@ import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 import { Dialog, DialogClose } from '@/components/ui/dialog'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Folder, HomeIcon, Settings } from 'lucide-react'
+import { Banknote, Folder, HomeIcon, Settings } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
+import { GiMoneyStack } from 'react-icons/gi'
 
 export default function DashboardTopNav({ children }: { children: ReactNode }) {
   return (
@@ -18,7 +19,9 @@ export default function DashboardTopNav({ children }: { children: ReactNode }) {
         <Dialog>
           <SheetTrigger className="min-[1024px]:hidden p-2 transition">
             <HamburgerMenuIcon />
-            <span className="sr-only">Home</span>
+            <Link href="/dashboard">
+              <span className="sr-only">Home</span>
+            </Link>
           </SheetTrigger>
           <SheetContent side="left">
             <SheetHeader>
@@ -46,7 +49,7 @@ export default function DashboardTopNav({ children }: { children: ReactNode }) {
               <DialogClose asChild>
                 <Link href="/dashboard/finance">
                   <Button variant="outline" className="w-full">
-                    <Folder className="mr-2 h-4 w-4" />
+                    <Banknote className="mr-2 h-4 w-4" />
                     Finance
                   </Button>
                 </Link>

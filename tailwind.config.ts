@@ -88,6 +88,21 @@ const config: Config = {
             "offset-distance": "100%",
           },
         },
+        "logo-cloud": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(calc(-100% - 4rem))" },
+        },
+
+        orbit: {
+          "0%": {
+            transform:
+              "rotate(0deg) translateY(calc(var(--radius) * 1px)) rotate(0deg)",
+          },
+          "100%": {
+            transform:
+              "rotate(360deg) translateY(calc(var(--radius) * 1px)) rotate(-360deg)",
+          },
+        },
         gradient: {
           to: {
             backgroundPosition: "var(--bg-size) 0",
@@ -125,6 +140,8 @@ const config: Config = {
         },
       },
       animation: {
+        "logo-cloud": "logo-cloud 30s linear infinite", // Adjust duration and timing as needed for your design.
+        orbit: "orbit calc(var(--duration)*1s) linear infinite",
         gradient: "gradient 8s linear infinite",
         shimmer: "shimmer 8s infinite",
         buttonheartbeat: "buttonheartbeat 2s infinite ease-in-out",
@@ -161,7 +178,6 @@ const config: Config = {
         { values: flattenColorPalette(theme("backgroundColor")), type: "color" }
       );
     },
-
   ],
 };
 

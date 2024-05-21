@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { BarChartComponent } from './(components)/BarChart'
 
 export default async function Dashboard() {
+
   return (
     <div className='flex justify-start items-center flex-wrap px-4 pt-4 gap-4'>
       <Card className='w-[20rem]'>

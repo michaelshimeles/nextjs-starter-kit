@@ -34,7 +34,7 @@ export default function BlogSample() {
           </div>
           <div className='flex gap-3 justify-start items-center w-full border-b pb-4'>
             <p className="text-gray-500">
-              All these articles were generated using RankBoost AI
+              All these articles were generated using Sample Articles AI
             </p>
           </div>
         </div>
@@ -44,7 +44,7 @@ export default function BlogSample() {
           {articles?.map((article) => (
             <Link href={"/"} key={article?.id}>
               <article
-                className="flex flex-col space-y-2 p-4 rounded-md border"
+                className="flex flex-col space-y-2 p-4 rounded-md border dark:bg-black"
               >
                 <Image
                   src={article?.image!}

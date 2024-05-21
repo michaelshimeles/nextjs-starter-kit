@@ -18,6 +18,7 @@ import { Profile } from "./Profile"
 import { Button } from "./ui/button"
 import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { ModeToggle } from "./ModeToggle"
+import { DashboardIcon } from "@radix-ui/react-icons"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -105,7 +106,10 @@ export function NavBar() {
             <div className="flex items-center gap-3 max-[825px]:hidden">
 
                 <Link href="/dashboard" className="max-[825px]:hidden">
-                    <Button size="sm">Dashboard</Button>
+                    <Button size="sm" className="rounded-lg" variant="outline">
+                        <DashboardIcon className="w-4 h-4"/>
+                        <p className="pl-1">Dashboard</p>
+                    </Button>
                 </Link>
                 {userId && <Profile />}
                 <ModeToggle />

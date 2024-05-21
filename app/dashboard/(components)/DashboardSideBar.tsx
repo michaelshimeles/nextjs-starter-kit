@@ -3,6 +3,7 @@
 import { Separator } from '@/components/ui/separator'
 import clsx from 'clsx'
 import {
+  Banknote,
   Folder,
   HomeIcon,
   Settings
@@ -52,7 +53,7 @@ export default function DashboardSideBar() {
               href="/dashboard/finance"
             >
               <div className="border rounded-lg dark:bg-black dark:border-gray-800 border-gray-400 p-1 bg-white">
-                <Folder className="h-3 w-3" />
+                <Banknote className="h-3 w-3" />
               </div>
               Finance
             </Link>

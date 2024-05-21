@@ -6,12 +6,20 @@ import { CheckCircle2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import React, { useState } from "react"
 import { cn } from "@/lib/utils"
+import { useUser } from "@clerk/nextjs"
+import axios from "axios"
+import { loadStripe } from "@stripe/stripe-js"
+import { toast } from "sonner"
 
 type PricingSwitchProps = {
   onSwitch: (value: string) => void
 }
 
 type PricingCardProps = {
+  user: any
+  handleCheckout: any
+  priceIdMonthly: any
+  priceIdYearly: any
   isYearly?: boolean
   title: string
   monthlyPrice?: number
@@ -25,7 +33,7 @@ type PricingCardProps = {
 
 const PricingHeader = ({ title, subtitle }: { title: string; subtitle: string }) => (
   <section className="text-center">
-    <h2 className="text-5xl font-bold">{title}</h2>
+    <h2 className="text-3xl lg:text-5xl font-bold">{title}</h2>
     <p className="text-lg text-gray-400 pt-1">{subtitle}</p>
     <br />
   </section>
@@ -44,7 +52,7 @@ const PricingSwitch = ({ onSwitch }: PricingSwitchProps) => (
   </Tabs>
 )
 
-const PricingCard = ({ isYearly, title, monthlyPrice, yearlyPrice, description, features, actionLabel, popular, exclusive }: PricingCardProps) => (
+const PricingCard = ({ user, handleCheckout, isYearly, title, priceIdMonthly, priceIdYearly, monthlyPrice, yearlyPrice, description, features, actionLabel, popular, exclusive }: PricingCardProps) => (
   <Card
     className={cn(`w-72 flex flex-col justify-between py-1 ${popular ? "border-rose-400" : "border-zinc-700"} mx-auto sm:mx-0`, {
       "animate-background-shine bg-white dark:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] transition-colors":
@@ -78,7 +86,7 @@ const PricingCard = ({ isYearly, title, monthlyPrice, yearlyPrice, description, 
       </CardContent>
     </div>
     <CardFooter className="mt-2">
-      <Button className="relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium  dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+      <Button onClick={() => handleCheckout(isYearly ? priceIdYearly : priceIdMonthly, true)} className="relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium  dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
         <div className="absolute -inset-0.5 -z-10 rounded-lg bg-gradient-to-b from-[#c7d2fe] to-[#8678f9] opacity-75 blur" />
         {actionLabel}
       </Button>
@@ -93,9 +101,45 @@ const CheckItem = ({ text }: { text: string }) => (
   </div>
 )
 
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState<boolean>(false)
   const togglePricingPeriod = (value: string) => setIsYearly(parseInt(value) === 1)
+  const { user } = useUser();
+
+  const handleCheckout = async (priceId: string, subscription: boolean) => {
+
+    try {
+      const { data } = await axios.post(`/api/payments/create-checkout-session`,
+        { userId: user?.id, email: user?.emailAddresses?.[0]?.emailAddress, priceId, subscription });
+
+      console.log('data', data)
+      if (data.sessionId) {
+        const stripe = await stripePromise;
+        console.log('stripe', stripe)
+
+        const response = await stripe?.redirectToCheckout({
+          sessionId: data.sessionId,
+        });
+
+        console.log('response', response)
+
+
+        return response
+      } else {
+        console.error('Failed to create checkout session');
+        toast('Failed to create checkout session')
+        return
+      }
+    } catch (error) {
+      console.error('Error during checkout:', error);
+      toast('Error during checkout')
+      return
+    }
+  };
+
 
   const plans = [
     {
@@ -104,6 +148,8 @@ export default function Pricing() {
       yearlyPrice: 100,
       description: "Essential features you need to get started",
       features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3"],
+      priceIdMonthly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
+      priceIdYearly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
       actionLabel: "Get Started",
     },
     {
@@ -113,6 +159,8 @@ export default function Pricing() {
       description: "Perfect for owners of small & medium businessess",
       features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3"],
       actionLabel: "Get Started",
+      priceIdMonthly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
+      priceIdYearly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
       popular: true,
     },
     {
@@ -121,16 +169,18 @@ export default function Pricing() {
       description: "Dedicated support and infrastructure to fit your needs",
       features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3", "Super Exclusive Feature"],
       actionLabel: "Contact Sales",
+      priceIdMonthly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
+      priceIdYearly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
       exclusive: true,
     },
   ]
   return (
     <div>
-      <PricingHeader title="Pricing Plans" subtitle="Choose the plan that's right for you" />
+      <PricingHeader title="Sample Pricing Plans" subtitle="Use these sample pricing cards in your SAAS" />
       <PricingSwitch onSwitch={togglePricingPeriod} />
       <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">
         {plans.map((plan) => {
-          return <PricingCard key={plan.title} {...plan} isYearly={isYearly} />
+          return <PricingCard user={user} handleCheckout={handleCheckout} key={plan.title} {...plan} isYearly={isYearly} />
         })}
       </section>
     </div>

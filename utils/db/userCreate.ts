@@ -3,10 +3,7 @@ import { cookies } from "next/headers";
 import { z } from "zod";
 
 const userCreateSchema = z.object({
-  email: z
-    .string()
-    .email({ message: "Invalid email" })
-    .describe("user email"),
+  email: z.string().email({ message: "Invalid email" }).describe("user email"),
   first_name: z
     .string()
     .regex(/^[a-zA-Z]+$/, { message: "First name must only contain letters" })
@@ -36,9 +33,10 @@ export const userCreate = async ({
 }: userCreateProps) => {
   const supabase = createServerComponentClient({ cookies });
 
+  console.log(email, first_name, last_name, profile_image_url, user_id);
   try {
     const { data, error } = await supabase
-      .from("User")
+      .from("user")
       .insert([
         {
           email,
