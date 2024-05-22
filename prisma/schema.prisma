@@ -60,15 +60,14 @@ model subscriptions_plans {
 }
 
 model invoices {
-  id                Int      @id @default(autoincrement())
-  created_time      DateTime @default(now())
-  invoice_id        String
-  subscription_id   String
-  amount_paid       String
-  currency          String
-  status            String
-  payment_intent_id String?
-  invoice_pdf       String?
-  email             String
-  user_id           String?
+  id              Int      @id @default(autoincrement())
+  created_time    DateTime @default(now())
+  invoice_id      String
+  subscription_id String
+  amount_paid     String
+  amount_due      String
+  currency        String
+  status          String
+  email           String
+  user_id         String?
 }
