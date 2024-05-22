@@ -86,7 +86,7 @@ Everything you need to quickly build your SaaS, AI product, or any other web app
     NEXT_PUBLIC_SUPABASE_ANON_KEY=
     DATABASE_URL=
     DIRECT_URL=
-    ```
+
 
 ### Setting up webhooks
 
