@@ -6,7 +6,7 @@ export const template = async () => {
   const supabase = createServerComponentClient({ cookies });
 
   try {
-    let { data: user, error } = await supabase.from("User").select("*");
+    let { data: user, error } = await supabase.from("user").select("*");
 
     if (user) return user;
 

@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { template } from "../db/template/template";
+import { actionTemplate } from "../actions/action-template";
 
 async function fetchTemplate() {
   try {
-    const response = await template();
+    const response = await actionTemplate();
 
-    return response
+    return response;
   } catch (error) {
     return error;
   }
