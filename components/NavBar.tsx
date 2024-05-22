@@ -96,11 +96,6 @@ export function NavBar() {
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
-                    <NavigationMenuList>
-                        <Link className="max-[825px]:hidden" href="https://learn.rankboost.ai" target="_blank">
-                            <Button variant="ghost">Docs</Button>
-                        </Link>
-                    </NavigationMenuList>
                 </NavigationMenuList>
             </NavigationMenu>
             <div className="flex items-center gap-3 max-[825px]:hidden">

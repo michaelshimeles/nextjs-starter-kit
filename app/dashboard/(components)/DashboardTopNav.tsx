@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Banknote, Folder, HomeIcon, Settings } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { GiMoneyStack } from 'react-icons/gi'
+import { FaTasks } from 'react-icons/fa'
 
 export default function DashboardTopNav({ children }: { children: ReactNode }) {
   return (
@@ -43,6 +44,14 @@ export default function DashboardTopNav({ children }: { children: ReactNode }) {
                   <Button variant="outline" className="w-full">
                     <Folder className="mr-2 h-4 w-4" />
                     Projects
+                  </Button>
+                </Link>
+              </DialogClose>
+              <DialogClose asChild>
+                <Link href="/dashboard/kanban">
+                  <Button variant="outline" className="w-full">
+                    <FaTasks className="mr-2 h-4 w-4" />
+                    Kanban
                   </Button>
                 </Link>
               </DialogClose>

@@ -48,10 +48,10 @@ export const userCreate = async ({
       ])
       .select();
 
-    console.log("data", data);
     console.log("error", error);
 
     if (error?.code) return error;
+    console.log("data", data);
 
     return data;
   } catch (error: any) {
