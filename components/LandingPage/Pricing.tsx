@@ -140,7 +140,6 @@ export default function Pricing() {
     }
   };
 
-
   const plans = [
     {
       title: "Basic",
@@ -174,6 +173,7 @@ export default function Pricing() {
       exclusive: true,
     },
   ]
+
   return (
     <div>
       <PricingHeader title="Sample Pricing Plans" subtitle="Use these sample pricing cards in your SAAS" />

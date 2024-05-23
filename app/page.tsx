@@ -17,19 +17,19 @@ export default function Home() {
         </div>
         {/* <StaticLogoCloud /> */}
       </div>
-      <div className="flex mt-[2rem] lg:mt-[3rem] w-full justify-center items-center">
+      <div className="flex my-[5rem] w-full justify-center items-center">
         <SideBySide />
       </div>
-      <div className="flex flex-col p-2 w-full mt-[6rem] lg:mt-[10rem] justify-center items-center">
+      <div className="flex flex-col p-2 w-full justify-center items-center">
         <MarketingCards />
       </div>
       <div className="max-w-[1200px] p-8 mt-[2rem] lg:mt-[6rem] lg:mb-[5rem]">
         <BlogSample />
       </div>
-      <div className="mt-[3rem] lg:mt-[6rem] lg:mb-[7rem]">
+      <div>
         <PricingPage />
       </div>
-      <div className="flex justify-center items-center w-full mt-[5rem] mb-[9rem]">
+      <div className="flex justify-center items-center w-full my-[8rem]">
         <AccordionComponent />
       </div>
     </PageWrapper>
