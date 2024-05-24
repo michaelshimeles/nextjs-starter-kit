@@ -22,6 +22,11 @@ const nextConfig = {
       hostname: 'ansubkhan.com',
       port: '',
       pathname: '/**'
+    }, {
+      protocol: 'https',
+      hostname: 'utfs.io',
+      port: '',
+      pathname: '/**'
     }]
   }
 };

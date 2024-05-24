@@ -5,7 +5,8 @@ import {
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger
+    NavigationMenuTrigger,
+    navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@clerk/nextjs"
@@ -96,13 +97,20 @@ export function NavBar() {
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <Link href="/blog" legacyBehavior passHref>
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                Blog
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
             <div className="flex items-center gap-3 max-[825px]:hidden">
 
                 <Link href="/dashboard" className="max-[825px]:hidden">
                     <Button size="sm" className="rounded-lg" variant="outline">
-                        <DashboardIcon className="w-4 h-4"/>
+                        <DashboardIcon className="w-4 h-4" />
                         <p className="pl-1">Dashboard</p>
                     </Button>
                 </Link>
