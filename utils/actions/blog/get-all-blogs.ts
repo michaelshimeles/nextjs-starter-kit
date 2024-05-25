@@ -6,6 +6,7 @@ export async function getAllBlogs() {
       headers: {
         "X-Auth-Key": process.env.CMS_API_KEY!,
       },
+      cache: "no-store"
     });
 
     const result = await response.json();
