@@ -25,7 +25,7 @@ export default async function BlogPage() {
           </div>
         </div>
         <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mt-5">
-          {/* {result?.response?.map((info: any) => (
+          {result?.response?.map((info: any) => (
             <Link key={info?.id} href={`/blog/${info?.slug}`}>
               <article
                 className="flex flex-col space-y-2 p-4 rounded-md border"
@@ -49,7 +49,7 @@ export default async function BlogPage() {
                 </p>
               </article>
             </Link>
-          ))} */}
+          ))}
         </div>
       </div>
     </PageWrapper>
