@@ -69,6 +69,13 @@ export function NavBar() {
                                     </Button>
                                 </Link>
                             </DialogClose>
+                            <DialogClose asChild>
+                                <Link href="/blog" legacyBehavior passHref className="cursor-pointer">
+                                    <Button variant="outline">
+                                        Blog
+                                    </Button>
+                                </Link>
+                            </DialogClose>
                         </div>
                     </SheetContent>
                 </Dialog>
@@ -82,9 +89,11 @@ export function NavBar() {
                 </NavigationMenuList>
                 <NavigationMenuList>
                     <NavigationMenuItem className="max-[825px]:hidden ml-5">
-                        <NavigationMenuTrigger>Features</NavigationMenuTrigger>
+                        <NavigationMenuTrigger className="dark:bg-black dark:bg-opacity-50">
+                            Features
+                        </NavigationMenuTrigger>
                         <NavigationMenuContent>
-                            <ul className="flex flex-col w-[400px] gap-3 p-4  lg:w-[500px] ">
+                            <ul className="flex flex-col w-[400px] gap-3 p-4  lg:w-[500px]">
                                 {components.map((component) => (
                                     <ListItem
                                         key={component.title}
@@ -97,11 +106,11 @@ export function NavBar() {
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
-                    <NavigationMenuItem>
+                    <NavigationMenuItem className="max-[825px]:hidden">
                         <Link href="/blog" legacyBehavior passHref>
-                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            <Button variant="ghost">
                                 Blog
-                            </NavigationMenuLink>
+                            </Button>
                         </Link>
                     </NavigationMenuItem>
                 </NavigationMenuList>
@@ -109,8 +118,8 @@ export function NavBar() {
             <div className="flex items-center gap-3 max-[825px]:hidden">
 
                 <Link href="/dashboard" className="max-[825px]:hidden">
-                    <Button size="sm" className="rounded-lg" variant="outline">
-                        <DashboardIcon className="w-4 h-4" />
+                    <Button size="sm" className="rounded-lg dark:bg-black dark:bg-opacity-50" variant="outline" >
+                        <DashboardIcon className="w-4 h-3" />
                         <p className="pl-1">Dashboard</p>
                     </Button>
                 </Link>
