@@ -63,7 +63,7 @@ Everything you need to quickly build your SaaS, AI product, or any other web app
 
 1. Clone the repository:
     ```
-    git clone [https://github.com/michaelshimeles/nextjs14-starter-template.git](https://github.com/michaelshimeles/nextjs14-starter-template)
+    git clone https://github.com/michaelshimeles/nextjs14-starter-template
     ```
 2. Install the required dependencies:
     ```
