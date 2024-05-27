@@ -37,16 +37,16 @@ export default function Category() {
 
 
   return (
-    <div className='flex justify-start items-center flex-wrap px-4 pt-5 gap-4'>
-      <div className="flex flex-col gap-3 mb-[5rem] w-full">
-        <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight lg:text-5xl">
-          Random Finance
+    <main className="flex min-w-screen p-4 flex-col items-center justify-between ">
+      <div className="flex flex-col mb-[5rem] w-full">
+        <h1 className=" text-3xl font-semibold tracking-tight">
+          Publish
         </h1>
-        <p className="leading-7">
-          Get your money up bro
+        <p className="leading-7 text-sm dark:text-gray-400">
+          Get ready to publish articles that have been written and saved
         </p>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-[600px] space-y-3">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-[600px] space-y-3 mt-[1rem]">
             <FormField
               control={form.control}
               name="category"
@@ -66,6 +66,6 @@ export default function Category() {
         </Form>
 
       </div>
-    </div>
+    </main>
   )
 }

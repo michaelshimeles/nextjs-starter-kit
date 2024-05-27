@@ -115,10 +115,9 @@ export function NavBar() {
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
-            <div className="flex items-center gap-3 max-[825px]:hidden">
-
+            <div className="flex items-center gap-2 max-[825px]:hidden">
                 <Link href="/dashboard" className="max-[825px]:hidden">
-                    <Button size="sm" className="rounded-lg dark:bg-black dark:bg-opacity-50" variant="outline" >
+                    <Button className="rounded-lg dark:bg-black dark:bg-opacity-50" variant="outline" >
                         <DashboardIcon className="w-4 h-3" />
                         <p className="pl-1">Dashboard</p>
                     </Button>

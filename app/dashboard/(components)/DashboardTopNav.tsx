@@ -2,21 +2,20 @@
 
 import { ModeToggle } from '@/components/ModeToggle'
 import { Profile } from '@/components/Profile'
-import { ReactNode } from 'react'
+import { Button } from '@/components/ui/button'
+import { Dialog, DialogClose } from '@/components/ui/dialog'
+import { Separator } from '@/components/ui/separator'
 import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
-import { Dialog, DialogClose } from '@/components/ui/dialog'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import { Banknote, Folder, HomeIcon, Settings } from 'lucide-react'
-import { Separator } from '@/components/ui/separator'
-import { GiMoneyStack } from 'react-icons/gi'
+import Link from 'next/link'
+import { ReactNode } from 'react'
 import { FaTasks } from 'react-icons/fa'
 
 export default function DashboardTopNav({ children }: { children: ReactNode }) {
   return (
     <div className="flex flex-col">
-      <header className="flex h-14 lg:h-[55px] items-center gap-4 border-b px-6">
+      <header className="flex h-14 lg:h-[55px] items-center gap-4 border-b px-3">
         <Dialog>
           <SheetTrigger className="min-[1024px]:hidden p-2 transition">
             <HamburgerMenuIcon />
@@ -75,7 +74,7 @@ export default function DashboardTopNav({ children }: { children: ReactNode }) {
             </div>
           </SheetContent>
         </Dialog>
-        <div className="flex justify-center items-center gap-3 ml-auto">
+        <div className="flex justify-center items-center gap-2 ml-auto">
           <Profile />
           <ModeToggle />
         </div>

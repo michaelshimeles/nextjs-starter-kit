@@ -24,13 +24,6 @@ const Board = () => {
   return (
     <div className="flex h-full w-full gap-3 overflow-scroll p-3">
       <Column
-        title="Backlog"
-        column="backlog"
-        headingColor="dark:text-neutral-500"
-        cards={cards}
-        setCards={setCards}
-      />
-      <Column
         title="TODO"
         column="todo"
         headingColor="dark:text-yellow-200"
@@ -350,11 +343,6 @@ type CardType = {
 };
 
 const DEFAULT_CARDS: CardType[] = [
-  // BACKLOG
-  { title: "Look into render bug in dashboard", id: "1", column: "backlog" },
-  { title: "SOX compliance checklist", id: "2", column: "backlog" },
-  { title: "[SPIKE] Migrate to Azure", id: "3", column: "backlog" },
-  { title: "Document Notifications service", id: "4", column: "backlog" },
   // TODO
   {
     title: "Research DB options for new microservice",
