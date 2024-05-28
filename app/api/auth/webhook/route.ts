@@ -55,52 +55,59 @@ export async function POST(req: Request) {
   const { id } = evt.data;
   const eventType = evt.type;
 
-  console.log('eventType', eventType)
+  console.log("eventType", eventType);
 
-  if (eventType === "user.created") {
-    try {
-      const response = await userCreate({
-        email: payload?.data?.email_addresses?.[0]?.email_address,
-        first_name: payload?.data?.first_name,
-        last_name: payload?.data?.last_name,
-        profile_image_url: payload?.data?.profile_image_url,
-        user_id: payload?.data?.id,
-      });
+  switch (eventType) {
+    case "user.created":
+      try {
+        const response = await userCreate({
+          email: payload?.data?.email_addresses?.[0]?.email_address,
+          first_name: payload?.data?.first_name,
+          last_name: payload?.data?.last_name,
+          profile_image_url: payload?.data?.profile_image_url,
+          user_id: payload?.data?.id,
+        });
 
+        console.log("res", response);
+        return NextResponse.json({
+          status: 200,
+          message: "User info inserted",
+        });
+      } catch (error: any) {
+        return NextResponse.json({
+          status: 400,
+          message: error.message,
+        });
+      }
+      break;
 
-      console.log('res', response)
-      return NextResponse.json({
-        status: 200,
-        message: "User info inserted",
-      });
-    } catch (error: any) {
-      return NextResponse.json({
+    case "user.updated":
+      try {
+        await userUpdate({
+          email: payload?.data?.email_addresses?.[0]?.email_address,
+          first_name: payload?.data?.first_name,
+          last_name: payload?.data?.last_name,
+          profile_image_url: payload?.data?.profile_image_url,
+          user_id: payload?.data?.id,
+        });
+
+        return NextResponse.json({
+          status: 200,
+          message: "User info updated",
+        });
+      } catch (error: any) {
+        return NextResponse.json({
+          status: 400,
+          message: error.message,
+        });
+      }
+      break;
+
+    default:
+      return new Response("Error occured -- unhandeled event type", {
         status: 400,
-        message: error.message,
       });
-    }
   }
 
-  if (eventType === "user.updated") {
-    try {
-      await userUpdate({
-        email: payload?.data?.email_addresses?.[0]?.email_address,
-        first_name: payload?.data?.first_name,
-        last_name: payload?.data?.last_name,
-        profile_image_url: payload?.data?.profile_image_url,
-        user_id: payload?.data?.id,
-      });
-
-      return NextResponse.json({
-        status: 200,
-        message: "User info updated",
-      });
-    } catch (error: any) {
-      return NextResponse.json({
-        status: 400,
-        message: error.message,
-      });
-    }
-  }
   return new Response("", { status: 201 });
 }
