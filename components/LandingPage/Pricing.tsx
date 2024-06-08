@@ -126,7 +126,6 @@ export default function Pricing() {
 
         console.log('response', response)
 
-
         return response
       } else {
         console.error('Failed to create checkout session');
