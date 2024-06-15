@@ -32,12 +32,12 @@ export default function HeroSection() {
                 <div className="relative flex max-w-6xl justify-center overflow-hidden mt-7">
                     <div className="relative rounded-xl">
                         <img
-                            src="/dash-light.png"
+                            src="https://utfs.io/f/31dba2ff-6c3b-4927-99cd-b928eaa54d5f-5w20ij.png"
                             alt="Hero Image"
                             className="block w-[1200px] rounded-[inherit] border object-contain shadow-lg dark:hidden"
                         />
                         <img
-                            src="/dash.png"
+                            src="https://utfs.io/f/69a12ab1-4d57-4913-90f9-38c6aca6c373-1txg2.png"
                             alt="Hero Image"
                             className="dark:block w-[1200px] rounded-[inherit] border object-contain shadow-lg hidden"
                         />
