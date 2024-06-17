@@ -12,12 +12,8 @@ export default function Home() {
     <PageWrapper>
       <div className="flex flex-col justify-center items-center w-full mt-[1rem] p-3">
         <HeroSection />
-        <div className="w-[80%] py-[4rem] dark:hidden">
-          <AnimatedLogoCloud />
-        </div>
-        {/* <StaticLogoCloud /> */}
       </div>
-      <div className="flex my-[5rem] w-full justify-center items-center">
+      <div className="flex my-[8rem] w-full justify-center items-center">
         <SideBySide />
       </div>
       <div className="flex flex-col p-2 w-full justify-center items-center">
