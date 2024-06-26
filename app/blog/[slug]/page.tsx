@@ -1,4 +1,3 @@
-import PageWrapper from '@/components/container/PageWrapper'
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ChevronLeft } from 'lucide-react';
@@ -7,6 +6,7 @@ import React from 'react'
 import Image from 'next/image';
 import ReactHtmlParser from 'react-html-parser'
 import { getBlogSlug } from '@/utils/actions/blog/get-blog-slug';
+import PageWrapper from '@/components/wrapper/PageWrapper';
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   try {

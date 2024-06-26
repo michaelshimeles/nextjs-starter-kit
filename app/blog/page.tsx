@@ -1,9 +1,9 @@
-import PageWrapper from '@/components/container/PageWrapper'
 import { getAllBlogs } from '@/utils/actions/blog/get-all-blogs'
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
+import PageWrapper from '@/components/wrapper/PageWrapper'
 export default async function BlogPage() {
   const result = await getAllBlogs()
 

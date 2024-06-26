@@ -1,5 +1,5 @@
 "use client"
-import PageWrapper from "@/components/container/PageWrapper";
+import PageWrapper from "@/components/wrapper/PageWrapper";
 import { SignUp } from "@clerk/nextjs";
 
 export default function SignUpPage() {

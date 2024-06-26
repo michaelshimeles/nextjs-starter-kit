@@ -1,4 +1,3 @@
-import PageWrapper from "@/components/container/PageWrapper";
 import { AccordionComponent } from "@/components/landing-page/AccordionComponent";
 import AnimatedLogoCloud from "@/components/landing-page/AnimatedLogoCloud";
 import BlogSample from "@/components/landing-page/BlogSamples";
@@ -6,6 +5,7 @@ import HeroSection from "@/components/landing-page/HeroSection";
 import MarketingCards from "@/components/landing-page/MarketingCards";
 import PricingPage from "@/components/landing-page/Pricing";
 import SideBySide from "@/components/landing-page/SideBySide";
+import PageWrapper from "@/components/wrapper/PageWrapper";
 
 export default function Home() {
   return (
