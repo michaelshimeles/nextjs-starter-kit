@@ -1,4 +1,4 @@
-import PageWrapper from '@/components/Container/PageWrapper'
+import PageWrapper from '@/components/container/PageWrapper'
 import { getAllBlogs } from '@/utils/actions/blog/get-all-blogs'
 import Link from 'next/link'
 import React from 'react'

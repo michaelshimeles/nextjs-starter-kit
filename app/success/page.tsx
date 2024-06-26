@@ -1,4 +1,4 @@
-import PageWrapper from '@/components/Container/PageWrapper';
+import PageWrapper from '@/components/container/PageWrapper';
 import { NavBar } from '@/components/NavBar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';

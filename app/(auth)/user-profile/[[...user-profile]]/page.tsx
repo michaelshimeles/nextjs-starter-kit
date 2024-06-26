@@ -1,5 +1,5 @@
 "use client"
-import PageWrapper from '@/components/Container/PageWrapper';
+import PageWrapper from '@/components/container/PageWrapper';
 import { UserProfile } from "@clerk/nextjs";
 
 

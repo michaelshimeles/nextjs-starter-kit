@@ -1,4 +1,4 @@
-import PageWrapper from '@/components/Container/PageWrapper'
+import PageWrapper from '@/components/container/PageWrapper'
 import { Button } from '@/components/ui/button'
 import { Metadata } from 'next'
 import Link from 'next/link'

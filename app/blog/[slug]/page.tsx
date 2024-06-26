@@ -1,4 +1,4 @@
-import PageWrapper from '@/components/Container/PageWrapper'
+import PageWrapper from '@/components/container/PageWrapper'
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ChevronLeft } from 'lucide-react';

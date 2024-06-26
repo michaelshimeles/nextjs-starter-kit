@@ -83,7 +83,7 @@ Everything you need to quickly build your SaaS, AI product, or any other web app
     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
     WEBHOOK_SECRET=
     NEXT_PUBLIC_SUPABASE_URL=
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=
+    SUPABASE_SERVICE_KEY=
     DATABASE_URL=
     DIRECT_URL=
 
