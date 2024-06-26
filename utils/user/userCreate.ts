@@ -1,20 +1,18 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { z } from "zod";
+import { createServerClient } from "@supabase/ssr";
 
-const userUpdateSchema = z.object({
-  email: z
-    .string()
-    .email({ message: "Invalid email" })
-    .nonempty({ message: "Email is required" })
-    .describe("user email"),
+const userCreateSchema = z.object({
+  email: z.string().email({ message: "Invalid email" }).describe("user email"),
   first_name: z
     .string()
     .regex(/^[a-zA-Z]+$/, { message: "First name must only contain letters" })
+    .min(3, { message: "First name is required" })
     .describe("user first name"),
   last_name: z
     .string()
     .regex(/^[a-zA-Z]+$/, { message: "Last name must only contain letters" })
+    .min(3, { message: "Last name is required" })
     .describe("user last name"),
   profile_image_url: z
     .string()
@@ -24,21 +22,33 @@ const userUpdateSchema = z.object({
   user_id: z.string().describe("user ID"),
 });
 
-type userUpdateProps = z.infer<typeof userUpdateSchema>;
+type userCreateProps = z.infer<typeof userCreateSchema>;
 
-export const userUpdate = async ({
+export const userCreate = async ({
   email,
   first_name,
   last_name,
   profile_image_url,
   user_id,
-}: userUpdateProps) => {
-  const supabase = createServerComponentClient({ cookies });
+}: userCreateProps) => {
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+      },
+    }
+  );
 
   try {
     const { data, error } = await supabase
-      .from("User")
-      .update([
+      .from("user")
+      .insert([
         {
           email,
           first_name,
@@ -47,12 +57,14 @@ export const userUpdate = async ({
           user_id,
         },
       ])
-      .eq("email", email)
       .select();
 
-    if (data) return data;
+    console.log("error", error);
 
-    if (error) return error;
+    if (error?.code) return error;
+    console.log("data", data);
+
+    return data;
   } catch (error: any) {
     throw new Error(error.message);
   }
