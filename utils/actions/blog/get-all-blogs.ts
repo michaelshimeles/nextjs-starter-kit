@@ -2,7 +2,7 @@
 
 export async function getAllBlogs() {
   try {
-    const response = await fetch(`https://cms.rasmic.xyz/api/blog/all`, {
+    const response = await fetch(`https://tsafi.xyz/api/blog/all`, {
       headers: {
         "X-Auth-Key": process.env.CMS_API_KEY!,
       },

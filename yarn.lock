@@ -1163,24 +1163,24 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@upstash/core-analytics@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@upstash/core-analytics/-/core-analytics-0.0.6.tgz#8680e7697e0f2660c2507bbc56348f5541bb0237"
-  integrity sha512-cpPSR0XJAJs4Ddz9nq3tINlPS5aLfWVCqhhtHnXt4p7qr5+/Znlt1Es736poB/9rnl1hAHrOsOvVj46NEXcVqA==
+"@upstash/core-analytics@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@upstash/core-analytics/-/core-analytics-0.0.9.tgz#59f29a920099084e049726c0aca67be1c1ecfc1f"
+  integrity sha512-9NXXxZ5y1/A/zqKLlVT7NsAWSggJfOjB0hG6Ffx29b4jbzHOiQVWB55h5+j2clT9Ib+mNPXn0iB5zN3aWLkICw==
   dependencies:
-    "@upstash/redis" "^1.19.3"
+    "@upstash/redis" "^1.28.3"
 
-"@upstash/ratelimit@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@upstash/ratelimit/-/ratelimit-0.4.4.tgz#99b4d9e2428c18ef0946ec347b5f22dac0184e60"
-  integrity sha512-y3q6cNDdcRQ2MRPRf5UNWBN36IwnZ4kAEkGoH3i6OqdWwz4qlBxNsw4/Rpqn9h93+Nx1cqg5IOq7O2e2zMJY1w==
+"@upstash/ratelimit@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@upstash/ratelimit/-/ratelimit-1.2.1.tgz#835a33ce715e999d646431f70a71a69de7d439ee"
+  integrity sha512-o01lV1yFS5Fzj5KONZmNyVch/Qrlj785B2ob+kStUmxn8F6xXk7IHTQqVcHE+Ce3CmT/qQIwvMxDZftyJ5wYpQ==
   dependencies:
-    "@upstash/core-analytics" "^0.0.6"
+    "@upstash/core-analytics" "^0.0.9"
 
-"@upstash/redis@^1.19.3", "@upstash/redis@^1.24.2":
-  version "1.24.3"
-  resolved "https://registry.yarnpkg.com/@upstash/redis/-/redis-1.24.3.tgz#0247250f7e26b6923e6ce4f348ce08f7bbdc6222"
-  integrity sha512-gw6d4IA1biB4eye5ESaXc0zOlVQI94aptsBvVcTghYWu1kRmOrJFoMFEDCa8p5uzluyYAOFCuY2GWLR6O4ZoIw==
+"@upstash/redis@^1.28.3", "@upstash/redis@^1.31.6":
+  version "1.31.6"
+  resolved "https://registry.yarnpkg.com/@upstash/redis/-/redis-1.31.6.tgz#54146617df3d07dfb51c858d3dd0aa23a06727fa"
+  integrity sha512-7sDQQqvVnnV+2PUVGjocITa34CULGLoWhmfSY/LtpxNYv24EsgOk9VXhmGXIyzJBcXxB614wOF6ccEN0Lr7fqQ==
   dependencies:
     crypto-js "^4.2.0"
 
