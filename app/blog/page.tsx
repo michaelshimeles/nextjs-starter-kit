@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import PageWrapper from '@/components/wrapper/page-wrapper';
 
-export async function getAllBlogs() {
+async function getAllBlogs() {
   try {
     const response = await fetch(`https://tsafi.xyz/api/blog/all`, {
       method: "POST",

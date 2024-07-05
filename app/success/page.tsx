@@ -1,4 +1,4 @@
-import { NavBar } from '@/components/navbar';
+import NavBar from '@/components/navbar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Stripe from 'stripe';

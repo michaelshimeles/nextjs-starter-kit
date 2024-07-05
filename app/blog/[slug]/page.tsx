@@ -1,16 +1,15 @@
 import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
-import React from 'react'
-import Image from 'next/image';
-import ReactHtmlParser from 'react-html-parser'
-import { getBlogSlug } from '@/utils/actions/blog/get-blog-slug';
 import PageWrapper from '@/components/wrapper/page-wrapper';
+import { cn } from '@/lib/utils';
+import { getBlogSlug } from '@/utils/functions/blog/get-blog-slug';
+import { ChevronLeft } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import ReactHtmlParser from 'react-html-parser';
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   try {
-    const { response } = await getBlogSlug(params?.slug)
+    const { response } = await getBlogSlug(params?.slug, process.env.BLOG_SITE_ID!)
 
     if (response?.length === 0) {
       return {
@@ -64,9 +63,8 @@ export async function generateStaticParams() {
   }
 }
 
-
 export default async function Blog({ params }: { params: { slug: string } }) {
-  const { response } = await getBlogSlug(params?.slug)
+  const { response } = await getBlogSlug(params?.slug, process.env.BLOG_SITE_ID!)
 
   return (
     <PageWrapper>
