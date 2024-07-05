@@ -3,7 +3,6 @@ import { ArrowRight, Github } from 'lucide-react';
 import Link from "next/link";
 import { BorderBeam } from "../magicui/border-beam";
 import { Button } from "../ui/button";
-import { AnimatedGradientTextComponent } from './AnimatedGradientComponent';
 export default function HeroSection() {
 
     return (

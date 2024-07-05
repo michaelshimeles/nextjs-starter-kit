@@ -1,11 +1,30 @@
-import { getAllBlogs } from '@/utils/actions/blog/get-all-blogs'
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
-import PageWrapper from '@/components/wrapper/PageWrapper'
+import PageWrapper from '@/components/wrapper/page-wrapper';
+
+export async function getAllBlogs() {
+  try {
+    const response = await fetch(`https://tsafi.xyz/api/blog/all`, {
+      method: "POST",
+      headers: {
+        "X-Auth-Key": process.env.CMS_API_KEY!,
+      },
+    });
+
+    const result = await response.json();
+
+    return result;
+  } catch (error) {
+    return {
+      error,
+    };
+  }
+}
+
 export default async function BlogPage() {
-  const result = await getAllBlogs()
+  const { response } = await getAllBlogs()
 
   return (
     <PageWrapper>
@@ -25,7 +44,7 @@ export default async function BlogPage() {
           </div>
         </div>
         <div className="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mt-5">
-          {result?.response?.map((info: any) => (
+          {response?.map((info: any) => (
             <Link key={info?.id} href={`/blog/${info?.slug}`}>
               <article
                 className="flex flex-col space-y-2 p-4 rounded-md border"

@@ -1,8 +1,7 @@
 import { Button } from '@/components/ui/button'
-import PageWrapper from '@/components/wrapper/PageWrapper'
 import { Metadata } from 'next'
 import Link from 'next/link'
-import React from 'react'
+import PageWrapper from "@/components/wrapper/page-wrapper";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://starter.rasmic.xyz"),

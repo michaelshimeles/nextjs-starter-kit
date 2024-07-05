@@ -15,11 +15,11 @@ import { BlocksIcon } from "lucide-react"
 import Link from 'next/link'
 import * as React from "react"
 import { GiHamburgerMenu } from "react-icons/gi"
-import { Profile } from "./Profile"
 import { Button } from "./ui/button"
 import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
-import { ModeToggle } from "./ModeToggle"
+import { ModeToggle } from "./mode-toggle"
 import { DashboardIcon } from "@radix-ui/react-icons"
+import { Profile } from "./profile"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -42,7 +42,7 @@ const components: { title: string; href: string; description: string }[] = [
     },
 ]
 
-export function NavBar() {
+export default function NavBar() {
     const { userId } = useAuth();
 
     return (

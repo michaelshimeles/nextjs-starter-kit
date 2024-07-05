@@ -1,5 +1,5 @@
 import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
-import { OrbitingCirclesComponent } from './OrbitingCircles'
+import { OrbitingCirclesComponent } from './orbiting-circles'
 import { Computer, Network } from 'lucide-react'
 import { FaBusinessTime } from 'react-icons/fa'
 

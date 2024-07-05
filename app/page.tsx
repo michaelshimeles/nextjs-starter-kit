@@ -1,11 +1,10 @@
-import { AccordionComponent } from "@/components/landing-page/AccordionComponent";
-import AnimatedLogoCloud from "@/components/landing-page/AnimatedLogoCloud";
-import BlogSample from "@/components/landing-page/BlogSamples";
-import HeroSection from "@/components/landing-page/HeroSection";
-import MarketingCards from "@/components/landing-page/MarketingCards";
-import PricingPage from "@/components/landing-page/Pricing";
-import SideBySide from "@/components/landing-page/SideBySide";
-import PageWrapper from "@/components/wrapper/PageWrapper";
+import { AccordionComponent } from "@/components/landing-page/accordion-component";
+import BlogSample from "@/components/landing-page/blog-samples";
+import HeroSection from "@/components/landing-page/hero-section";
+import MarketingCards from "@/components/landing-page/marketing-cards";
+import Pricing from "@/components/landing-page/pricing";
+import SideBySide from "@/components/landing-page/side-by-side";
+import PageWrapper from "@/components/wrapper/page-wrapper";
 
 export default function Home() {
   return (
@@ -23,7 +22,7 @@ export default function Home() {
         <BlogSample />
       </div>
       <div>
-        <PricingPage />
+        <Pricing />
       </div>
       <div className="flex justify-center items-center w-full my-[8rem]">
         <AccordionComponent />

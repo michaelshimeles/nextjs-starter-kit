@@ -6,7 +6,7 @@ import React from 'react'
 import Image from 'next/image';
 import ReactHtmlParser from 'react-html-parser'
 import { getBlogSlug } from '@/utils/actions/blog/get-blog-slug';
-import PageWrapper from '@/components/wrapper/PageWrapper';
+import PageWrapper from '@/components/wrapper/page-wrapper';
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   try {
