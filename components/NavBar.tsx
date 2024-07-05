@@ -5,20 +5,19 @@ import {
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger,
-    navigationMenuTriggerStyle
+    NavigationMenuTrigger
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@clerk/nextjs"
 import { Dialog, DialogClose } from "@radix-ui/react-dialog"
+import { DashboardIcon } from "@radix-ui/react-icons"
 import { BlocksIcon } from "lucide-react"
 import Link from 'next/link'
 import * as React from "react"
 import { GiHamburgerMenu } from "react-icons/gi"
+import { ModeToggle } from "./mode-toggle"
 import { Button } from "./ui/button"
 import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
-import { ModeToggle } from "./mode-toggle"
-import { DashboardIcon } from "@radix-ui/react-icons"
 import { UserProfile } from "./user-profile"
 
 const components: { title: string; href: string; description: string }[] = [

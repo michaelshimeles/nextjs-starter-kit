@@ -7,68 +7,68 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ReactHtmlParser from 'react-html-parser';
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  try {
-    const { response } = await getBlogSlug(params?.slug, process.env.BLOG_SITE_ID!)
+// export async function generateMetadata({ params }: { params: { slug: string } }) {
+//   try {
+//     const { response } = await getBlogSlug(params?.slug, process.env.BLOG_SITE_ID!)
 
-    if (response?.length === 0) {
-      return {
-        title: "Not Found",
-        description: "The page you are looking for does not exist"
-      }
-    }
+//     if (response?.length === 0) {
+//       return {
+//         title: "Not Found",
+//         description: "The page you are looking for does not exist"
+//       }
+//     }
 
-    return {
-      openGraph: {
-        title: response?.[0]?.title,
-        description: response?.[0]?.subtitle,
-        images: [response?.[0]?.image],
-      },
-      keywords: [...response?.[0]?.keywords]
-    }
-  } catch (error) {
-    console.error(error)
-    return {
-      title: "Not Found",
-      description: "The page you are looking for does not exist"
-    }
-  }
-}
+//     return {
+//       openGraph: {
+//         title: response?.[0]?.title,
+//         description: response?.[0]?.subtitle,
+//         images: [response?.[0]?.image],
+//       },
+//       keywords: [...response?.[0]?.keywords]
+//     }
+//   } catch (error) {
+//     console.error(error)
+//     return {
+//       title: "Not Found",
+//       description: "The page you are looking for does not exist"
+//     }
+//   }
+// }
 
-export async function generateStaticParams() {
-  try {
-    const response: any = await fetch(
-      "https://cms.rasmic.xyz/api/blog/slugs",
-      {
-        headers: {
-          "X-Auth-Key": process.env.CMS_API_KEY!,
-        },
-      }
-    );
+// export async function generateStaticParams() {
+//   try {
+//     const response: any = await fetch(
+//       "https://cms.rasmic.xyz/api/blog/slugs",
+//       {
+//         headers: {
+//           "X-Auth-Key": process.env.CMS_API_KEY!,
+//         },
+//       }
+//     );
 
-    const result = await response.json()
-    if (result?.error) {
-      throw new Error(`Failed to fetch articles: ${response.statusText}`);
-    }
+//     const result = await response.json()
+//     if (result?.error) {
+//       throw new Error(`Failed to fetch articles: ${response.statusText}`);
+//     }
 
-    if (result?.response?.length === 0) return [];
+//     if (result?.response?.length === 0) return [];
 
-    return result?.response?.map((post: any) => ({
-      slug: post?.slug,
-    }));
+//     return result?.response?.map((post: any) => ({
+//       slug: post?.slug,
+//     }));
 
-  } catch (error) {
-    console.error('Error fetching articles:', error);
-    return [];
-  }
-}
+//   } catch (error) {
+//     console.error('Error fetching articles:', error);
+//     return [];
+//   }
+// }
 
 export default async function Blog({ params }: { params: { slug: string } }) {
   const { response } = await getBlogSlug(params?.slug, process.env.BLOG_SITE_ID!)
 
   return (
     <PageWrapper>
-      <article className="container relative max-w-3xl py-6 lg:py-10">
+      {/* <article className="container relative max-w-3xl py-6 lg:py-10">
         <Link
           href="/blog"
           className={cn(
@@ -100,9 +100,9 @@ export default async function Blog({ params }: { params: { slug: string } }) {
               <p className="font-medium">
                 {response?.[0]?.author?.author_name}
               </p>
-              {/* <Link href={`https://www.instagram.com/${response?.[0]?.author?.author_instagram}`} target='_blank'>
+              <Link href={`https://www.instagram.com/${response?.[0]?.author?.author_instagram}`} target='_blank'>
                 <p className='text-xs text-gray-800 font-semibold hover:underline hover:cursor-pointer'>@{response?.[0]?.author?.author_instagram}</p>
-              </Link> */}
+              </Link>
             </div>
           </div>
         </div>
@@ -124,7 +124,8 @@ export default async function Blog({ params }: { params: { slug: string } }) {
             See all posts
           </Link>
         </div>
-      </article>
+      </article> */}
+      <></>
     </PageWrapper>
   )
 }
