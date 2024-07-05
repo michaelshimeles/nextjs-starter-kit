@@ -101,7 +101,6 @@ const CheckItem = ({ text }: { text: string }) => (
   </div>
 )
 
-
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
 export default function Pricing() {

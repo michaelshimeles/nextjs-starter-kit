@@ -22,7 +22,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 
-export function Profile() {
+export function UserProfile() {
     const { isSignedIn, user, isLoaded } = useUser();
 
     return (

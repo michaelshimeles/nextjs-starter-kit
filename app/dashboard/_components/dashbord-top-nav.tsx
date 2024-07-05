@@ -1,11 +1,11 @@
 "use client"
 
 import { ModeToggle } from '@/components/mode-toggle'
-import { Profile } from '@/components/profile'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogClose } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { UserProfile } from '@/components/user-profile'
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
 import { Banknote, Folder, HomeIcon, Settings } from 'lucide-react'
 import Link from 'next/link'
@@ -75,7 +75,7 @@ export default function DashboardTopNav({ children }: { children: ReactNode }) {
           </SheetContent>
         </Dialog>
         <div className="flex justify-center items-center gap-2 ml-auto">
-          <Profile />
+          <UserProfile />
           <ModeToggle />
         </div>
       </header>

@@ -19,7 +19,7 @@ import { Button } from "./ui/button"
 import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
 import { ModeToggle } from "./mode-toggle"
 import { DashboardIcon } from "@radix-ui/react-icons"
-import { Profile } from "./profile"
+import { UserProfile } from "./user-profile"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -122,7 +122,7 @@ export default function NavBar() {
                         <p className="pl-1">Dashboard</p>
                     </Button>
                 </Link>
-                {userId && <Profile />}
+                {userId && <UserProfile />}
                 <ModeToggle />
             </div>
         </div>
