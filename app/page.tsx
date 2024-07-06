@@ -2,7 +2,7 @@ import { AccordionComponent } from "@/components/landing-page/accordion-componen
 import BlogSample from "@/components/landing-page/blog-samples";
 import HeroSection from "@/components/landing-page/hero-section";
 import MarketingCards from "@/components/landing-page/marketing-cards";
-import Pricing from "@/components/landing-page/pricing";
+import Pricing from '@/components/landing-page/pricing';
 import SideBySide from "@/components/landing-page/side-by-side";
 import PageWrapper from "@/components/wrapper/page-wrapper";
 
