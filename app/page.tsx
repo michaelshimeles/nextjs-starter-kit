@@ -1,9 +1,9 @@
-import { AccordionComponent } from "@/components/landing-page/accordion-component";
-import BlogSample from "@/components/landing-page/blog-samples";
-import HeroSection from "@/components/landing-page/hero-section";
-import MarketingCards from "@/components/landing-page/marketing-cards";
-import Pricing from "@/components/landing-page/pricing";
-import SideBySide from "@/components/landing-page/side-by-side";
+import { AccordionComponent } from "@/components/homepage/accordion-component";
+import BlogSample from "@/components/homepage/blog-samples";
+import HeroSection from "@/components/homepage/hero-section";
+import MarketingCards from "@/components/homepage/marketing-cards";
+import Pricing from "@/components/homepage/pricing";
+import SideBySide from "@/components/homepage/side-by-side";
 import PageWrapper from "@/components/wrapper/page-wrapper";
 
 export default function Home() {
