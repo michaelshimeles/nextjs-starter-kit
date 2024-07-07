@@ -15,10 +15,10 @@ import { BlocksIcon } from "lucide-react"
 import Link from 'next/link'
 import * as React from "react"
 import { GiHamburgerMenu } from "react-icons/gi"
-import { ModeToggle } from "./mode-toggle"
-import { Button } from "./ui/button"
-import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
-import { UserProfile } from "./user-profile"
+import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet"
+import { UserProfile } from "../user-profile"
+import { Button } from "../ui/button"
+import { ModeToggle } from "../mode-toggle"
 
 const components: { title: string; href: string; description: string }[] = [
     {
