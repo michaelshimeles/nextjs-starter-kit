@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(req: NextRequest) {
   const cookieStore = cookies();
 
-  const supabase = createServerClient(
+  const supabase: any = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_KEY!,
     {
@@ -48,7 +48,7 @@ async function handleSubscriptionEvent(
     });
   }
 
-  const subscriptionData = {
+  const subscriptionData: any = {
     subscription_id: subscription.id,
     stripe_user_id: subscription.customer,
     status: subscription.status,
@@ -151,7 +151,7 @@ async function handleCheckoutSessionCompleted(
   supabase: ReturnType<typeof createServerClient>
 ) {
   const session = event.data.object as Stripe.Checkout.Session;
-  const metadata = session.metadata;
+  const metadata: any = session?.metadata;
 
   if (metadata?.subscription === "true") {
     const subscriptionId = session.subscription;
