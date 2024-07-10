@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import PageWrapper from "@/components/wrapper/page-wrapper";
+import { VideoPlayer } from '@/components/video-player';
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://starter.rasmic.xyz"),
@@ -27,7 +28,7 @@ export default async function MarketingPage() {
 
   return (
     <PageWrapper>
-      <div className='flex flex-col min-h-screen items-center mt-[4rem] p-3 w-full'>
+      <div className='flex flex-col min-h-screen items-center mt-[2.5rem] p-3 w-full'>
         <h1 className="scroll-m-20 text-5xl font-bold tracking-tight lg:text-6xl text-center">
           Example Marketing Page
         </h1>
@@ -37,10 +38,8 @@ export default async function MarketingPage() {
         <Link href="/dashboard" className="mt-2">
           <Button>Get Started</Button>
         </Link>
-        <div className='my-3'>
-          <video width="900" height="240" controls id="player1" preload="none">
-            <source src="https://www.youtube.com/watch?v=ml9Fz2aUx9k" type="video/mp4" />
-          </video>
+        <div className='mb-3 mt-[1rem] max-w-[900px] w-full'>
+          <VideoPlayer videoSrc="https://utfs.io/f/08b0a37f-afd7-4623-b5cc-e85184528fce-1f02.mp4"/>
         </div>
         <div className='flex flex-col min-h-screen max-w-[900px] items-center my-[2rem]'>
           <article className="max-w-4xl mx-auto pb-8">

@@ -3,6 +3,7 @@ import { BarChartComponent } from './_components/bar-chart'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { BarChartBetter } from './_components/bar-chart-better'
 
 export default async function Dashboard() {
 
@@ -33,15 +34,11 @@ export default async function Dashboard() {
           </p>
         </CardContent>
       </Card>
+      <div className='flex flex-wrap gap-2'>
+        <BarChartComponent />
+        <BarChartBetter />
+      </div>
       <div className='grid md:grid-cols-2 sm:grid-cols-1 w-full gap-3'>
-        <Card className="">
-          <CardHeader>
-            <CardTitle>Overview</CardTitle>
-          </CardHeader>
-          <CardContent className="pl-2">
-            <BarChartComponent />
-          </CardContent>
-        </Card>
         <Card className="">
           <CardHeader className="flex flex-row items-center">
             <div className="grid gap-2">
