@@ -5,6 +5,7 @@ import MarketingCards from "@/components/homepage/marketing-cards";
 import Pricing from "@/components/homepage/pricing";
 import SideBySide from "@/components/homepage/side-by-side";
 import PageWrapper from "@/components/wrapper/page-wrapper";
+import config from "@/config";
 
 export default function Home() {
   return (
@@ -21,9 +22,9 @@ export default function Home() {
       <div className="max-w-[1200px] p-8 mt-[2rem] lg:mt-[6rem] lg:mb-[5rem]">
         <BlogSample />
       </div>
-      <div>
+      {config.auth.enabled && <div>
         <Pricing />
-      </div>
+      </div>}
       <div className="flex justify-center items-center w-full my-[8rem]">
         <AccordionComponent />
       </div>

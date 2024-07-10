@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/react"
 import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans';
 import './globals.css'
+import AuthWrapper from '@/components/wrapper/auth-wrapper'
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://starter.rasmic.xyz"),
@@ -33,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
+    <AuthWrapper>
       <html lang="en" suppressHydrationWarning>
         <body className={GeistSans.className}>
           <Provider>
@@ -50,6 +51,6 @@ export default function RootLayout({
           <Analytics />
         </body>
       </html>
-    </ClerkProvider>
+    </AuthWrapper>
   )
 }

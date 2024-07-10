@@ -19,7 +19,7 @@ import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet
 import { UserProfile } from "../user-profile"
 import { Button } from "../ui/button"
 import { ModeToggle } from "../mode-toggle"
-
+import config from "@/config"
 const components: { title: string; href: string; description: string }[] = [
     {
         title: "Marketing Page",
@@ -28,21 +28,28 @@ const components: { title: string; href: string; description: string }[] = [
             "Write some wavy here to get them to click.",
     },
     {
-        title: "Second Tab",
-        href: "/",
+        title: "Marketing Page",
+        href: "/marketing-page",
         description:
             "Write some wavy here to get them to click.",
     },
     {
-        title: "Third Tab",
-        href: "/",
+        title: "Marketing Page",
+        href: "/marketing-page",
         description:
             "Write some wavy here to get them to click.",
     },
+
 ]
 
 export default function NavBar() {
-    const { userId } = useAuth();
+
+    let userId
+
+    if (config?.auth?.enabled) {
+        userId = useAuth();
+    }
+
 
     return (
         <div className="flex min-w-full fixed justify-between p-2 border-b z-10 dark:bg-black dark:bg-opacity-50 bg-white">
@@ -68,13 +75,13 @@ export default function NavBar() {
                                     </Button>
                                 </Link>
                             </DialogClose>
-                            <DialogClose asChild>
+                            {config?.features?.blog && <DialogClose asChild>
                                 <Link href="/blog" legacyBehavior passHref className="cursor-pointer">
                                     <Button variant="outline">
                                         Blog
                                     </Button>
                                 </Link>
-                            </DialogClose>
+                            </DialogClose>}
                         </div>
                     </SheetContent>
                 </Dialog>
@@ -105,13 +112,13 @@ export default function NavBar() {
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
-                    <NavigationMenuItem className="max-[825px]:hidden">
+                    {config?.features?.blog && <NavigationMenuItem className="max-[825px]:hidden">
                         <Link href="/blog" legacyBehavior passHref>
                             <Button variant="ghost">
                                 Blog
                             </Button>
                         </Link>
-                    </NavigationMenuItem>
+                    </NavigationMenuItem>}
                 </NavigationMenuList>
             </NavigationMenu>
             <div className="flex items-center gap-2 max-[825px]:hidden">
@@ -121,7 +128,7 @@ export default function NavBar() {
                         <p className="pl-1">Dashboard</p>
                     </Button>
                 </Link>
-                {userId && <UserProfile />}
+                {(config?.auth?.enabled && userId) && <UserProfile />}
                 <ModeToggle />
             </div>
         </div>

@@ -13,6 +13,7 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import config from "@/config"
 import { SignOutButton, useUser } from "@clerk/nextjs"
 import {
     CreditCard,
@@ -21,10 +22,15 @@ import {
     User
 } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export function UserProfile() {
-    const { isSignedIn, user, isLoaded } = useUser();
+    const router = useRouter()
 
+    if (!config?.auth?.enabled) {
+        router.back()
+    }
+    const { user } = useUser();
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild className="w-[2.25rem] h-[2.25rem]">
