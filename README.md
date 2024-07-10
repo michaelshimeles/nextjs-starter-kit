@@ -11,6 +11,10 @@
 
 Everything you need to quickly build your SaaS, AI product, or any other web application fast giving you time to focus on what really matters
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=michaelshimeles/nextjs-starter-kit&type=Date)](https://star-history.com/#michaelshimeles/nextjs-starter-kit&Date)
+
 ## Battries Include
 - Functional subscription payments via Stripe
 - User authentication
