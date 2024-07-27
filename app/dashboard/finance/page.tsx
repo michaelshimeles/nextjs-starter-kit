@@ -23,14 +23,12 @@ export default function Category() {
 
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log('data', data)
     try {
 
 
       form.reset()
       return
     } catch (error) {
-      console.log('error', error)
       return error
     }
   }

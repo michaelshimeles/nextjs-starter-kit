@@ -37,11 +37,7 @@ export const userCreate = async ({
       ])
       .select();
 
-    console.log("error", error);
-
     if (error?.code) return error;
-    console.log("data", data);
-
     return data;
   } catch (error: any) {
     throw new Error(error.message);

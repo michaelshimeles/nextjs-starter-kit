@@ -55,7 +55,6 @@ export async function POST(req: Request) {
   const { id } = evt.data;
   const eventType = evt.type;
 
-  console.log("eventType", eventType);
 
   switch (eventType) {
     case "user.created":
@@ -73,7 +72,6 @@ export async function POST(req: Request) {
           message: "User info inserted",
         });
       } catch (error: any) {
-        console.log("error", error);
         return NextResponse.json({
           status: 400,
           message: error.message,

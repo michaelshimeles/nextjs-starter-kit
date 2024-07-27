@@ -13,7 +13,6 @@ export default function Footer() {
 
 
     const onSubmit = async (data: any) => {
-        console.log(data);
 
 
     };

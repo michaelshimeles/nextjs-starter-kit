@@ -35,11 +35,6 @@ export async function POST(req: NextRequest) {
         cancel_url: `${process.env.FRONTEND_URL}/cancel`,
       });
 
-      console.log("EARLY META", {
-        userId,
-        email,
-        subscription,
-      });
       return NextResponse.json({ sessionId: session.id });
     } catch (error) {
       console.error("Error creating checkout session:", error);

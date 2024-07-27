@@ -114,16 +114,12 @@ export default function Pricing() {
       const { data } = await axios.post(`/api/payments/create-checkout-session`,
         { userId: user?.id, email: user?.emailAddresses?.[0]?.emailAddress, priceId, subscription });
 
-      console.log('data', data)
       if (data.sessionId) {
         const stripe = await stripePromise;
-        console.log('stripe', stripe)
 
         const response = await stripe?.redirectToCheckout({
           sessionId: data.sessionId,
         });
-
-        console.log('response', response)
 
         return response
       } else {
