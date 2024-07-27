@@ -8,9 +8,7 @@ export default function HeroSection() {
 
     return (
         <div className='flex flex-col items-center justify-center leading-6 mt-[3rem]'>
-            {/* <div className="my-5"
-                <AnimatedGradientTextComponent />
-            </div> */}
+
             <h1 className="scroll-m-20 text-4xl sm:text-4xl md:text-6xl font-semibold tracking-tight lg:text-7xl text-center max-w-[1120px] bg-gradient-to-b dark:text-white">
                 build & ship fast
             </h1>

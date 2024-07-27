@@ -48,7 +48,7 @@ export default function BlogSample() {
               >
                 <Image
                   src={article?.image!}
-                  alt={""}
+                  alt={"blog image"}
                   width={804}
                   height={452}
                   className="rounded-md border bg-muted transition-colors"
@@ -56,7 +56,6 @@ export default function BlogSample() {
                 <div className='flex lg:flex-row w-full justify-between items-center'>
                   <h2 className="text-md lg:text-lg font-bold">{article?.title}</h2>
                 </div>
-                {/* <p className="text-muted-foreground">{info?.subtitle}</p> */}
                 <p className="text-sm text-muted-foreground">
                   {new Date(article?.date!)?.toLocaleDateString()}
                 </p>

@@ -49,7 +49,7 @@ export default function NavBar() {
 
     if (config?.auth?.enabled) {
         const user = useAuth();
-        userId =  user?.userId
+        userId = user?.userId
     }
 
 
@@ -58,7 +58,9 @@ export default function NavBar() {
             <div className="flex justify-between w-full min-[825px]:hidden">
                 <Dialog>
                     <SheetTrigger className="p-2 transition">
-                        <GiHamburgerMenu />
+                        <Button size="icon">
+                            <GiHamburgerMenu />
+                        </Button>
                     </SheetTrigger>
                     <SheetContent side="left">
                         <SheetHeader>

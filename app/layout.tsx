@@ -7,6 +7,7 @@ import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans';
 import './globals.css'
 import AuthWrapper from '@/components/wrapper/auth-wrapper'
+import Head from 'next/head'
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://starter.rasmic.xyz"),
@@ -15,17 +16,17 @@ export const metadata: Metadata = {
     template: `%s | Nextjs Starter Kit`
   },
   openGraph: {
-    description: 'Build your next SAAS product',
-    images: ['']
+    description: 'Everything you need to quickly build your SaaS giving you time to focus on what really matters',
+    images: ['https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png']
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Nextjs Starter ',
-    description: 'Build your next SAAS product.',
+    description: 'Everything you need to quickly build your SaaS giving you time to focus on what really matters.',
     siteId: "",
     creator: "@rasmic",
     creatorId: "",
-    images: [''],
+    images: ['https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png'],
   },
 }
 export default function RootLayout({
@@ -36,6 +37,12 @@ export default function RootLayout({
   return (
     <AuthWrapper>
       <html lang="en" suppressHydrationWarning>
+        <Head>
+          <meta property="description" content="Everything you need to quickly build your SaaS giving you time to focus on what really matters" />
+          <meta property="og:image" content="https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png"></meta>
+          <meta property="og:url" content="https://starter.rasmic.xyz/"></meta>
+          <meta property="twitter:image" content="https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png"></meta>
+        </Head>
         <body className={GeistSans.className}>
           <Provider>
             <ThemeProvider
@@ -44,8 +51,8 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-            {children}
-            <Toaster />
+              {children}
+              <Toaster />
             </ThemeProvider>
           </Provider>
           <Analytics />
