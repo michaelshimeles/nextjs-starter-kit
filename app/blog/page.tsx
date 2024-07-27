@@ -1,9 +1,7 @@
 import PageWrapper from '@/components/wrapper/page-wrapper';
-import { getAllBlogs } from '@/utils/functions/blog/get-all-blogs';
-import BlogCard from './_components/blog-card';
-import BlogHeader from './_components/blog-header';
 import config from '@/config';
 import { redirect } from 'next/navigation';
+import BlogHeader from './_components/blog-header';
 
 export default async function BlogPage() {
 

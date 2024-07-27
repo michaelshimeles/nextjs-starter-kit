@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 const UserProfilePage = () => {
     const router = useRouter()
+
     if (!config?.auth?.enabled) {
         router.back()
     }
