@@ -2,9 +2,14 @@ import PageWrapper from '@/components/wrapper/page-wrapper';
 import { getAllBlogs } from '@/utils/functions/blog/get-all-blogs';
 import BlogCard from './_components/blog-card';
 import BlogHeader from './_components/blog-header';
+import config from '@/config';
+import { redirect } from 'next/navigation';
 
 export default async function BlogPage() {
 
+  if (!config?.features?.blog) {
+    redirect("/")
+  }
   // const { response } = await getAllBlogs(process.env.BLOG_SITE_ID!)
 
   return (

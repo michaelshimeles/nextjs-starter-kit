@@ -1,6 +1,6 @@
 const config = {
   auth: {
-    enabled: true,
+    enabled: false,
   },
   features: {
     blog: true,

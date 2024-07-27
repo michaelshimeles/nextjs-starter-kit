@@ -1,10 +1,12 @@
 import { buttonVariants } from '@/components/ui/button';
 import PageWrapper from '@/components/wrapper/page-wrapper';
+import config from '@/config';
 import { cn } from '@/lib/utils';
 import { getBlogSlug } from '@/utils/functions/blog/get-blog-slug';
 import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import ReactHtmlParser from 'react-html-parser';
 
 // export async function generateMetadata({ params }: { params: { slug: string } }) {
@@ -64,6 +66,11 @@ import ReactHtmlParser from 'react-html-parser';
 // }
 
 export default async function Blog({ params }: { params: { slug: string } }) {
+
+  if (!config?.features?.blog) {
+    redirect("/")
+  }
+
   const { response } = await getBlogSlug(params?.slug, process.env.BLOG_SITE_ID!)
 
   return (

@@ -13,8 +13,12 @@ export const VideoPlayer: React.FC<CustomVideoPlayerProps> = ({ videoSrc }) => {
   const [currentVolume, setCurrentVolume] = useState<number>(1);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [showControls, setShowControls] = useState<boolean>(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
+  const [lastMouseMoveTime, setLastMouseMoveTime] = useState(Date.now());
+
+  let autoplay = false
 
   useEffect(() => {
     const video = videoRef.current;
@@ -30,12 +34,69 @@ export const VideoPlayer: React.FC<CustomVideoPlayerProps> = ({ videoSrc }) => {
       setIsPlaying(false);
     };
 
-    video.addEventListener('timeupdate', updateProgress);
-    video.addEventListener('ended', handleVideoEnd);
+    video.addEventListener("timeupdate", updateProgress);
+    video.addEventListener("ended", handleVideoEnd);
+
+    if (autoplay) {
+      video.play().catch((error) => console.error("Autoplay failed:", error));
+    }
 
     return () => {
-      video.removeEventListener('timeupdate', updateProgress);
-      video.removeEventListener('ended', handleVideoEnd);
+      video.removeEventListener("timeupdate", updateProgress);
+      video.removeEventListener("ended", handleVideoEnd);
+    };
+  }, [autoplay]);
+
+  useEffect(() => {
+    const handleMouseMove = () => {
+      setLastMouseMoveTime(Date.now());
+      setShowControls(true);
+    };
+
+    const handleMouseLeave = () => {
+      if (isPlaying) {
+        setShowControls(false);
+      }
+    };
+
+    const checkMouseInactivity = () => {
+      const currentTime = Date.now();
+      if (currentTime - lastMouseMoveTime > 3000 && isFullscreen) {
+        setShowControls(false);
+      }
+    };
+
+    if (playerRef.current) {
+      playerRef.current.addEventListener("mousemove", handleMouseMove);
+      playerRef.current.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    const inactivityInterval = setInterval(checkMouseInactivity, 1000);
+
+    return () => {
+      if (playerRef.current) {
+        playerRef.current.removeEventListener("mousemove", handleMouseMove);
+        playerRef.current.removeEventListener("mouseleave", handleMouseLeave);
+      }
+      clearInterval(inactivityInterval);
+    };
+  }, [isFullscreen, lastMouseMoveTime]);
+
+  useEffect(() => {
+    if (!isFullscreen) {
+      setShowControls(true);
+    }
+  }, [isFullscreen]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
   }, []);
 
@@ -50,7 +111,7 @@ export const VideoPlayer: React.FC<CustomVideoPlayerProps> = ({ videoSrc }) => {
     setIsPlaying(!isPlaying);
   };
 
-  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleProgressChange = (e: any) => {
     if (!videoRef.current) return;
 
     const newTime = (Number(e.target.value) / 100) * videoRef.current.duration;
@@ -64,17 +125,16 @@ export const VideoPlayer: React.FC<CustomVideoPlayerProps> = ({ videoSrc }) => {
     videoRef.current.muted = !isMuted;
     setIsMuted(!isMuted);
 
-    console.log('isMuted', isMuted)
-    !isMuted ? setVolume(0) : setVolume(currentVolume)
+    !isMuted ? setVolume(0) : setVolume(currentVolume);
   };
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVolumeChange = (e: any) => {
     if (!videoRef.current) return;
 
     const newVolume = Number(e.target.value);
     videoRef.current.volume = newVolume;
     setVolume(newVolume);
-    setCurrentVolume(newVolume)
+    setCurrentVolume(newVolume);
     setIsMuted(newVolume === 0);
   };
 
@@ -83,15 +143,12 @@ export const VideoPlayer: React.FC<CustomVideoPlayerProps> = ({ videoSrc }) => {
 
     if (!document.fullscreenElement) {
       playerRef.current.requestFullscreen();
-      setIsFullscreen(true);
     } else {
       document.exitFullscreen();
-      setIsFullscreen(false);
     }
   };
-
   return (
-    <div ref={playerRef} className="flex flex-col justify-center items-center  max-w-[1000px]">
+    <div ref={playerRef} className="flex flex-col justify-center items-center max-w-full relative mb-16">
       <div className="relative w-full">
         <video
           ref={videoRef}
@@ -107,9 +164,17 @@ export const VideoPlayer: React.FC<CustomVideoPlayerProps> = ({ videoSrc }) => {
           </div>
         )}
       </div>
-      <div className=" text-white bg-black p-2 w-full relative bottom-5">
-        <div className={`flex items-center justify-between`}>
-          <button onClick={togglePlay} className="p-1">
+      <div className={`
+          text-white
+         bg-black bg-opacity-50
+          p-2 w-full absolute
+          bottom-0
+          left-0
+          transition-opacity duration-300 ease-in-out
+          ${showControls ? 'opacity-100' : 'opacity-0'}
+        `}>
+        <div className="flex items-center justify-between">
+          <button onClick={togglePlay} className="p-1 bg-transparent border-none cursor-pointer flex items-center justify-center mr-0 text-inherit">
             {isPlaying ? <Pause size={20} /> : <Play size={20} />}
           </button>
           <input
@@ -118,7 +183,7 @@ export const VideoPlayer: React.FC<CustomVideoPlayerProps> = ({ videoSrc }) => {
             max="100"
             value={progress}
             onChange={handleProgressChange}
-            className="w-full mx-2"
+            className={`w-full mx-2 cursor-pointer`}
           />
           <div className="flex items-center">
             <button onClick={toggleMute} className="p-1">

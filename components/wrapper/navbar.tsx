@@ -20,6 +20,7 @@ import { UserProfile } from "../user-profile"
 import { Button } from "../ui/button"
 import { ModeToggle } from "../mode-toggle"
 import config from "@/config"
+
 const components: { title: string; href: string; description: string }[] = [
     {
         title: "Marketing Page",
@@ -44,10 +45,11 @@ const components: { title: string; href: string; description: string }[] = [
 
 export default function NavBar() {
 
-    let userId
+    let userId = null
 
     if (config?.auth?.enabled) {
-        userId = useAuth();
+        const user = useAuth();
+        userId =  user?.userId
     }
 
 
@@ -128,7 +130,7 @@ export default function NavBar() {
                         <p className="pl-1">Dashboard</p>
                     </Button>
                 </Link>
-                {(config?.auth?.enabled && userId) && <UserProfile />}
+                {userId && <UserProfile />}
                 <ModeToggle />
             </div>
         </div>
