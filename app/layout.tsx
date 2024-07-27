@@ -1,13 +1,12 @@
 import Provider from '@/app/provider'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
-import { ClerkProvider } from '@clerk/nextjs'
-import { Analytics } from "@vercel/analytics/react"
-import type { Metadata } from 'next'
-import { GeistSans } from 'geist/font/sans';
-import './globals.css'
 import AuthWrapper from '@/components/wrapper/auth-wrapper'
+import { Analytics } from "@vercel/analytics/react"
+import { GeistSans } from 'geist/font/sans'
+import type { Metadata } from 'next'
 import Head from 'next/head'
+import './globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://starter.rasmic.xyz"),
