@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button'
 import NavBar from '@/components/wrapper/navbar'
 import Link from 'next/link'
-import React from 'react'
 
 export default function Cancel() {
+
   return (
     <main className="flex min-w-screen flex-col items-center justify-between">
       <NavBar />

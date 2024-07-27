@@ -32,51 +32,39 @@ const ProjectsData = [
   },
   {
     id: 5,
-    name: 'Syntax UI',
-    description: 'Beautifully designed components by Syntax UI.',
-    image: 'https://utfs.io/f/7aaf9827-7317-4602-94a3-ce166253a4ec-ub7xrr.svg',
-  },
-  {
-    id: 6,
-    name: 'MagicUI',
-    description: 'Beautifully designed components by Magic UI.',
-    image: 'https://utfs.io/f/bf1ecd38-f53a-4f68-b9bf-7ea3c0e05c7b-dpl05d.png',
-  },
-  {
-    id: 7,
-    name: 'Postgres (Supabase)',
-    description: 'PostgreSQL-based open-source database with Supabase for building scalable applications.',
-    image: 'https://utfs.io/f/c62a5d13-91e4-476f-9d36-786d9995c97f-rqpuxo.png',
-  },
-  {
-    id: 8,
-    name: 'Prisma ORM',
-    description: 'Modern database toolkit for TypeScript and Node.js, simplifying database interactions.',
-    image: 'https://utfs.io/f/c3933696-cd5c-4de7-a24e-1822df8c4215-g7gclc.png',
-  },
-  {
-    id: 9,
     name: 'Clerk Authentication',
     description: 'Seamless and secure authentication service for web applications.',
     image: 'https://utfs.io/f/aee7360d-54f1-4ed1-a4b4-49a56b455bf4-1ker11.png',
   },
   {
-    id: 10,
+    id: 6,
+    name: 'Supabase (PostgreSQL)',
+    description: 'PostgreSQL-based open-source database with Supabase for building scalable applications.',
+    image: 'https://utfs.io/f/c62a5d13-91e4-476f-9d36-786d9995c97f-rqpuxo.png',
+  },
+  {
+    id: 7,
+    name: 'Prisma ORM',
+    description: 'Modern database toolkit for TypeScript and Node.js, simplifying database interactions.',
+    image: 'https://utfs.io/f/c3933696-cd5c-4de7-a24e-1822df8c4215-g7gclc.png',
+  },
+  {
+    id: 8,
     name: 'Stripe Subsctiptions & One time payments',
     description: 'Payment processing solution for handling subscriptions and one-off transactions securely.',
     image: 'https://utfs.io/f/a2fbe9db-35f8-4738-a4c4-0b9a29f4efc7-er2coj.png',
   },
   {
-    id: 11,
-    name: 'Upstash (Redis)',
-    description: 'Redis-based cloud database service for rate-limiting.',
-    image: 'https://utfs.io/f/c01790c1-7c12-4a5e-b50f-a44358124853-3mzznq.png',
-  },
-  {
-    id: 12,
+    id: 9,
     name: 'Tanstack Query',
     description: 'For client side fetching, caching, and revalidation.',
     image: 'https://utfs.io/f/ee162388-f998-4740-bfc4-9d9a7050f485-90gb5l.png',
+  },
+  {
+    id: 10,
+    name: 'Upstash (Redis)',
+    description: 'Redis-based cloud database service for rate-limiting.',
+    image: 'https://utfs.io/f/c01790c1-7c12-4a5e-b50f-a44358124853-3mzznq.png',
   },
 ]
 
@@ -91,7 +79,7 @@ const SpringAnimatedFeatures = () => {
           Your customers deserve a product built with the best technologies
         </p>
       </div>
-      <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {ProjectsData.map((project) => {
           return (
             <motion.div
