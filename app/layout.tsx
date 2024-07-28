@@ -36,12 +36,12 @@ export default function RootLayout({
   return (
     <AuthWrapper>
       <html lang="en" suppressHydrationWarning>
-        <Head>
+        <head>
           <meta property="description" content="Everything you need to quickly build your SaaS giving you time to focus on what really matters" />
-          <meta property="og:image" content="https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png"></meta>
-          <meta property="og:url" content="https://starter.rasmic.xyz/"></meta>
-          <meta property="twitter:image" content="https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png"></meta>
-        </Head>
+          <meta property="og:image" content="https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png" />
+          <meta property="og:url" content="https://starter.rasmic.xyz/" />
+          <meta property="twitter:image" content="https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png" />
+        </head>
         <body className={GeistSans.className}>
           <Provider>
             <ThemeProvider
