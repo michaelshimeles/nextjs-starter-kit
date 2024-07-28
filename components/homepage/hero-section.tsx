@@ -35,7 +35,6 @@ export default function HeroSection() {
                             width={1200}
                             height={550}
                             // placeholder="blur"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             priority={true}
                             className="block rounded-[inherit] border object-contain shadow-lg dark:hidden"
                         />
@@ -46,7 +45,6 @@ export default function HeroSection() {
                             alt="Hero Image"
                             // placeholder="blur"
                             priority={true}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             className="dark:block rounded-[inherit] border object-contain shadow-lg hidden"
                         />
                         <BorderBeam size={250} duration={12} delay={9} />
