@@ -57,7 +57,7 @@ export default function NavBar() {
             <div className="flex justify-between w-full min-[825px]:hidden">
                 <Dialog>
                     <SheetTrigger className="p-2 transition">
-                        <Button size="icon" asChild>
+                        <Button size="icon" variant="ghost" className="w-4 h-4" asChild>
                             <GiHamburgerMenu />
                         </Button>
                     </SheetTrigger>
