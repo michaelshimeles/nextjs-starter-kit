@@ -34,7 +34,7 @@ type PricingCardProps = {
 const PricingHeader = ({ title, subtitle }: { title: string; subtitle: string }) => (
   <section className="text-center">
     <h2 className="text-3xl lg:text-5xl font-bold">{title}</h2>
-    <p className="text-lg text-gray-400 pt-1">{subtitle}</p>
+    <p className="text-lg text-gray-600 dark:text-gray-400 pt-1">{subtitle}</p>
     <br />
   </section>
 )
@@ -86,7 +86,13 @@ const PricingCard = ({ user, handleCheckout, isYearly, title, priceIdMonthly, pr
       </CardContent>
     </div>
     <CardFooter className="mt-2">
-      <Button onClick={() => handleCheckout(isYearly ? priceIdYearly : priceIdMonthly, true)} className="relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium  dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+      <Button
+        onClick={() => handleCheckout(isYearly ? priceIdYearly : priceIdMonthly, true)}
+        className="relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+        type="button"
+        aria-label={`${actionLabel} - ${isYearly ? 'Yearly' : 'Monthly'} plan`}
+        aria-pressed={isYearly}
+      >
         <div className="absolute -inset-0.5 -z-10 rounded-lg bg-gradient-to-b from-[#c7d2fe] to-[#8678f9] opacity-75 blur" />
         {actionLabel}
       </Button>

@@ -85,7 +85,7 @@ const SpringAnimatedFeatures = () => {
         <h1 className="scroll-m-20 text-3xl sm:text-xl md:text-3xl font-semibold tracking-tight lg:text-4xl text-center max-w-[700px]">
           Built with the best
         </h1>
-        <p className="mx-auto max-w-[500px]  md:text-lg text-center mt-2 ">
+        <p className="mx-auto max-w-[500px] text-gray-600 dark:text-gray-400  md:text-lg text-center mt-2 ">
           Your customers deserve a product built with the best technologies
         </p>
       </div>
