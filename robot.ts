@@ -1,6 +1,6 @@
 import { getAllBlogs } from "./utils/functions/blog/get-all-blogs";
 
-export default async function sitemap() {
+export default async function robots() {
   const baserl = "https://starter.rasmic.xyz";
 
   const { response: blogResponse } = await getAllBlogs(
