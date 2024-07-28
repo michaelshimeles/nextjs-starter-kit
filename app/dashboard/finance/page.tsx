@@ -19,9 +19,6 @@ export default function Category() {
     }
   })
 
-
-
-
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
 

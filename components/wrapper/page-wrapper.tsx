@@ -1,6 +1,5 @@
-import React from 'react'
-import NavBar from './navbar'
 import Footer from './footer'
+import NavBar from './navbar'
 
 export default function PageWrapper({ children }: { children: React.ReactNode }) {
   return (

@@ -7,19 +7,18 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger
 } from "@/components/ui/navigation-menu"
+import config from "@/config"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@clerk/nextjs"
 import { Dialog, DialogClose } from "@radix-ui/react-dialog"
-import { DashboardIcon } from "@radix-ui/react-icons"
 import { BlocksIcon } from "lucide-react"
 import Link from 'next/link'
 import * as React from "react"
 import { GiHamburgerMenu } from "react-icons/gi"
+import { ModeToggle } from "../mode-toggle"
+import { Button } from "../ui/button"
 import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet"
 import { UserProfile } from "../user-profile"
-import { Button } from "../ui/button"
-import { ModeToggle } from "../mode-toggle"
-import config from "@/config"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -58,7 +57,7 @@ export default function NavBar() {
             <div className="flex justify-between w-full min-[825px]:hidden">
                 <Dialog>
                     <SheetTrigger className="p-2 transition">
-                        <Button size="icon">
+                        <Button size="icon" asChild>
                             <GiHamburgerMenu />
                         </Button>
                     </SheetTrigger>
