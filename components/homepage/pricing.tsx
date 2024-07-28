@@ -4,7 +4,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { useUser } from "@clerk/nextjs"
 import axios from "axios"
@@ -101,12 +101,15 @@ const CheckItem = ({ text }: { text: string }) => (
   </div>
 )
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
-
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState<boolean>(false)
   const togglePricingPeriod = (value: string) => setIsYearly(parseInt(value) === 1)
   const { user } = useUser();
+  const [stripePromise, setStripePromise] = useState<Promise<any> | null>(null)
+
+  useEffect(() => {
+    setStripePromise(loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!))
+  }, [])
 
   const handleCheckout = async (priceId: string, subscription: boolean) => {
 
@@ -141,8 +144,8 @@ export default function Pricing() {
       yearlyPrice: 100,
       description: "Essential features you need to get started",
       features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3"],
-      priceIdMonthly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
-      priceIdYearly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
+      priceIdMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
+      priceIdYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
       actionLabel: "Get Started",
     },
     {
@@ -152,8 +155,8 @@ export default function Pricing() {
       description: "Perfect for owners of small & medium businessess",
       features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3"],
       actionLabel: "Get Started",
-      priceIdMonthly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
-      priceIdYearly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
+      priceIdMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
+      priceIdYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
       popular: true,
     },
     {
@@ -162,8 +165,8 @@ export default function Pricing() {
       description: "Dedicated support and infrastructure to fit your needs",
       features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3", "Super Exclusive Feature"],
       actionLabel: "Contact Sales",
-      priceIdMonthly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
-      priceIdYearly: "price_1OHwQqKCuFqcLnh8QmcSRSQ9",
+      priceIdMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
+      priceIdYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
       exclusive: true,
     },
   ]
