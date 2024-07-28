@@ -1,6 +1,6 @@
 "use client"
 
-import { ModeToggle } from '@/components/mode-toggle'
+import ModeToggle from '@/components/mode-toggle'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogClose } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
