@@ -59,9 +59,9 @@ export default async function Dashboard() {
               <main className="flex flex-col gap-2 lg:gap-2 h-[300px] w-full">
                 <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
                   <div className="flex flex-col items-center text-center">
-                    <h3 className="text-xl font-bold tracking-tight">
+                    <h1 className="text-xl font-bold tracking-tight">
                       You have no projects
-                    </h3>
+                    </h1>
                     <p className="text-sm text-muted-foreground mb-3">
                       Projects will show when you start using RankBoost AI
                     </p>

@@ -33,7 +33,7 @@ type PricingCardProps = {
 
 const PricingHeader = ({ title, subtitle }: { title: string; subtitle: string }) => (
   <section className="text-center">
-    <h2 className="text-3xl lg:text-5xl font-bold">{title}</h2>
+    <h1 className="text-3xl lg:text-5xl font-bold">{title}</h1>
     <p className="text-lg text-gray-600 dark:text-gray-400 pt-1">{subtitle}</p>
     <br />
   </section>
@@ -74,7 +74,7 @@ const PricingCard = ({ user, handleCheckout, isYearly, title, priceIdMonthly, pr
           <CardTitle className="text-zinc-700 dark:text-zinc-300 text-lg">{title}</CardTitle>
         )}
         <div className="flex gap-0.5">
-          <h3 className="text-3xl font-bold">{yearlyPrice && isYearly ? "$" + yearlyPrice : monthlyPrice ? "$" + monthlyPrice : "Custom"}</h3>
+          <h2 className="text-3xl font-bold">{yearlyPrice && isYearly ? "$" + yearlyPrice : monthlyPrice ? "$" + monthlyPrice : "Custom"}</h2>
           <span className="flex flex-col justify-end text-sm mb-1">{yearlyPrice && isYearly ? "/year" : monthlyPrice ? "/month" : null}</span>
         </div>
         <CardDescription className="pt-1.5 h-12">{description}</CardDescription>
