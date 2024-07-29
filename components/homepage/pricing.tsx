@@ -43,10 +43,14 @@ const PricingSwitch = ({ onSwitch }: PricingSwitchProps) => (
   <Tabs defaultValue="0" className="w-40 mx-auto" onValueChange={onSwitch}>
     <TabsList className="py-6 px-2">
       <TabsTrigger value="0" className="text-base">
-        Monthly
+        <p className="text-black dark:text-white">
+          Monthly
+        </p>
       </TabsTrigger>
       <TabsTrigger value="1" className="text-base">
-        Yearly
+        <p className="text-black dark:text-white">
+          Yearly
+        </p>
       </TabsTrigger>
     </TabsList>
   </Tabs>
