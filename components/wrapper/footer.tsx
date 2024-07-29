@@ -26,7 +26,7 @@ export default function Footer() {
                         <div className="mt-8 space-y-4 lg:mt-0">
 
                             <div>
-                                <h2 className="text-2xl font-medium">This is a fake newsletter title</h2>
+                                <h3 className="text-2xl font-medium">This is a fake newsletter title</h3>
                                 <p className="mt-4 max-w-lg  ">
                                     This is not a real newsletter email input. This is for you to build upon
                                 </p>
