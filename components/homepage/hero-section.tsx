@@ -1,4 +1,3 @@
-"use client"
 import { ArrowRight, Github } from 'lucide-react';
 import Link from "next/link";
 import { BorderBeam } from "../magicui/border-beam";
