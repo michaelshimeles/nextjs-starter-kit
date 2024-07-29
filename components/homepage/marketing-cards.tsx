@@ -114,7 +114,7 @@ const SpringAnimatedFeatures = () => {
                 <div className="mb-1 text-sm font-medium ">
                   {project.name}
                 </div>
-                <div className="max-w-[250px] text-sm font-normal text-gray-400">
+                <div className="max-w-[250px] text-sm font-normal text-gray-600 dark:text-gray-400">
                   {project.description}
                 </div>
               </Link>
