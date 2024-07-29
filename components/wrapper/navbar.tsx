@@ -1,63 +1,49 @@
 "use client"
-import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger
-} from "@/components/ui/navigation-menu"
-import config from "@/config"
-import { cn } from "@/lib/utils"
-import { useAuth } from "@clerk/nextjs"
-import { Dialog, DialogClose } from "@radix-ui/react-dialog"
-import { BlocksIcon } from "lucide-react"
-import Link from 'next/link'
-import * as React from "react"
-import { GiHamburgerMenu } from "react-icons/gi"
-import { Button } from "../ui/button"
-import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet"
-import { UserProfile } from "../user-profile"
-import ModeToggle from "../mode-toggle"
+import Link from 'next/link';
+import * as React from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { Button } from "../ui/button";
+import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { UserProfile } from "../user-profile";
+import ModeToggle from "../mode-toggle";
+import { BlocksIcon } from "lucide-react";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
+import config from "@/config";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@clerk/nextjs";
+import { Dialog, DialogClose } from "@radix-ui/react-dialog";
 
 const components: { title: string; href: string; description: string }[] = [
     {
         title: "Marketing Page",
         href: "/marketing-page",
-        description:
-            "Write some wavy here to get them to click.",
+        description: "Write some wavy here to get them to click.",
     },
     {
         title: "Marketing Page",
         href: "/marketing-page",
-        description:
-            "Write some wavy here to get them to click.",
+        description: "Write some wavy here to get them to click.",
     },
     {
         title: "Marketing Page",
         href: "/marketing-page",
-        description:
-            "Write some wavy here to get them to click.",
+        description: "Write some wavy here to get them to click.",
     },
-
-]
+];
 
 export default function NavBar() {
-
-    let userId = null
-
+    let userId = null;
     if (config?.auth?.enabled) {
         const user = useAuth();
-        userId = user?.userId
+        userId = user?.userId;
     }
-
 
     return (
         <div className="flex min-w-full fixed justify-between p-2 border-b z-10 dark:bg-black dark:bg-opacity-50 bg-white">
             <div className="flex justify-between w-full min-[825px]:hidden">
                 <Dialog>
                     <SheetTrigger className="p-2 transition">
-                        <Button size="icon" variant="ghost" className="w-4 h-4" asChild>
+                        <Button size="icon" variant="ghost" className="w-4 h-4" aria-label="Open menu">
                             <GiHamburgerMenu />
                         </Button>
                     </SheetTrigger>
@@ -92,7 +78,7 @@ export default function NavBar() {
             </div>
             <NavigationMenu>
                 <NavigationMenuList className="max-[825px]:hidden flex gap-3 w-[100%] justify-between">
-                    <Link href="/" className="pl-2">
+                    <Link href="/" className="pl-2" aria-label="Home">
                         <BlocksIcon />
                     </Link>
                 </NavigationMenuList>
@@ -102,7 +88,7 @@ export default function NavBar() {
                             Features
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
-                            <ul className="flex flex-col w-[400px] gap-3 p-4  lg:w-[500px]">
+                            <ul className="flex flex-col w-[400px] gap-3 p-4 lg:w-[500px]">
                                 {components.map((component) => (
                                     <ListItem
                                         key={component.title}
@@ -122,14 +108,13 @@ export default function NavBar() {
                             </Button>
                         </Link>
                     </NavigationMenuItem>}
-                    {<NavigationMenuItem className="max-[825px]:hidden">
+                    <NavigationMenuItem className="max-[825px]:hidden">
                         <Link href="/dashboard" legacyBehavior passHref>
                             <Button variant="ghost">
                                 Dashboard
                             </Button>
                         </Link>
-                    </NavigationMenuItem>}
-
+                    </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
             <div className="flex items-center gap-2 max-[825px]:hidden">
@@ -137,8 +122,7 @@ export default function NavBar() {
                 <ModeToggle />
             </div>
         </div>
-
-    )
+    );
 }
 
 const ListItem = React.forwardRef<
@@ -163,6 +147,6 @@ const ListItem = React.forwardRef<
                 </a>
             </NavigationMenuLink>
         </li>
-    )
-})
-ListItem.displayName = "ListItem"
+    );
+});
+ListItem.displayName = "ListItem";
