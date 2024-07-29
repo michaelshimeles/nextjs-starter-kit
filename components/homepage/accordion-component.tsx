@@ -13,9 +13,9 @@ export function AccordionComponent() {
             </h1>
             <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1">
-                    <AccordionTrigger>Do I get access to this landing page in the starter kit?</AccordionTrigger>
+                    <AccordionTrigger><h2>Do I get access to this landing page in the starter kit?</h2></AccordionTrigger>
                     <AccordionContent>
-                        Yes, this page isn&apos;t even a real landingpage more so a template for you to build on
+                        <p>Yes, this page isn&apos;t even a real landingpage more so a template for you to build on</p>
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>
