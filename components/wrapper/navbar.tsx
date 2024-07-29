@@ -78,8 +78,9 @@ export default function NavBar() {
             </div>
             <NavigationMenu>
                 <NavigationMenuList className="max-[825px]:hidden flex gap-3 w-[100%] justify-between">
-                    <Link href="/" className="pl-2" aria-label="Home">
-                        <BlocksIcon />
+                    <Link href="/" className="pl-2 flex items-center" aria-label="Home">
+                        <BlocksIcon aria-hidden="true" />
+                        <span className="sr-only">Home</span>
                     </Link>
                 </NavigationMenuList>
                 <NavigationMenuList>
