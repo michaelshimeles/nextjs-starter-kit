@@ -10,7 +10,7 @@ export default function ProjectsPage() {
             You have no projects
           </h1>
           <p className="text-sm text-muted-foreground mb-3">
-            Projects will show when you start using RankBoost AI
+            Projects will show when you start using Nextjs Starter Kit
           </p>
           <Button>Create Project</Button>
         </div>
