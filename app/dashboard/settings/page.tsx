@@ -1,10 +1,15 @@
 "use client"
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import config from '@/config';
 import { useUser } from '@clerk/nextjs'
 
 export default function Settings() {
-  const user = useUser()
+  let user = null;
+
+  if (config?.auth?.enabled) {
+      user = useUser();
+  }
 
   return (
     <div className='flex justify-start items-center flex-wrap px-4 pt-5 gap-4'>
