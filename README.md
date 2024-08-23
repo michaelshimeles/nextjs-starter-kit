@@ -22,6 +22,7 @@ Everything you need to quickly build your SaaS, AI product, or any other web app
 - Landing page template
 - Dashboard layout & template
 - Marketing page template
+- Custom Video Player
 
 ## Technologies Used
 
