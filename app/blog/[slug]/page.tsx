@@ -1,13 +1,14 @@
-import { buttonVariants } from '@/components/ui/button';
-import PageWrapper from '@/components/wrapper/page-wrapper';
-import config from '@/config';
-import { cn } from '@/lib/utils';
-import { getBlogSlug } from '@/utils/functions/blog/get-blog-slug';
-import { ChevronLeft } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import ReactHtmlParser from 'react-html-parser';
+import React from 'react'
+import parse, { domToReact, attributesToProps, Element, HTMLReactParserOptions } from 'html-react-parser'
+import { buttonVariants } from '@/components/ui/button'
+import PageWrapper from '@/components/wrapper/page-wrapper'
+import config from '@/config'
+import { cn } from '@/lib/utils'
+import { getBlogSlug } from '@/utils/functions/blog/get-blog-slug'
+import { ChevronLeft } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   try {
@@ -90,8 +91,53 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function Blog({ params }: { params: { slug: string } }) {
+const options: HTMLReactParserOptions = {
+  replace: (domNode: any) => {
+    const typedDomNode = domNode as Element
+    if (typedDomNode.attribs && typedDomNode.name === 'p') {
+      return (
+        <p {...attributesToProps(typedDomNode.attribs)} className="leading-7 mt-6">
+          {typedDomNode.children && domToReact(typedDomNode.children, options)}
+        </p>
+      )
+    }
+    if (typedDomNode.attribs && typedDomNode.name === 'a') {
+      return (
+        <a {...attributesToProps(typedDomNode.attribs)} className="font-medium text-primary underline underline-offset-4" target="_blank">
+          {typedDomNode.children && domToReact(typedDomNode.children, options)}
+        </a>
+      )
+    }
+    if (typedDomNode.attribs && typedDomNode.name === 'h1') {
+      return (
+        <h1 {...attributesToProps(typedDomNode.attribs)} className="scroll-m-20 text-2xl font-extrabold pt-4 tracking-tight lg:text-3xl">
+          {typedDomNode.children && domToReact(typedDomNode.children, options)}
+        </h1>
+      )
+    }
+    if (typedDomNode.attribs && typedDomNode.name === 'h2') {
+      return (
+        <h2 {...attributesToProps(typedDomNode.attribs)} className="mt-10 scroll-m-20 border-b pb-2 text-xl font-semibold tracking-tight transition-colors first:mt-0">
+          {typedDomNode.children && domToReact(typedDomNode.children, options)}
+        </h2>
+      )
+    }
+    if (typedDomNode.attribs && typedDomNode.name === 'h3') {
+      return (
+        <h3 {...attributesToProps(typedDomNode.attribs)} className="mt-8 scroll-m-20 text-lg font-semibold tracking-tight">
+          {typedDomNode.children && domToReact(typedDomNode.children, options)}
+        </h3>
+      )
+    }
+    return false
+  },
+}
 
+export const HTMLToReact = ({ html }: { html: string }) => {
+  return <>{parse(html, options)}</>
+}
+
+export default async function Blog({ params }: { params: { slug: string } }) {
   if (!config?.features?.blog) {
     redirect("/")
   }
@@ -112,9 +158,7 @@ export default async function Blog({ params }: { params: { slug: string } }) {
           See all posts
         </Link>
         <div>
-          <p
-            className="block text-sm text-muted-foreground"
-          >
+          <p className="block text-sm text-muted-foreground">
             Published on {new Date(response?.[0]?.created_at).toLocaleDateString()}
           </p>
           <h1 className="scroll-m-20 text-3xl font-bold pt-4 tracking-tight lg:text-3xl">
@@ -146,9 +190,7 @@ export default async function Blog({ params }: { params: { slug: string } }) {
           className="my-8 rounded-md border bg-muted transition-colors"
           priority
         />
-        {ReactHtmlParser(response?.[0]?.blog_html, {
-          transform: transformNode
-        })}
+        <HTMLToReact html={response?.[0]?.blog_html || ''} />
         <hr className="mt-12" />
         <div className="flex justify-center py-6 lg:py-10">
           <Link href="/blog" className={cn(buttonVariants({ variant: "ghost" }))}>
@@ -157,41 +199,6 @@ export default async function Blog({ params }: { params: { slug: string } }) {
           </Link>
         </div>
       </article>
-      <></>
     </PageWrapper>
   )
 }
-
-const transformNode = (node: any) => {
-  // Applying classes to paragraph tags
-  if (node.type === "tag" && node.name === "p") {
-    let className = "leading-7 mt-6";
-    if (node.attribs.class) {
-      className = `${node.attribs.class} ${className}`;
-    }
-    node.attribs.class = className;
-  }
-
-  // Example for adding classes to anchor tags
-  if (node.type === "tag" && node.name === "a") {
-    node.attribs.class =
-      "font-medium text-primary underline underline-offset-4";
-  }
-
-  // Add more conditions for other tags as needed
-  // Example for adding classes to anchor tags
-  if (node.type === "tag" && node.name === "h1") {
-    node.attribs.class =
-      "scroll-m-20 text-2xl font-extrabold pt-4 tracking-tight lg:text-3xl";
-  }
-
-  if (node.type === "tag" && node.name === "h2") {
-    node.attribs.class =
-      "mt-10 scroll-m-20 border-b pb-2 text-xl font-semibold tracking-tight transition-colors first:mt-0";
-  }
-
-  if (node.type === "tag" && node.name === "h3") {
-    node.attribs.class =
-      "mt-8 scroll-m-20 text-lg font-semibold tracking-tight";
-  }
-};

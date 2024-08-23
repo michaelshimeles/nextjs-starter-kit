@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { Maximize, Minimize, Pause, Play, Volume2, VolumeX } from 'lucide-react';
 
 interface CustomVideoPlayerProps {
@@ -18,7 +18,7 @@ export const VideoPlayer: React.FC<CustomVideoPlayerProps> = ({ videoSrc }) => {
   const playerRef = useRef<HTMLDivElement>(null);
   const [lastMouseMoveTime, setLastMouseMoveTime] = useState(Date.now());
 
-  let autoplay = false
+  const autoplay = useMemo(() => false, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -30,9 +30,7 @@ export const VideoPlayer: React.FC<CustomVideoPlayerProps> = ({ videoSrc }) => {
       }
     };
 
-    const handleVideoEnd = () => {
-      setIsPlaying(false);
-    };
+    const handleVideoEnd = () => setIsPlaying(false);
 
     video.addEventListener("timeupdate", updateProgress);
     video.addEventListener("ended", handleVideoEnd);
@@ -100,53 +98,44 @@ export const VideoPlayer: React.FC<CustomVideoPlayerProps> = ({ videoSrc }) => {
     };
   }, []);
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (!videoRef.current) return;
-
-    if (isPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play();
-    }
+    videoRef.current[isPlaying ? 'pause' : 'play']();
     setIsPlaying(!isPlaying);
-  };
+  }, [isPlaying]);
 
-  const handleProgressChange = (e: any) => {
+  const handleProgressChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (!videoRef.current) return;
-
     const newTime = (Number(e.target.value) / 100) * videoRef.current.duration;
     videoRef.current.currentTime = newTime;
     setProgress(Number(e.target.value));
-  };
+  }, []);
 
-  const toggleMute = () => {
+  const toggleMute = useCallback(() => {
     if (!videoRef.current) return;
-
     videoRef.current.muted = !isMuted;
     setIsMuted(!isMuted);
+    setVolume(isMuted ? currentVolume : 0);
+  }, [isMuted, currentVolume]);
 
-    !isMuted ? setVolume(0) : setVolume(currentVolume);
-  };
-
-  const handleVolumeChange = (e: any) => {
+  const handleVolumeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (!videoRef.current) return;
-
     const newVolume = Number(e.target.value);
     videoRef.current.volume = newVolume;
     setVolume(newVolume);
     setCurrentVolume(newVolume);
     setIsMuted(newVolume === 0);
-  };
+  }, []);
 
-  const toggleFullscreen = () => {
+  const toggleFullscreen = useCallback(() => {
     if (!playerRef.current) return;
-
     if (!document.fullscreenElement) {
       playerRef.current.requestFullscreen();
     } else {
       document.exitFullscreen();
     }
-  };
+  }, []);
+
   return (
     <div ref={playerRef} className="flex flex-col justify-center items-center max-w-full relative mb-16">
       <div className="relative w-full">

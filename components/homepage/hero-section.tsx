@@ -39,25 +39,24 @@ export default function HeroSection() {
                     aria-label="View NextJS 14 Starter Template on GitHub"
                 >
                     <Github className='w-5 h-5' aria-hidden="true" />
-                </Link>            </div>
+                </Link>
+            </div>
             <div>
                 <div className="relative flex max-w-6xl justify-center overflow-hidden mt-7">
                     <div className="relative rounded-xl">
                         <Image
                             src="https://utfs.io/f/31dba2ff-6c3b-4927-99cd-b928eaa54d5f-5w20ij.png"
                             alt="Hero Image"
-                            width={1200}
+                            width={1100}
                             height={550}
-                            // placeholder="blur"
                             priority={true}
                             className="block rounded-[inherit] border object-contain shadow-lg dark:hidden"
                         />
                         <Image
                             src="https://utfs.io/f/69a12ab1-4d57-4913-90f9-38c6aca6c373-1txg2.png"
-                            width={1200}
+                            width={1100}
                             height={550}
                             alt="Hero Image"
-                            // placeholder="blur"
                             priority={true}
                             className="dark:block rounded-[inherit] border object-contain shadow-lg hidden"
                         />
