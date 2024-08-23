@@ -72,7 +72,7 @@ Everything you need to quickly build your SaaS, AI product, or any other web app
     ```
 2. Install the required dependencies:
     ```
-    npm install
+    yarn add
     ```
     or
     ```
@@ -104,11 +104,11 @@ You need to setup webhooks for both Clerk Auth & Stripe.
 
 To start the server, execute:
 ```
-npm run dev
+yarn dev
 ```
 or
 ```
-yarn dev
+bun run dev
 ```
 
 
