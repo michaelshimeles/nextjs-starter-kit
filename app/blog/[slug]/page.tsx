@@ -97,35 +97,35 @@ const options: HTMLReactParserOptions = {
     if (typedDomNode.attribs && typedDomNode.name === 'p') {
       return (
         <p {...attributesToProps(typedDomNode.attribs)} className="leading-7 mt-6">
-          {typedDomNode.children && domToReact(typedDomNode.children, options)}
+          {typedDomNode.children && domToReact(typedDomNode?.children as any, options)}
         </p>
       )
     }
     if (typedDomNode.attribs && typedDomNode.name === 'a') {
       return (
         <a {...attributesToProps(typedDomNode.attribs)} className="font-medium text-primary underline underline-offset-4" target="_blank">
-          {typedDomNode.children && domToReact(typedDomNode.children, options)}
+          {typedDomNode.children && domToReact(typedDomNode?.children as any, options)}
         </a>
       )
     }
     if (typedDomNode.attribs && typedDomNode.name === 'h1') {
       return (
         <h1 {...attributesToProps(typedDomNode.attribs)} className="scroll-m-20 text-2xl font-extrabold pt-4 tracking-tight lg:text-3xl">
-          {typedDomNode.children && domToReact(typedDomNode.children, options)}
+          {typedDomNode.children && domToReact(typedDomNode?.children as any, options)}
         </h1>
       )
     }
     if (typedDomNode.attribs && typedDomNode.name === 'h2') {
       return (
         <h2 {...attributesToProps(typedDomNode.attribs)} className="mt-10 scroll-m-20 border-b pb-2 text-xl font-semibold tracking-tight transition-colors first:mt-0">
-          {typedDomNode.children && domToReact(typedDomNode.children, options)}
+          {typedDomNode.children && domToReact(typedDomNode?.children as any, options)}
         </h2>
       )
     }
     if (typedDomNode.attribs && typedDomNode.name === 'h3') {
       return (
         <h3 {...attributesToProps(typedDomNode.attribs)} className="mt-8 scroll-m-20 text-lg font-semibold tracking-tight">
-          {typedDomNode.children && domToReact(typedDomNode.children, options)}
+          {typedDomNode.children && domToReact(typedDomNode?.children as any, options)}
         </h3>
       )
     }
@@ -133,7 +133,7 @@ const options: HTMLReactParserOptions = {
   },
 }
 
-export const HTMLToReact = ({ html }: { html: string }) => {
+const HTMLToReact = ({ html }: { html: string }) => {
   return <>{parse(html, options)}</>
 }
 
