@@ -23,9 +23,7 @@
 3. Set up environment variables:
    Create a `.env` file in the root directory with the following variables:
    ```
-   DATABASE_URL=<your-supabase-database-url>
-   DIRECT_URL=<your-supabase-direct-url>
-   NEXT_PUBLIC_SUPABASE_URL=<your-supabase-project-url>
+   SUPABASE_URL=<your-supabase-project-url>
    SUPABASE_SERVICE_KEY=<your-supabase-service-key>
 
    # If using Stripe
@@ -75,6 +73,11 @@
 - Webhooks: Set up webhooks for Clerk (if using auth) at `/api/auth/webhook` and for Stripe (if using payments) at `/api/payments/webhook`.
 - Customize the landing page, dashboard, and other components as needed.
 - Modify the Prisma schema in `prisma/schema.prisma` if you need to change the database structure.
+
+## Important Security Notes
+
+- Enable Row Level Security (RLS) in your Supabase project to ensure data protection at the database level.
+- Always make Supabase calls on the server-side (in API routes or server components) to keep your service key secure.
 
 ## Learn More
 
