@@ -12,7 +12,7 @@ export default async function Dashboard() {
       <Card className='w-[20rem]'>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
-            Welcome
+            Welcome to Nextjs Starter Kit
           </CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"

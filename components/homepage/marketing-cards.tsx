@@ -82,11 +82,11 @@ const SpringAnimatedFeatures = () => {
   return (
     <div className="flex flex-col justify-center items-center lg:w-[75%]">
       <div className='flex flex-col mb-[3rem]'>
-        <h1 className="scroll-m-20 text-3xl sm:text-xl md:text-3xl font-semibold tracking-tight lg:text-4xl text-center max-w-[700px]">
-          Built with the best
-        </h1>
-        <p className="mx-auto max-w-[500px] text-gray-600 dark:text-gray-400  md:text-lg text-center mt-2 ">
-          Your customers deserve a product built with the best technologies
+        <h2 className="scroll-m-20 text-3xl sm:text-xl md:text-3xl font-semibold tracking-tight lg:text-4xl text-center max-w-[700px]">
+          Nextjs Starter Kit: Built with the best
+        </h2>
+        <p className="mx-auto max-w-[500px] text-gray-600 dark:text-gray-400 md:text-lg text-center mt-2 ">
+          Your customers deserve a product built with the best technologies in our Nextjs Starter Kit
         </p>
       </div>
       <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

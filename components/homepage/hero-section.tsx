@@ -3,16 +3,15 @@ import Link from "next/link";
 import { BorderBeam } from "../magicui/border-beam";
 import { Button } from "../ui/button";
 import Image from 'next/image';
+
 export default function HeroSection() {
-
     return (
-        <div className='flex flex-col items-center justify-center leading-6 mt-[3rem]'>
-
-            <h1 className="scroll-m-20 text-4xl sm:text-4xl md:text-6xl font-semibold tracking-tight lg:text-7xl text-center max-w-[1120px] bg-gradient-to-b dark:text-white">
-                build & ship fast
+        <section className='flex flex-col items-center justify-center leading-6 mt-[3rem]' aria-label="Nextjs Starter Kit Hero">
+            <h1 className="scroll-m-20 text-xl sm:text-xl md:text-2xl font-semibold tracking-tight lg:text-4xl text-center max-w-[1120px] bg-gradient-to-b dark:text-white">
+                Nextjs Starter Kit: Build & Ship Fast
             </h1>
-            <p className="mx-auto max-w-[700px] text-gray-500 text-xl text-center mt-2 dark:text-gray-400">
-                Everything you need to quickly build your SaaS giving you time to focus on what really matters
+            <p className="mx-auto max-w-[700px] text-gray-500 text-lg text-center mt-2 dark:text-gray-400">
+                The Ultimate Nextjs 14 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters
             </p>
             <div className="flex justify-center items-center gap-3">
                 <Link href="/dashboard" className="mt-5">
@@ -46,7 +45,7 @@ export default function HeroSection() {
                     <div className="relative rounded-xl">
                         <Image
                             src="https://utfs.io/f/31dba2ff-6c3b-4927-99cd-b928eaa54d5f-5w20ij.png"
-                            alt="Hero Image"
+                            alt="Nextjs Starter Kit Dashboard Preview"
                             width={1100}
                             height={550}
                             priority={true}
@@ -56,7 +55,7 @@ export default function HeroSection() {
                             src="https://utfs.io/f/69a12ab1-4d57-4913-90f9-38c6aca6c373-1txg2.png"
                             width={1100}
                             height={550}
-                            alt="Hero Image"
+                            alt="Nextjs Starter Kit Dark Mode Dashboard Preview"
                             priority={true}
                             className="dark:block rounded-[inherit] border object-contain shadow-lg hidden"
                         />
@@ -64,7 +63,6 @@ export default function HeroSection() {
                     </div>
                 </div>
             </div>
-
-        </div>
+        </section>
     )
 }
