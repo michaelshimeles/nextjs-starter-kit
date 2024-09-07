@@ -48,10 +48,7 @@
      },
      payments: {
        enabled: true, // Set to false if not using Stripe
-     },
-     features: {
-       blog: true, // Set to false if not using the blog feature
-     },
+     }
    };
    ```
 
