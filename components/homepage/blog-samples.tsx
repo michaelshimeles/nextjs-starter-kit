@@ -1,3 +1,4 @@
+import { TITLE_TAILWIND_CLASS } from '@/utils/constants'
 import Image from 'next/image'
 import Link from "next/link"
 export default function BlogSample() {
@@ -28,7 +29,7 @@ export default function BlogSample() {
       <div className='flex flex-col items-center p-3 w-full'>
         <div className='flex flex-col justify-start items-center gap-2 w-full'>
           <div className='flex gap-3 justify-start items-center w-full'>
-            <h1 className="scroll-m-20 text-3xl md:text-4xl tracking-tight font-semibold text-center">
+            <h1 className={`${TITLE_TAILWIND_CLASS} mt-2 font-semibold tracking-tight dark:text-white text-gray-900`}>
               Some Sample Blog Cards
             </h1>
           </div>

@@ -1,6 +1,6 @@
 const config = {
   auth: {
-    enabled: false,
+    enabled: true,
   },
   payments: {
     enabled: true,
