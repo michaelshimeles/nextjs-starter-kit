@@ -93,45 +93,72 @@ export async function generateStaticParams() {
 
 const options: HTMLReactParserOptions = {
   replace: (domNode: any) => {
-    const typedDomNode = domNode as Element
-    if (typedDomNode.attribs && typedDomNode.name === 'p') {
-      return (
-        <p {...attributesToProps(typedDomNode.attribs)} className="leading-7 mt-6">
-          {typedDomNode.children && domToReact(typedDomNode?.children as any, options)}
-        </p>
-      )
+    const typedDomNode = domNode as Element;
+    if (typedDomNode.attribs) {
+      switch (typedDomNode.name) {
+        case 'p':
+          let pClassName = "leading-7 text-sm";
+          if (!typedDomNode.parent || (typedDomNode.parent as Element).name !== "li") {
+            pClassName += " mt-6";
+          }
+          return (
+            <p {...attributesToProps(typedDomNode.attribs)} className={pClassName}>
+              {typedDomNode.children && domToReact(typedDomNode.children as any, options)}
+            </p>
+          );
+        case 'a':
+          return (
+            <a {...attributesToProps(typedDomNode.attribs)} className="font-medium text-primary underline underline-offset-4" target="_blank">
+              {typedDomNode.children && domToReact(typedDomNode.children as any, options)}
+            </a>
+          );
+        case 'h1':
+          return (
+            <h1 {...attributesToProps(typedDomNode.attribs)} className="scroll-m-20 text-xl font-medium pt-4 tracking-tight">
+              {typedDomNode.children && domToReact(typedDomNode.children as any, options)}
+            </h1>
+          );
+        case 'h2':
+          return (
+            <h2 {...attributesToProps(typedDomNode.attribs)} className="mt-10 scroll-m-20 border-b pb-2 text-lg font-medium tracking-tight transition-colors first:mt-0">
+              {typedDomNode.children && domToReact(typedDomNode.children as any, options)}
+            </h2>
+          );
+        case 'h3':
+          return (
+            <h3 {...attributesToProps(typedDomNode.attribs)} className="mt-8 scroll-m-20 text-md font-medium tracking-tight">
+              {typedDomNode.children && domToReact(typedDomNode.children as any, options)}
+            </h3>
+          );
+        case 'ul':
+          return (
+            <ul {...attributesToProps(typedDomNode.attribs)} className="my-4 ml-6 list-disc [&>li]:mt-2">
+              {typedDomNode.children && domToReact(typedDomNode.children as any, options)}
+            </ul>
+          );
+        case 'li':
+          return (
+            <li {...attributesToProps(typedDomNode.attribs)} className="mt-2">
+              {typedDomNode.children && domToReact(typedDomNode.children as any, options)}
+            </li>
+          );
+        case 'blockquote':
+          return (
+            <blockquote {...attributesToProps(typedDomNode.attribs)} className="mt-6 border-l-2 pl-6 italic">
+              {typedDomNode.children && domToReact(typedDomNode.children as any, options)}
+            </blockquote>
+          );
+        case 'code':
+          return (
+            <code {...attributesToProps(typedDomNode.attribs)} className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium">
+              {typedDomNode.children && domToReact(typedDomNode.children as any, options)}
+            </code>
+          );
+      }
     }
-    if (typedDomNode.attribs && typedDomNode.name === 'a') {
-      return (
-        <a {...attributesToProps(typedDomNode.attribs)} className="font-medium text-primary underline underline-offset-4" target="_blank">
-          {typedDomNode.children && domToReact(typedDomNode?.children as any, options)}
-        </a>
-      )
-    }
-    if (typedDomNode.attribs && typedDomNode.name === 'h1') {
-      return (
-        <h1 {...attributesToProps(typedDomNode.attribs)} className="scroll-m-20 text-2xl font-extrabold pt-4 tracking-tight lg:text-3xl">
-          {typedDomNode.children && domToReact(typedDomNode?.children as any, options)}
-        </h1>
-      )
-    }
-    if (typedDomNode.attribs && typedDomNode.name === 'h2') {
-      return (
-        <h2 {...attributesToProps(typedDomNode.attribs)} className="mt-10 scroll-m-20 border-b pb-2 text-xl font-semibold tracking-tight transition-colors first:mt-0">
-          {typedDomNode.children && domToReact(typedDomNode?.children as any, options)}
-        </h2>
-      )
-    }
-    if (typedDomNode.attribs && typedDomNode.name === 'h3') {
-      return (
-        <h3 {...attributesToProps(typedDomNode.attribs)} className="mt-8 scroll-m-20 text-lg font-semibold tracking-tight">
-          {typedDomNode.children && domToReact(typedDomNode?.children as any, options)}
-        </h3>
-      )
-    }
-    return false
+    return false;
   },
-}
+};
 
 const HTMLToReact = ({ html }: { html: string }) => {
   return <>{parse(html, options)}</>
