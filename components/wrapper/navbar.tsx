@@ -64,13 +64,6 @@ export default function NavBar() {
                                     </Button>
                                 </Link>
                             </DialogClose>
-                            {config?.features?.blog && <DialogClose asChild>
-                                <Link href="/blog" legacyBehavior passHref className="cursor-pointer">
-                                    <Button variant="outline">
-                                        Blog
-                                    </Button>
-                                </Link>
-                            </DialogClose>}
                         </div>
                     </SheetContent>
                 </Dialog>
@@ -102,13 +95,6 @@ export default function NavBar() {
                             </ul>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
-                    {config?.features?.blog && <NavigationMenuItem className="max-[825px]:hidden">
-                        <Link href="/blog" legacyBehavior passHref>
-                            <Button variant="ghost">
-                                Blog
-                            </Button>
-                        </Link>
-                    </NavigationMenuItem>}
                     <NavigationMenuItem className="max-[825px]:hidden">
                         <Link href="/dashboard" legacyBehavior passHref>
                             <Button variant="ghost">
