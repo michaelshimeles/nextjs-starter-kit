@@ -1,5 +1,3 @@
-import { getAllBlogs } from "../utils/functions/blog/get-all-blogs";
-
 type BlogPost = {
   slug: string;
   created_at: string;
@@ -22,23 +20,6 @@ type SitemapEntry = {
 export default async function sitemap(): Promise<SitemapEntry[]> {
   const baseUrl = "https://starter.rasmic.xyz";
 
-  let blogPosts: SitemapEntry[] = [];
-  try {
-    const { response } = await getAllBlogs(process.env.BLOG_SITE_ID!);
-
-    if (Array.isArray(response)) {
-      blogPosts = response.map((post: BlogPost) => ({
-        url: `${baseUrl}/blog/${post.slug}`,
-        lastModified: post.created_at || new Date().toISOString(),
-        changeFrequency: "weekly",
-      }));
-    } else {
-      console.error("getAllBlogs did not return an array:", response);
-    }
-  } catch (error) {
-    console.error("Error fetching blog posts:", error);
-  }
-
   const staticPages: SitemapEntry[] = [
     {
       url: baseUrl,
@@ -54,5 +35,5 @@ export default async function sitemap(): Promise<SitemapEntry[]> {
     },
   ];
 
-  return [...staticPages, ...blogPosts];
+  return [...staticPages];
 }

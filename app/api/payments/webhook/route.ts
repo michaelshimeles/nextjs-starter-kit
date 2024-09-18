@@ -51,7 +51,7 @@ async function handleSubscriptionEvent(
   const subscriptionData: any = {
     subscription_id: subscription.id,
     stripe_user_id: subscription.customer,
-    status: subscription.status,
+    status: type === "deleted" ? "cancelled" : subscription.status,
     start_date: new Date(subscription.created * 1000).toISOString(),
     plan_id: subscription.items.data[0]?.price.id,
     user_id: subscription.metadata?.userId || "",
@@ -59,34 +59,15 @@ async function handleSubscriptionEvent(
   };
 
   let data, error;
-  if (type === "deleted") {
-    ({ data, error } = await supabase
-      .from("subscriptions")
-      .update({ status: "cancelled", email: customerEmail })
-      .match({ subscription_id: subscription.id })
-      .select());
-    if (!error) {
-      const { error: userError } = await supabase
-        .from("user")
-        .update({ subscription: null })
-        .eq("email", customerEmail);
-      if (userError) {
-        console.error("Error updating user subscription status:", userError);
-        return NextResponse.json({
-          status: 500,
-          error: "Error updating user subscription status",
-        });
-      }
-    }
-  } else {
-    ({ data, error } = await supabase
-      .from("subscriptions")
-      [type === "created" ? "insert" : "update"](
-        type === "created" ? [subscriptionData] : subscriptionData
-      )
-      .match({ subscription_id: subscription.id })
-      .select());
-  }
+
+  // Use upsert for all cases to prevent duplicates
+  ({ data, error } = await supabase
+    .from("subscriptions")
+    .upsert(subscriptionData, {
+      onConflict: "subscription_id",
+      ignoreDuplicates: false,
+    })
+    .select());
 
   if (error) {
     console.error(`Error during subscription ${type}:`, error);
@@ -94,6 +75,21 @@ async function handleSubscriptionEvent(
       status: 500,
       error: `Error during subscription ${type}`,
     });
+  }
+
+  // If it's a deletion, also update the user table
+  if (type === "deleted") {
+    const { error: userError } = await supabase
+      .from("user")
+      .update({ subscription: null })
+      .eq("email", customerEmail);
+    if (userError) {
+      console.error("Error updating user subscription status:", userError);
+      return NextResponse.json({
+        status: 500,
+        error: "Error updating user subscription status",
+      });
+    }
   }
 
   return NextResponse.json({
@@ -129,7 +125,10 @@ async function handleInvoiceEvent(
     email: customerEmail,
   };
 
-  const { data, error } = await supabase.from("invoices").insert([invoiceData]);
+  const { data, error } = await supabase
+    .from("invoices")
+    .upsert([invoiceData], { onConflict: "invoice_id" })
+    .select();
 
   if (error) {
     console.error(`Error inserting invoice (payment ${status}):`, error);
@@ -154,6 +153,7 @@ async function handleCheckoutSessionCompleted(
   const metadata: any = session?.metadata;
 
   if (metadata?.subscription === "true") {
+    // This is for subscription payments
     const subscriptionId = session.subscription;
     try {
       await stripe.subscriptions.update(subscriptionId as string, { metadata });
@@ -182,6 +182,7 @@ async function handleCheckoutSessionCompleted(
       });
     }
   } else {
+    // This is for one-time payments
     const dateTime = new Date(session.created * 1000).toISOString();
     try {
       const { data: user, error: userError } = await supabase
@@ -205,7 +206,6 @@ async function handleCheckoutSessionCompleted(
         .from("payments")
         .insert([paymentData]);
       if (paymentsError) throw new Error("Error inserting payment");
-
       const updatedCredits =
         Number(user?.[0]?.credits || 0) + (session.amount_total || 0) / 100;
       const { data: updatedUser, error: userUpdateError } = await supabase
