@@ -42,7 +42,7 @@ export const isAuthorized = async (
         message: error.message,
       };
 
-    if (data && data.length > 0) {
+    if (data && data[0].status === "active") {
       return {
         authorized: true,
         message: "User is subscribed",
