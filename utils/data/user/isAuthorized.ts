@@ -4,7 +4,9 @@ import { clerkClient } from "@clerk/nextjs/server";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 
-export const isAuthorized = async (userId: string) => {
+export const isAuthorized = async (
+  userId: string
+): Promise<{ authorized: boolean; message: string }> => {
   const result = await clerkClient.users.getUser(userId);
 
   if (!result) {
@@ -34,7 +36,11 @@ export const isAuthorized = async (userId: string) => {
       .select("*")
       .eq("user_id", userId);
 
-      if (error?.code) return error;
+    if (error?.code)
+      return {
+        authorized: false,
+        message: error.message,
+      };
 
     if (data && data.length > 0) {
       return {
@@ -48,6 +54,9 @@ export const isAuthorized = async (userId: string) => {
       message: "User is not subscribed",
     };
   } catch (error: any) {
-    throw new Error(error.message);
+    return {
+      authorized: false,
+      message: error.message,
+    };
   }
 };

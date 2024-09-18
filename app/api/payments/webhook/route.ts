@@ -51,7 +51,7 @@ async function handleSubscriptionEvent(
   const subscriptionData: any = {
     subscription_id: subscription.id,
     stripe_user_id: subscription.customer,
-    status: type === "deleted" ? "cancelled" : subscription.status,
+    status: subscription.status,
     start_date: new Date(subscription.created * 1000).toISOString(),
     plan_id: subscription.items.data[0]?.price.id,
     user_id: subscription.metadata?.userId || "",
@@ -59,15 +59,34 @@ async function handleSubscriptionEvent(
   };
 
   let data, error;
-
-  // Use upsert for all cases to prevent duplicates
-  ({ data, error } = await supabase
-    .from("subscriptions")
-    .upsert(subscriptionData, {
-      onConflict: "subscription_id",
-      ignoreDuplicates: false,
-    })
-    .select());
+  if (type === "deleted") {
+    ({ data, error } = await supabase
+      .from("subscriptions")
+      .update({ status: "cancelled", email: customerEmail })
+      .match({ subscription_id: subscription.id })
+      .select());
+    if (!error) {
+      const { error: userError } = await supabase
+        .from("user")
+        .update({ subscription: null })
+        .eq("email", customerEmail);
+      if (userError) {
+        console.error("Error updating user subscription status:", userError);
+        return NextResponse.json({
+          status: 500,
+          error: "Error updating user subscription status",
+        });
+      }
+    }
+  } else {
+    ({ data, error } = await supabase
+      .from("subscriptions")
+      [type === "created" ? "insert" : "update"](
+        type === "created" ? [subscriptionData] : subscriptionData
+      )
+      .match({ subscription_id: subscription.id })
+      .select());
+  }
 
   if (error) {
     console.error(`Error during subscription ${type}:`, error);
@@ -75,21 +94,6 @@ async function handleSubscriptionEvent(
       status: 500,
       error: `Error during subscription ${type}`,
     });
-  }
-
-  // If it's a deletion, also update the user table
-  if (type === "deleted") {
-    const { error: userError } = await supabase
-      .from("user")
-      .update({ subscription: null })
-      .eq("email", customerEmail);
-    if (userError) {
-      console.error("Error updating user subscription status:", userError);
-      return NextResponse.json({
-        status: 500,
-        error: "Error updating user subscription status",
-      });
-    }
   }
 
   return NextResponse.json({
@@ -125,10 +129,7 @@ async function handleInvoiceEvent(
     email: customerEmail,
   };
 
-  const { data, error } = await supabase
-    .from("invoices")
-    .upsert([invoiceData], { onConflict: "invoice_id" })
-    .select();
+  const { data, error } = await supabase.from("invoices").insert([invoiceData]);
 
   if (error) {
     console.error(`Error inserting invoice (payment ${status}):`, error);
