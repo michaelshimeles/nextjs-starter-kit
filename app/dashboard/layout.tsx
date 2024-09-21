@@ -4,6 +4,7 @@ import { currentUser } from "@clerk/nextjs/server"
 import { ReactNode } from "react"
 import DashboardSideBar from "./_components/dashboard-side-bar"
 import DashboardTopNav from "./_components/dashbord-top-nav"
+import config from "@/config"
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
 
@@ -11,7 +12,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
 
   const { authorized, message } = await isAuthorized(user?.id!)
 
-  if (!authorized) {
+  if (config.payments.enabled && !authorized) {
     return <NotAuthorized />
   }
 
