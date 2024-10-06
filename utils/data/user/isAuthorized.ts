@@ -8,8 +8,7 @@ import config from "@/tailwind.config";
 export const isAuthorized = async (
   userId: string
 ): Promise<{ authorized: boolean; message: string }> => {
-
-  if (!config.payments.enabled) {
+  if (!config?.payments?.enabled) {
     return {
       authorized: true,
       message: "Payments are disabled",
