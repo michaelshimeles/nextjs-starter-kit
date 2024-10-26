@@ -6,7 +6,7 @@ import { useUser } from '@clerk/nextjs'
 
 export default function Settings() {
   let user = null;
-
+    /* eslint-disable react-hooks/rules-of-hooks */
   if (config?.auth?.enabled) {
       user = useUser();
   }

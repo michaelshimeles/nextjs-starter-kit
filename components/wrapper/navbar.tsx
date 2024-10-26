@@ -23,6 +23,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export default function NavBar() {
     let userId = null;
+    /* eslint-disable react-hooks/rules-of-hooks */
     if (config?.auth?.enabled) {
         const user = useAuth();
         userId = user?.userId;

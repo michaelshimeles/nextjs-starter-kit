@@ -15,7 +15,7 @@ export const isAuthorized = async (
     };
   }
 
-  const result = await clerkClient.users.getUser(userId);
+  const result = (await clerkClient()).users.getUser(userId);
 
   if (!result) {
     return {

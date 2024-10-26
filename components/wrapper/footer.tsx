@@ -2,6 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export default function Footer() {
     const {
@@ -54,10 +55,10 @@ export default function Footer() {
 
                                 <ul className="mt-6 space-y-4 text-sm">
                                     <li>
-                                        <a href="https://twitter.com/rasmickyy" target="_blank" className="transition hover:opacity-75"> Twitter </a>
+                                        <Link href="https://twitter.com/rasmickyy" target="_blank" className="transition hover:opacity-75"> Twitter </Link>
                                     </li>
                                     <li>
-                                        <a href="https://www.youtube.com/@rasmic" target="_blank" className="  transition hover:opacity-75"> YouTube </a>
+                                        <Link href="https://www.youtube.com/@rasmic" target="_blank" className="  transition hover:opacity-75"> YouTube </Link>
                                     </li>
                                 </ul>
                             </div>
@@ -67,10 +68,10 @@ export default function Footer() {
 
                                 <ul className="mt-6 space-y-4 text-sm">
                                     <li>
-                                        <a target="_blank" href="/" rel="noopener noreferrer" className="  transition hover:opacity-75"> Docs </a>
+                                        <Link target="_blank" href="/" rel="noopener noreferrer" className="  transition hover:opacity-75"> Docs </Link>
                                     </li>
                                     <li>
-                                        <a href="/" className="  transition hover:opacity-75"> Methodology </a>
+                                        <Link href="/" className="  transition hover:opacity-75"> Methodology </Link>
                                     </li>
                                 </ul>
                             </div>
