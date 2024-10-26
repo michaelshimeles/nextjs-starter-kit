@@ -11,7 +11,7 @@ export const userCreate = async ({
   profile_image_url,
   user_id,
 }: userCreateProps) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,

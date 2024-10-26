@@ -19,16 +19,6 @@ const components: { title: string; href: string; description: string }[] = [
         href: "/marketing-page",
         description: "Write some wavy here to get them to click.",
     },
-    {
-        title: "Marketing Page",
-        href: "/marketing-page",
-        description: "Write some wavy here to get them to click.",
-    },
-    {
-        title: "Marketing Page",
-        href: "/marketing-page",
-        description: "Write some wavy here to get them to click.",
-    },
 ];
 
 export default function NavBar() {
@@ -83,9 +73,9 @@ export default function NavBar() {
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <ul className="flex flex-col w-[400px] gap-3 p-4 lg:w-[500px]">
-                                {components.map((component) => (
+                                {components.map((component, index) => (
                                     <ListItem
-                                        key={component.title}
+                                        key={index}
                                         title={component.title}
                                         href={component.href}
                                     >

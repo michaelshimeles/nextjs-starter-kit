@@ -18,9 +18,11 @@ const isProtectedRoute = config.auth.enabled
 
 export default function middleware(req: any) {
   if (config.auth.enabled) {
-    return clerkMiddleware((auth, req) => {
-      if (!auth().userId && isProtectedRoute(req)) {
-        return auth().redirectToSignIn();
+    return clerkMiddleware(async (auth, req) => {
+      const resolvedAuth = await auth();
+
+      if (!resolvedAuth.userId && isProtectedRoute(req)) {
+        return resolvedAuth.redirectToSignIn();
       } else {
         return NextResponse.next();
       }

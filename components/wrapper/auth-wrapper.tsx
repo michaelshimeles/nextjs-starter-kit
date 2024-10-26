@@ -11,7 +11,7 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
     return <>{children}</>;
   }
 
-  return <ClerkProvider>{children}</ClerkProvider>;
+  return <ClerkProvider dynamic>{children}</ClerkProvider>;
 };
 
 export default AuthWrapper;

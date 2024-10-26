@@ -5,7 +5,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
 export async function actionTemplate() {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     return "You must be signed in";

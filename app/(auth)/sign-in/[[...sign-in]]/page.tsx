@@ -14,7 +14,7 @@ export default function SignInPage() {
     return (
         <PageWrapper >
             <div className="flex min-w-screen justify-center my-[5rem]">
-                <SignIn />
+                <SignIn fallbackRedirectUrl="/" signUpFallbackRedirectUrl="/dashboard" />
             </div>
         </PageWrapper>
     );

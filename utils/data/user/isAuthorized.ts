@@ -24,7 +24,7 @@ export const isAuthorized = async (
     };
   }
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   const supabase = createServerClient(
     process.env.SUPABASE_URL!,

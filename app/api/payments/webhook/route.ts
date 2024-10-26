@@ -6,7 +6,7 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: NextRequest) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   const supabase: any = createServerClient(
     process.env.SUPABASE_URL!,
