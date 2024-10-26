@@ -15,5 +15,6 @@ export default function ProjectsPage() {
           <Button>Create Project</Button>
         </div>
       </div>
-    </main>)
+    </main>
+  )
 }
