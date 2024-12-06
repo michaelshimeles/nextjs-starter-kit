@@ -45,3 +45,48 @@ const userUpdateSchema = z.object({
     .describe("user profile image URL"),
   user_id: z.string().describe("user ID"),
 });
+
+export interface EventCreateProps {
+  title: string;
+  description?: string;
+  location: string;
+  eventDate: string;
+  userId: string;
+}
+
+export interface Event {
+  id: string;
+  title: string;
+  description?: string | null;
+  location: string;
+  event_date: string;
+  user_id: string;
+}
+
+export interface Gift {
+  id: string;
+  name: string;
+  price: number;
+  store?: string | null;
+  url?: string | null;
+  is_reserved: boolean;
+  event_id: string;
+  guest_id?: string | null;
+}
+
+export interface GiftCreateProps {
+  name: string;
+  price: number;
+  store?: string | null;
+  url?: string | null;
+  event_id: string;
+}
+
+export interface EventUpdateProps {
+  eventId: string;
+  userId: string;
+  title?: string;
+  description?: string;
+  location?: string;
+  eventDate?: string;
+}

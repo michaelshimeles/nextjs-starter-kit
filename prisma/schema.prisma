@@ -71,3 +71,36 @@ model invoices {
   email           String
   user_id         String?
 }
+
+model event {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String
+  description String?
+  location    String
+  event_date  DateTime
+  created_at  DateTime @default(now())
+  user_id     String
+  short_code  String?  @unique
+  gifts       gift[]
+  guests      guest[]
+}
+
+model gift {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String
+  price       Float
+  store       String?
+  is_reserved Boolean  @default(false)
+  event_id    String   @db.Uuid
+  event       event    @relation(fields: [event_id], references: [id])
+  guest_id    String?  @db.Uuid
+  guest       guest?   @relation(fields: [guest_id], references: [id])
+}
+
+model guest {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  event_id  String   @db.Uuid
+  event     event    @relation(fields: [event_id], references: [id])
+  gifts     gift[]
+}

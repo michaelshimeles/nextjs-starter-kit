@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
-      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
+      "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or ..env.local"
     );
   }
 
@@ -59,6 +59,7 @@ export async function POST(req: Request) {
   switch (eventType) {
     case "user.created":
       try {
+
         await userCreate({
           email: payload?.data?.email_addresses?.[0]?.email_address,
           first_name: payload?.data?.first_name,

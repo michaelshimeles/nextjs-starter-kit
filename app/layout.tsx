@@ -35,6 +35,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <AuthWrapper>
       <html lang="en" suppressHydrationWarning>

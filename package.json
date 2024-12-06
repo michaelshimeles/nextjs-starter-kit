@@ -29,6 +29,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
+    "@radix-ui/react-tooltip": "^1.1.4",
     "@react-pdf/renderer": "^3.4.4",
     "@stripe/stripe-js": "^3.4.0",
     "@supabase/auth-helpers-nextjs": "^0.8.1",
@@ -52,9 +53,11 @@
     "html-react-parser": "^5.1.12",
     "lucide-react": "^0.436.0",
     "mini-svg-data-uri": "^1.4.4",
+    "nanoid": "^5.0.9",
     "next": "latest",
     "next-themes": "^0.3.0",
     "prisma": "^5.9.1",
+    "qrcode.react": "^4.1.0",
     "react": "latest",
     "react-day-picker": "^8.10.1",
     "react-dom": "latest",
@@ -67,6 +70,7 @@
     "svix": "^1.13.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "uuid": "^11.0.3",
     "zod": "^3.23.5"
   },
   "devDependencies": {

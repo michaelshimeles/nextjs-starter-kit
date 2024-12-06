@@ -68,24 +68,6 @@ export default function NavBar() {
                     </Link>
                 </NavigationMenuList>
                 <NavigationMenuList>
-                    <NavigationMenuItem className="max-[825px]:hidden ml-5">
-                        <NavigationMenuTrigger className="dark:bg-black dark:bg-opacity-50">
-                            Features
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="flex flex-col w-[400px] gap-3 p-4 lg:w-[500px]">
-                                {components.map((component, index) => (
-                                    <ListItem
-                                        key={index}
-                                        title={component.title}
-                                        href={component.href}
-                                    >
-                                        {component.description}
-                                    </ListItem>
-                                ))}
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
                     <NavigationMenuItem className="max-[825px]:hidden">
                         <Link href="/dashboard" legacyBehavior passHref>
                             <Button variant="ghost">
