@@ -1,5 +1,4 @@
 "use client"
-import { TITLE_TAILWIND_CLASS } from '@/utils/constants'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -7,7 +6,7 @@ import Link from 'next/link'
 const ProjectsData = [
   {
     id: 1,
-    name: 'Nextjs 14',
+    name: 'Nextjs 15',
     description: 'A framework for React that enables server-side rendering and effortless deployment.',
     image: 'https://utfs.io/f/a8df6965-e6df-417a-ab0b-b3ad33d701d7-hcfblw.png',
     imageDark: "https://utfs.io/f/c5588304-c7ff-43f9-b164-3b9c78474b73-rv0oux.png",
@@ -44,14 +43,14 @@ const ProjectsData = [
   },
   {
     id: 6,
-    name: 'Supabase (PostgreSQL)',
-    description: 'PostgreSQL-based open-source database with Supabase for building scalable applications.',
+    name: 'Neon (PostgreSQL)',
+    description: 'PostgreSQL-based open-source database with Neon for building scalable applications.',
     image: 'https://utfs.io/f/c62a5d13-91e4-476f-9d36-786d9995c97f-rqpuxo.png',
     url: "https://supabase.com/"
   },
   {
     id: 7,
-    name: 'Prisma ORM',
+    name: 'Drizzle ORM',
     description: 'Modern database toolkit for TypeScript and Node.js, simplifying database interactions.',
     image: 'https://utfs.io/f/c3933696-cd5c-4de7-a24e-1822df8c4215-g7gclc.png',
     url: "https://prisma.io/"
@@ -69,21 +68,14 @@ const ProjectsData = [
     description: 'For client side fetching, caching, and revalidation.',
     image: 'https://utfs.io/f/ee162388-f998-4740-bfc4-9d9a7050f485-90gb5l.png',
     url: "https://tanstack.com/query/v5"
-  },
-  {
-    id: 10,
-    name: 'Upstash (Redis)',
-    description: 'Redis-based cloud database service for rate-limiting.',
-    image: 'https://utfs.io/f/c01790c1-7c12-4a5e-b50f-a44358124853-3mzznq.png',
-    url: "https://upstash.com/"
-  },
+  }
 ]
 
 const SpringAnimatedFeatures = () => {
   return (
     <div className="flex flex-col justify-center items-center lg:w-[75%]">
       <div className='flex flex-col mb-[3rem]'>
-        <h2 className={`${TITLE_TAILWIND_CLASS} mt-2 font-semibold tracking-tight dark:text-white text-gray-900`}>
+        <h2 className={`text-2xl sm:text-2xl md:text-3xl lg:text-4xl  mt-2 font-semibold tracking-tight dark:text-white text-gray-900`}>
           Nextjs Starter Kit: Built with the best
         </h2>
         <p className="mx-auto max-w-[500px] text-gray-600 dark:text-gray-400 text-center mt-2 ">

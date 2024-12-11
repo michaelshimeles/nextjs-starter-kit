@@ -1,9 +1,9 @@
 "server only";
 
-import { clerkClient } from "@clerk/nextjs/server";
-import { cookies } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
+import { db } from "@/db/drizzle";
+import { users } from "@/db/schema";
 import config from "@/tailwind.config";
+import { clerkClient } from "@clerk/nextjs/server";
 
 export const isAuthorized = async (
   userId: string
@@ -24,38 +24,27 @@ export const isAuthorized = async (
     };
   }
 
-  const cookieStore = await cookies();
-
-  const supabase = createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
-    }
-  );
 
   try {
-    const { data, error } = await supabase
-      .from("subscriptions")
-      .select("*")
-      .eq("user_id", userId);
+    const data = await db.select().from(users);
 
-    if (error?.code)
-      return {
-        authorized: false,
-        message: error.message,
-      };
+    // const { data, error } = await supabase
+    //   .from("subscriptions")
+    //   .select("*")
+    //   .eq("user_id", userId);
 
-    if (data && data[0].status === "active") {
-      return {
-        authorized: true,
-        message: "User is subscribed",
-      };
-    }
+    // if (error?.code)
+    //   return {
+    //     authorized: false,
+    //     message: error.message,
+    //   };
+
+    // if (data && data[0].status === "active") {
+    //   return {
+    //     authorized: true,
+    //     message: "User is subscribed",
+    //   };
+    // }
 
     return {
       authorized: false,

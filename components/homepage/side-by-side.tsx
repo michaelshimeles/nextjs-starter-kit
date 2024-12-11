@@ -1,7 +1,6 @@
 import { Computer, Network } from 'lucide-react'
 import { FaBusinessTime } from 'react-icons/fa'
 import { OrbitingCirclesComponent } from './orbiting-circles'
-import { TITLE_TAILWIND_CLASS } from '@/utils/constants'
 
 const features = [
   {
@@ -29,7 +28,7 @@ export default function SideBySide() {
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           <div className="lg:pr-8 lg:pt-4">
             <div className="lg:max-w-lg">
-              <p className={`${TITLE_TAILWIND_CLASS} mt-2 font-semibold tracking-tight dark:text-white text-gray-900`}>
+              <p className={`text-2xl sm:text-2xl md:text-3xl lg:text-4xl  mt-2 font-semibold tracking-tight dark:text-white text-gray-900`}>
                 Nextjs Starter Kit: A faster way to production
               </p>
               <p className="mt-6 leading-8 text-gray-600 dark:text-gray-400">
