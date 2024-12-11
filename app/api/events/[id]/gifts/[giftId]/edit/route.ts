@@ -29,7 +29,7 @@ export async function PATCH(
       }
     );
 
-    const { id, giftId } = context.params;
+    const { id, giftId } = await context.params;
     const payload = await req.json();
     
     const { data: event } = await supabase

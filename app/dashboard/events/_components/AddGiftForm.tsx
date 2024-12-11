@@ -33,6 +33,7 @@ export function AddGiftForm({ eventId, onSuccess, onCancel }: AddGiftFormProps) 
 
       if (response.ok) {
         onSuccess?.();
+          onCancel?.();
       }
     } catch (error) {
       console.error('Błąd podczas dodawania prezentu:', error);

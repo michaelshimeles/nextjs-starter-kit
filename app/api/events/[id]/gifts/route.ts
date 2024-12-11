@@ -8,9 +8,17 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const id = await params.id;
+  const { id } = await params;
 
   try {
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json(
+        { status: 401, message: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const cookieStore = await cookies();
     const supabase = createServerClient(
       process.env.SUPABASE_URL!,
@@ -27,16 +35,15 @@ export async function GET(
     const { data, error } = await supabase
       .from("gift")
       .select("*")
-      .eq("event_id", id)
-      .order("id", { ascending: false });
+      .eq("event_id", id);
 
     if (error) throw error;
-    
-    return NextResponse.json({ status: 200, data });
+
+    return NextResponse.json({ data });
   } catch (error: any) {
     return NextResponse.json(
-      { status: 400, error: error.message },
-      { status: 400 }
+      { error: "Nie udało się pobrać prezentów" },
+      { status: 404 }
     );
   }
 }
@@ -45,7 +52,7 @@ export async function POST(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const { userId } = await auth();

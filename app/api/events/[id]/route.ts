@@ -8,7 +8,7 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const id = await params.id;
+  const { id } = await params;
 
   try {
     const { userId } = await auth();
@@ -35,17 +35,17 @@ export async function GET(
     const { data, error } = await supabase
       .from("event")
       .select("*")
-      .eq("id", id)
       .eq("user_id", userId)
+      .eq("id", id)
       .single();
 
     if (error) throw error;
-    
-    return NextResponse.json({ status: 200, data });
+
+    return NextResponse.json({ data });
   } catch (error: any) {
     return NextResponse.json(
-      { status: 400, error: error.message },
-      { status: 400 }
+      { error: "Nie znaleziono wydarzenia" },
+      { status: 404 }
     );
   }
 }
@@ -54,7 +54,7 @@ export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const { userId } = await auth();

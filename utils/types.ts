@@ -60,6 +60,7 @@ export interface Event {
   description?: string | null;
   location: string;
   event_date: string;
+  short_code: string;
   user_id: string;
 }
 

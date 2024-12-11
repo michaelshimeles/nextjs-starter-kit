@@ -6,7 +6,7 @@ export async function POST(
   req: Request,
   context: { params: { id: string, giftId: string } }
 ) {
-  const { id: eventId, giftId } = context.params;
+  const { id: eventId, giftId } = await context.params;
 
   try {
     const cookieStore = await cookies();
