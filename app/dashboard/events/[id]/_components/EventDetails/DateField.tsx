@@ -10,22 +10,31 @@ interface DateFieldProps {
 }
 
 export function DateField({ event, isOwner, onUpdate }: DateFieldProps) {
-  const handleUpdate = async (newValue: string) => {
+  const handleUpdate = async (newDate: string) => {
     try {
       const response = await fetch(`/api/events/${event.id}`, {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ event_date: newValue }),
+        body: JSON.stringify({
+          event_date: newDate
+        }),
       });
 
       const data = await response.json();
-      if (data.error) throw new Error(data.error);
       
-      onUpdate(data.data[0]);
+      if (!response.ok) {
+        throw new Error(data.message || 'Błąd podczas aktualizacji daty');
+      }
+
+      onUpdate({
+        ...event,
+        event_date: newDate
+      });
+      
     } catch (error) {
-      console.error("Błąd podczas aktualizacji daty:", error);
+      console.error('Błąd podczas aktualizacji daty:', error);
     }
   };
 
