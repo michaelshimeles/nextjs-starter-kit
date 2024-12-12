@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import { Event, Gift } from '@/utils/types';
 import { GiftCard } from "@/app/dashboard/events/_components/GiftCard";
 import { MapPinIcon, CalendarIcon } from 'lucide-react';
+import { use } from 'react';
 
 export default function PublicEventPage({ params }: { params: { code: string } }) {
+  const { code } = use(params);
   const [event, setEvent] = useState<Event | null>(null);
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +19,7 @@ export default function PublicEventPage({ params }: { params: { code: string } }
       setError(null);
       
       try {
-        const response = await fetch(`/api/public/events/${params.code}`);
+        const response = await fetch(`/api/public/events/${code}`);
         const data = await response.json();
         
         if (data.error) {
@@ -34,10 +36,10 @@ export default function PublicEventPage({ params }: { params: { code: string } }
       }
     };
 
-    if (params.code) {
+    if (code) {
       fetchData();
     }
-  }, [params.code]);
+  }, [code]);
 
   if (isLoading) {
     return (

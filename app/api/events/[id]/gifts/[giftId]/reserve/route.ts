@@ -1,44 +1,34 @@
 import { NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { giftReserve } from "@/utils/data/gift/giftReserve";
 
 export async function POST(
-  req: Request,
-  context: { params: { id: string, giftId: string } }
+  request: Request,
+  context: { params: { id: string; giftId: string } }
 ) {
-  const { id: eventId, giftId } = await context.params;
+  const params = await context.params;
+  const eventId = params.id;
+  const giftId = params.giftId;
 
   try {
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value;
-          },
-        },
-      }
-    );
+    const { is_reserved } = await request.json();
+    const { data, error } = await giftReserve({
+      eventId,
+      giftId,
+      isReserved: is_reserved
+    });
 
-    const { is_reserved } = await req.json();
+    if (error) {
+      return NextResponse.json(
+        { status: 400, error: error.message },
+        { status: 400 }
+      );
+    }
 
-    const { data, error } = await supabase
-      .from("gift")
-      .update({ is_reserved })
-      .eq("id", giftId)
-      .eq("event_id", eventId)
-      .select()
-      .single();
-
-    if (error) throw error;
-    
     return NextResponse.json({ status: 200, data });
   } catch (error: any) {
     return NextResponse.json(
-      { status: 400, error: error.message },
-      { status: 400 }
+      { status: 500, error: error.message },
+      { status: 500 }
     );
   }
 }

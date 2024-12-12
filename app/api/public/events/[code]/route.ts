@@ -1,48 +1,20 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { eventGetByCode } from "@/utils/data/event/eventGetByCode";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { code: string } }
+  _request: Request,
+  context: { params: { code: string } }
 ) {
+  const params = await context.params;
   const code = params.code;
-  const resolvedCode = await Promise.resolve(code);
 
   try {
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value;
-          },
-        },
-      }
-    );
-
-    const { data: event, error: eventError } = await supabase
-      .from("event")
-      .select("*")
-      .eq("short_code", resolvedCode)
-      .single();
-
-    if (eventError) throw eventError;
-
-    const { data: gifts, error: giftsError } = await supabase
-      .from("gift")
-      .select("*")
-      .eq("event_id", event.id);
-
-    if (giftsError) throw giftsError;
-
+    const { event, gifts } = await eventGetByCode(code);
     return NextResponse.json({ event, gifts });
   } catch (error: any) {
     return NextResponse.json(
-      { error: "Nie znaleziono wydarzenia" },
-      { status: 404 }
+      { status: 500, error: error.message },
+      { status: 500 }
     );
   }
 } 
