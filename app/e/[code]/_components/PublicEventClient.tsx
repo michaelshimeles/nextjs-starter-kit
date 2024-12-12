@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { Event, Gift } from '@/utils/types';
-import { GiftCard } from "@/app/dashboard/events/_components/GiftCard";
 import { MapPinIcon, CalendarIcon } from 'lucide-react';
 import { GiftTable } from "@/components/gifts/GiftTable";
 
-export function PublicEventClient({ code }: { code: string }) {
+interface PublicEventClientProps {
+  code: string;
+}
+
+export function PublicEventClient({ code }: PublicEventClientProps) {
   const [event, setEvent] = useState<Event | null>(null);
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,27 +42,6 @@ export function PublicEventClient({ code }: { code: string }) {
       fetchData();
     }
   }, [code]);
-
-  const handleReservation = async (giftId: string) => {
-    const gift = gifts.find(g => g.id === giftId);
-    if (!gift) return;
-
-    try {
-      const response = await fetch(`/api/events/${event?.id}/gifts/${giftId}/reserve`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ is_reserved: !gift.is_reserved }),
-      });
-      
-      if (response.ok) {
-        setGifts(gifts.map(g => 
-          g.id === giftId ? { ...g, is_reserved: !g.is_reserved } : g
-        ));
-      }
-    } catch (error) {
-      console.error('Błąd podczas aktualizacji rezerwacji:', error);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -105,7 +87,8 @@ export function PublicEventClient({ code }: { code: string }) {
             <GiftTable 
               gifts={gifts} 
               variant="public"
-              onReservationChange={(giftId) => handleReservation(giftId)}
+              eventId={event.id}
+              onUpdate={setGifts}
             />
           </div>
         </div>

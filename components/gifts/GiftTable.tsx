@@ -11,27 +11,56 @@ import { cn } from "@/lib/utils";
 interface GiftTableProps {
   gifts: Gift[];
   variant: 'admin' | 'public';
-  onReservationChange?: (giftId: string) => Promise<void>;
   onEdit?: (gift: Gift) => void;
+  eventId: string;
+  onUpdate: (gifts: Gift[]) => void;
 }
 
 export function GiftTable({ 
   gifts, 
   variant,
-  onReservationChange,
-  onEdit 
+  onEdit,
+  eventId,
+  onUpdate
 }: GiftTableProps) {
   const [holdTimer, setHoldTimer] = useState<NodeJS.Timeout | null>(null);
   const [holdProgress, setHoldProgress] = useState<{ [key: string]: number }>({});
+  const [isBlocked, setIsBlocked] = useState<{ [key: string]: boolean }>({});
+
+  const handleReservationChange = async (gift: Gift) => {
+    if (isBlocked[gift.id]) return;
+
+    try {
+      const response = await fetch(`/api/events/${gift.event_id}/gifts/${gift.id}/reserve`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_reserved: !gift.is_reserved }),
+      });
+
+      if (response.ok) {
+        const updatedGifts = gifts.map(g => 
+          g.id === gift.id ? { ...g, is_reserved: !g.is_reserved } : g
+        );
+        onUpdate(updatedGifts);
+        
+        setIsBlocked((prev) => ({ ...prev, [gift.id]: true }));
+        setTimeout(() => {
+          setIsBlocked((prev) => ({ ...prev, [gift.id]: false }));
+        }, 500);
+      }
+    } catch (error) {
+      console.error('Błąd podczas zmiany rezerwacji:', error);
+    }
+  };
 
   const handleMouseDown = (gift: Gift) => {
-    if (!gift.is_reserved || holdTimer) return;
+    if (!gift.is_reserved || holdTimer || isBlocked[gift.id]) return;
     
     const timer = setInterval(() => {
       setHoldProgress((prev) => {
         const newProgress = (prev[gift.id] || 0) + (100 / 3000) * 100;
         if (newProgress >= 100) {
-          onReservationChange?.(gift.id);
+          handleReservationChange(gift);
           clearInterval(timer);
           return { ...prev, [gift.id]: 0 };
         }
@@ -92,7 +121,7 @@ export function GiftTable({
                     <Button 
                       variant="ghost" 
                       size="sm"
-                      onClick={() => !gift.is_reserved && onReservationChange?.(gift.id)}
+                      onClick={() => !gift.is_reserved && handleReservationChange(gift)}
                       onMouseDown={() => handleMouseDown(gift)}
                       onMouseUp={() => handleMouseUp(gift.id)}
                       onMouseLeave={() => handleMouseUp(gift.id)}

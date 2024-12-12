@@ -1,19 +1,11 @@
 import { Gift } from "@/utils/types";
-import { Table, TableBody, TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { AddGiftDialog } from "./AddGiftDialog";
-import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
-import Image from "next/image";
-import { GiftCard } from "../../../_components/GiftCard";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { X, ShoppingBag } from "lucide-react";
-
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { GiftTable } from "@/components/gifts/GiftTable";
 
 interface GiftSectionProps {
   gifts: Gift[];
@@ -27,9 +19,6 @@ export function GiftSection({ gifts, isOwner, eventId, onUpdate }: GiftSectionPr
   const [selectedGift, setSelectedGift] = useState<Gift | null>(null);
   const [editedGift, setEditedGift] = useState({ name: '', store: '' });
   const [isLoading, setIsLoading] = useState(false);
-  const [holdProgress, setHoldProgress] = useState<{ [key: string]: number }>({});
-  const [holdTimer, setHoldTimer] = useState<NodeJS.Timeout | null>(null);
-  const [isBlocked, setIsBlocked] = useState<{ [key: string]: boolean }>({});
 
   const handleGiftAdded = async () => {
     try {
@@ -41,38 +30,16 @@ export function GiftSection({ gifts, isOwner, eventId, onUpdate }: GiftSectionPr
     }
   };
 
-  const handleReservationChange = async (gift: Gift) => {
-    if (isLoading || isBlocked[gift.id]) return;
-    setIsLoading(true);
-    
-    try {
-      const response = await fetch(`/api/events/${gift.event_id}/gifts/${gift.id}/reserve`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ is_reserved: !gift.is_reserved }),
-      });
-
-      if (response.ok) {
-        onUpdate(gifts.map(g => 
-          g.id === gift.id ? { ...g, is_reserved: !g.is_reserved } : g
-        ));
-        handleGiftAdded();
-
-        if (gift.is_reserved) {
-          setIsBlocked((prev) => ({ ...prev, [gift.id]: true }));
-          setTimeout(() => {
-            setIsBlocked((prev) => ({ ...prev, [gift.id]: false }));
-          }, 500);
-        }
-      }
-    } catch (error) {
-      console.error('Błąd podczas zmiany rezerwacji:', error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleStartEditing = (gift: Gift) => {
+    setSelectedGift(gift);
+    setEditedGift({
+      name: gift.name,
+      store: gift.store
+    });
+    setIsEditing(true);
   };
 
-  const handleEdit = async () => {
+  const handleSaveEdit = async () => {
     if (!selectedGift) return;
     setIsLoading(true);
     
@@ -94,31 +61,6 @@ export function GiftSection({ gifts, isOwner, eventId, onUpdate }: GiftSectionPr
       console.error('Błąd podczas aktualizacji prezentu:', error);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleMouseDown = (gift: Gift) => {
-    if (!gift.is_reserved || holdTimer) return;
-
-    const timer = setInterval(() => {
-      setHoldProgress((prev) => {
-        const newProgress = (prev[gift.id] || 0) + (100 / 3000) * 100;
-        if (newProgress >= 100) {
-          handleReservationChange(gift);
-          clearInterval(timer);
-          return { ...prev, [gift.id]: 0 };
-        }
-        return { ...prev, [gift.id]: newProgress };
-      });
-    }, 100);
-    setHoldTimer(timer);
-  };
-
-  const handleMouseUp = (giftId: string) => {
-    if (holdTimer) {
-      clearInterval(holdTimer);
-      setHoldTimer(null);
-      setHoldProgress((prev) => ({ ...prev, [giftId]: 0 }));
     }
   };
 
@@ -146,7 +88,7 @@ export function GiftSection({ gifts, isOwner, eventId, onUpdate }: GiftSectionPr
               </div>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={() => setIsEditing(false)}>Anuluj</Button>
-                <Button onClick={handleEdit} disabled={isLoading}>
+                <Button onClick={handleSaveEdit} disabled={isLoading}>
                   {isLoading ? 'Zapisywanie...' : 'Zapisz'}
                 </Button>
               </div>
@@ -154,104 +96,13 @@ export function GiftSection({ gifts, isOwner, eventId, onUpdate }: GiftSectionPr
           </DialogContent>
         </Dialog>
 
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableCell>Zdjęcie</TableCell>
-              <TableCell>Nazwa prezentu</TableCell>
-              <TableCell>Sklep</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Akcje</TableCell>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {gifts.flatMap((gift) => [
-              <TableRow key={`${gift.id}-row`}>
-                <TableCell>
-                  <div className="w-20 h-20">
-                    <img 
-                      src={`https://via.placeholder.com/100`} 
-                      alt={gift.name} 
-                      className="w-full h-full object-cover rounded" 
-                    />
-                  </div>
-                </TableCell>
-                <TableCell>{gift.name}</TableCell>
-                <TableCell>
-                  {gift.store && (
-                    <a 
-                      href={gift.store.startsWith('http') ? gift.store : `https://${gift.store}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 hover:text-blue-700 underline break-all"
-                    >
-                      {gift.store}
-                    </a>
-                  )}
-                </TableCell>
-                <TableCell>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => !gift.is_reserved && handleReservationChange(gift)}
-                          onMouseDown={() => handleMouseDown(gift)}
-                          onMouseUp={() => handleMouseUp(gift.id)}
-                          onMouseLeave={() => handleMouseUp(gift.id)}
-                          className={cn(
-                            "flex items-center gap-2",
-                            gift.is_reserved 
-                              ? "bg-red-300 text-gray-900 border border-red-200 hover:bg-red-600" 
-                              : "bg-emerald-500 text-white hover:bg-emerald-600"
-                          )}
-                        >
-                          <span>
-                            {gift.is_reserved ? 'Anuluj rezerwację' : 'Zarezerwuj'}
-                          </span>
-                        </Button>
-                      </TooltipTrigger>
-                      {gift.is_reserved && (
-                        <TooltipContent>
-                          Przytrzymaj, aby anulować rezerwację
-                        </TooltipContent>
-                      )}
-                    </Tooltip>
-                  </TooltipProvider>
-                </TableCell>
-                <TableCell>
-                  {isOwner && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => {
-                        setSelectedGift(gift);
-                        setEditedGift({
-                          name: gift.name,
-                          store: gift.store
-                        });
-                        setIsEditing(true);
-                      }}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                  )}
-                </TableCell>
-              </TableRow>,
-              gift.is_reserved && holdProgress[gift.id] > 0 && (
-                <TableRow key={`${gift.id}-progress`} className="h-1 p-0">
-                  <TableCell colSpan={5} className="p-0">
-                    <div 
-                      className="h-1 bg-red-600 transition-all duration-100"
-                      style={{ width: `${holdProgress[gift.id]}%` }}
-                    />
-                  </TableCell>
-                </TableRow>
-              )
-            ])}
-          </TableBody>
-        </Table>
+        <GiftTable 
+          gifts={gifts}
+          variant={isOwner ? 'admin' : 'public'}
+          onEdit={isOwner ? handleStartEditing : undefined}
+          eventId={eventId}
+          onUpdate={onUpdate}
+        />
       </div>
     </div>
   );
