@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
+    "test": "jest",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -74,14 +75,17 @@
     "zod": "^3.23.5"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.14",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "jest": "^29.7.0",
     "postcss": "latest",
     "tailwindcss": "^3.3.5",
+    "ts-jest": "^29.2.5",
     "typescript": "latest"
   }
 }

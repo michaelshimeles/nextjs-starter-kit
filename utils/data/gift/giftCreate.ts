@@ -34,7 +34,7 @@ export const giftCreate = async ({
         {
           id: giftId,
           name,
-          price: parseFloat(price),
+          price: parseFloat(price.toString()),
           store,
           event_id,
           is_reserved: false,
