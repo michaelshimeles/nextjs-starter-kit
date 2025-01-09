@@ -13,13 +13,15 @@ export default async function DashboardLayout({ children }: { children: ReactNod
     console.log('authorized check fired')
   }
   return (
-    <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
+    <div className="flex min-h-screen w-full bg-gray-100">
       <DashboardSideBar />
-      <DashboardTopNav >
-        <main className="flex flex-col gap-4 p-4 lg:gap-6">
-          {children}
-        </main>
-      </DashboardTopNav>
+      <div className="flex-1">
+        <DashboardTopNav>
+          <main className="p-6 space-y-6">
+            {children}
+          </main>
+        </DashboardTopNav>
+      </div>
     </div>
   )
 }

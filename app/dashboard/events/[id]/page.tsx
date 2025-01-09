@@ -8,7 +8,6 @@ import { LoadingSpinner } from "./_components/LoadingSpinner";
 import { ErrorState } from "./_components/ErrorState";
 import { BackLink } from "./_components/BackLink";
 import { EventHeader } from "./_components/EventHeader";
-import { EventDetails } from "./_components/EventDetails";
 import { GiftSection } from "./_components/GiftSection";
 
 export default function EventDetailsPage() {
@@ -62,7 +61,6 @@ export default function EventDetailsPage() {
     <div className="w-full">
       <BackLink />
       <EventHeader event={event} isOwner={isOwner} onUpdate={setEvent} />
-      <EventDetails event={event} isOwner={isOwner} onUpdate={setEvent} />
       <GiftSection gifts={gifts} isOwner={isOwner} eventId={eventId} onUpdate={setGifts} />
     </div>
   );

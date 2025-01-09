@@ -15,9 +15,9 @@ import { ReactNode } from 'react'
 export default function DashboardTopNav({ children }: { children: ReactNode }) {
   return (
     <div className="flex flex-col">
-      <header className="flex h-14 lg:h-[55px] items-center gap-4 border-b px-3">
+      <header className="flex h-14 lg:h-[55px] items-center gap-4 border-b px-3 bg-gradient-to-b">
         <Dialog>
-          <SheetTrigger className="min-[1024px]:hidden p-2 transition">
+          <SheetTrigger className="min-[1024px]:hidden p-2 transition ">
             <HamburgerMenuIcon />
             <Link href="/dashboard">
               <span className="sr-only">Home</span>
@@ -26,7 +26,7 @@ export default function DashboardTopNav({ children }: { children: ReactNode }) {
           <SheetContent side="left">
             <SheetHeader>
               <Link href="/">
-                <SheetTitle>Nextjs Starter Kit</SheetTitle>
+                <SheetTitle>Woopla</SheetTitle>
               </Link>
             </SheetHeader>
             <div className="flex flex-col space-y-3 mt-[1rem]">
@@ -39,18 +39,10 @@ export default function DashboardTopNav({ children }: { children: ReactNode }) {
                 </Link>
               </DialogClose>
               <DialogClose asChild>
-                <Link href="/dashboard/projects">
+                <Link href="/dashboard/events">
                   <Button variant="outline" className="w-full">
                     <Folder className="mr-2 h-4 w-4" />
-                    Projects
-                  </Button>
-                </Link>
-              </DialogClose>
-              <DialogClose asChild>
-                <Link href="/dashboard/finance">
-                  <Button variant="outline" className="w-full">
-                    <Banknote className="mr-2 h-4 w-4" />
-                    Finance
+                    Events
                   </Button>
                 </Link>
               </DialogClose>

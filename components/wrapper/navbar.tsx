@@ -13,34 +13,25 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import { Dialog, DialogClose } from "@radix-ui/react-dialog";
 
-const components: { title: string; href: string; description: string }[] = [
-    {
-        title: "Marketing Page",
-        href: "/marketing-page",
-        description: "Write some wavy here to get them to click.",
-    },
-];
-
 export default function NavBar() {
     let userId = null;
-    /* eslint-disable react-hooks/rules-of-hooks */
     if (config?.auth?.enabled) {
         const user = useAuth();
         userId = user?.userId;
     }
 
     return (
-        <div className="flex min-w-full fixed justify-between p-2 border-b z-10 dark:bg-black dark:bg-opacity-50 bg-white">
+        <div className="flex min-w-full fixed justify-between p-2 z-10 bg-transparent backdrop-blur-sm">
             <div className="flex justify-between w-full min-[825px]:hidden">
                 <Dialog>
                     <SheetTrigger className="p-2 transition">
-                        <Button size="icon" variant="ghost" className="w-4 h-4" aria-label="Open menu" asChild>
+                        <Button size="icon" variant="ghost" className="w-4 h-4 text-white hover:bg-white/10" aria-label="Open menu" asChild>
                             <GiHamburgerMenu />
                         </Button>
                     </SheetTrigger>
                     <SheetContent side="left">
                         <SheetHeader>
-                            <SheetTitle>Next Starter</SheetTitle>
+                            <SheetTitle>Woopla</SheetTitle>
                         </SheetHeader>
                         <div className="flex flex-col space-y-3 mt-[1rem]">
                             <DialogClose asChild>
@@ -62,15 +53,15 @@ export default function NavBar() {
             </div>
             <NavigationMenu>
                 <NavigationMenuList className="max-[825px]:hidden flex gap-3 w-[100%] justify-between">
-                    <Link href="/" className="pl-2 flex items-center" aria-label="Home">
-                        <BlocksIcon aria-hidden="true" />
-                        <span className="sr-only">Home</span>
+                    <Link href="/" className="pl-2 flex items-center text-white hover:opacity-80" aria-label="Home">
+                        <BlocksIcon aria-hidden="true" className="text-[#CAFC03]"/>
+                        <span className="ml-2 text-lg font-bold">Woopla</span>
                     </Link>
                 </NavigationMenuList>
                 <NavigationMenuList>
                     <NavigationMenuItem className="max-[825px]:hidden">
                         <Link href="/dashboard" legacyBehavior passHref>
-                            <Button variant="ghost">
+                            <Button variant="ghost" className="text-white hover:bg-white/10">
                                 Dashboard
                             </Button>
                         </Link>
@@ -84,29 +75,3 @@ export default function NavBar() {
         </div>
     );
 }
-
-const ListItem = React.forwardRef<
-    React.ElementRef<"a">,
-    React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-    return (
-        <li>
-            <NavigationMenuLink asChild>
-                <a
-                    ref={ref}
-                    className={cn(
-                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                        className
-                    )}
-                    {...props}
-                >
-                    <div className="text-sm font-medium leading-none">{title}</div>
-                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        {children}
-                    </p>
-                </a>
-            </NavigationMenuLink>
-        </li>
-    );
-});
-ListItem.displayName = "ListItem";

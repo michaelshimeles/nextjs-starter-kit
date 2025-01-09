@@ -28,6 +28,7 @@ export function LocationField({ event, isOwner, onUpdate }: LocationFieldProps) 
 
   return (
     <div className="flex items-center gap-2">
+      <span className="text-white-500">Miejsce wydarzenia:</span>
       <MapPinIcon className="h-5 w-5 text-gray-500" />
       {isOwner ? (
         <EditableField

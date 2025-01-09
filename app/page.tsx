@@ -9,20 +9,22 @@ import config from "@/config";
 export default function Home() {
   return (
     <PageWrapper>
-      <div className="flex flex-col justify-center items-center w-full mt-[1rem] p-3">
-        <HeroSection />
-      </div>
-      <div className="flex my-[8rem] w-full justify-center items-center">
-        <SideBySide />
-      </div>
-      <div className="max-w-[1200px] p-8 mt-[2rem] lg:mt-[6rem] lg:mb-[5rem]">
-        <BlogSample />
-      </div>
-      {(config.auth.enabled && config.payments.enabled) && <div>
-        <Pricing />
-      </div>}
-      <div className="flex justify-center items-center w-full my-[8rem]">
-        <AccordionComponent />
+      <div className="min-h-screen bg-gradient-to-b from-pink-400 to-pink-200">
+        <div className="flex flex-col justify-center items-center w-full mt-[1rem] p-3">
+          <HeroSection />
+        </div>
+        <div className="flex my-[8rem] w-full justify-center items-center">
+          <SideBySide />
+        </div>
+        <div className="max-w-[1200px] p-8 mt-[2rem] lg:mt-[6rem] lg:mb-[5rem]">
+          <BlogSample />
+        </div>
+        {(config.auth.enabled && config.payments.enabled) && <div>
+          <Pricing />
+        </div>}
+        <div className="flex justify-center items-center w-full my-[8rem]">
+          <AccordionComponent />
+        </div>
       </div>
     </PageWrapper>
   );

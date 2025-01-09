@@ -52,42 +52,46 @@ export default function EventsPage() {
   }
 
   return (
-    <main className="flex flex-col gap-4 p-6">
+    <main className="flex flex-col gap-6 p-8 bg-gradient-to-br min-h-screen">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Events</h1>
+        <h1 className="text-3xl font-bold text-black drop-shadow-md">Events</h1>
         <Link href="/dashboard/events/new">
-          <Button>Create Event</Button>
+          <Button className="bg-white text-pink-500 hover:bg-pink-100 hover:text-pink-600 font-semibold shadow-md transition-all duration-300">
+            Stwórz wydarzenie
+          </Button>
         </Link>
       </div>
 
       {events.length === 0 ? (
-        <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed p-8">
+        <div className="flex flex-1 items-center justify-center rounded-xl border-4 border-white/30 p-10 bg-gradient-to-br from-yellow-200 to-pink-200 shadow-2xl">
           <div className="flex flex-col items-center text-center">
-            <h2 className="text-xl font-semibold mb-2">No events yet</h2>
-            <p className="text-sm text-muted-foreground mb-4">
-              Create your first event to get started
+            <h2 className="text-2xl font-bold mb-3 text-pink-600">Brak wydarzenia</h2>
+            <p className="text-lg text-orange-700 mb-6">
+              Stwórz swoje pierwsze wydarzenie, aby rozpocząć
             </p>
             <Link href="/dashboard/events/new">
-              <Button>Create Event</Button>
+              <Button className="bg-pink-500 hover:bg-pink-600 text-white font-semibold shadow-lg transition-all duration-300">
+                Create Event
+              </Button>
             </Link>
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.map((event) => (
-            <Link href={`/dashboard/events/${event.id}`} key={event.id}>
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle>{event.title}</CardTitle>
+            <Link href={`/dashboard/events/${event.id}`} key={event.id} className="transform transition-all duration-300 hover:scale-105">
+              <Card className="overflow-hidden rounded-xl shadow-xl bg-gradient-to-br from-white to-yellow-100 border-2 border-white">
+                <CardHeader className="bg-gradient-to-r from-yellow-400 to-pink-400 p-4">
+                  <CardTitle className="text-xl font-bold text-white truncate">{event.title}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-2 text-gray-600 mb-2">
-                    <MapPinIcon className="h-4 w-4" />
-                    <span>{event.location}</span>
+                <CardContent className="p-5">
+                  <div className="flex items-center gap-3 text-orange-700 mb-3">
+                    <MapPinIcon className="h-5 w-5 text-pink-500" />
+                    <span className="font-medium truncate">{event.location}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <CalendarIcon className="h-4 w-4" />
-                    <span>{new Date(event.event_date).toLocaleDateString()}</span>
+                  <div className="flex items-center gap-3 text-orange-700">
+                    <CalendarIcon className="h-5 w-5 text-pink-500" />
+                    <span className="font-medium">{new Date(event.event_date).toLocaleDateString()}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -96,5 +100,5 @@ export default function EventsPage() {
         </div>
       )}
     </main>
-  );
+  )
 }
