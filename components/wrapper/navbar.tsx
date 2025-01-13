@@ -40,9 +40,9 @@ export default function NavBar() {
                                 </Link>
                             </DialogClose>
                             <DialogClose asChild>
-                                <Link href="/dashboard" legacyBehavior passHref className="cursor-pointer">
+                                <Link href="/dashboard/events" legacyBehavior passHref className="cursor-pointer">
                                     <Button variant="outline">
-                                        Dashboard
+                                        Wydarzenia
                                     </Button>
                                 </Link>
                             </DialogClose>
@@ -51,26 +51,21 @@ export default function NavBar() {
                 </Dialog>
                 <ModeToggle />
             </div>
-            <NavigationMenu>
-                <NavigationMenuList className="max-[825px]:hidden flex gap-3 w-[100%] justify-between">
-                    <Link href="/" className="pl-2 flex items-center text-white hover:opacity-80" aria-label="Home">
+            <NavigationMenu className="flex justify-center w-full">
+                <NavigationMenuList className="flex gap-3 items-center justify-center w-full">
+                    <Link href="/" className="flex items-center text-white hover:opacity-80" aria-label="Home">
                         <BlocksIcon aria-hidden="true" className="text-[#CAFC03]"/>
                         <span className="ml-2 text-lg font-bold">Woopla</span>
                     </Link>
                 </NavigationMenuList>
-                <NavigationMenuList>
-                    <NavigationMenuItem className="max-[825px]:hidden">
-                        <Link href="/dashboard" legacyBehavior passHref>
-                            <Button variant="ghost" className="text-white hover:bg-white/10">
-                                Dashboard
-                            </Button>
-                        </Link>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
             </NavigationMenu>
-            <div className="flex items-center gap-2 max-[825px]:hidden">
+            <div className="flex items-between gap-2 max-[825px]:hidden">
+                <Link href="/dashboard/events" legacyBehavior passHref>
+                    <Button variant="ghost" className="text-white hover:bg-white/10">
+                        Wydarzenia
+                    </Button>
+                </Link>
                 {userId && <UserProfile />}
-                <ModeToggle />
             </div>
         </div>
     );

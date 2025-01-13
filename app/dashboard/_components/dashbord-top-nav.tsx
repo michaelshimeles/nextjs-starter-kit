@@ -15,7 +15,7 @@ import { ReactNode } from 'react'
 export default function DashboardTopNav({ children }: { children: ReactNode }) {
   return (
     <div className="flex flex-col">
-      <header className="flex h-14 lg:h-[55px] items-center gap-4 border-b px-3 bg-gradient-to-b">
+      <header className="flex h-14 lg:h-[55px] items-center gap-4 px-3 bg-gradient-to-b">
         <Dialog>
           <SheetTrigger className="min-[1024px]:hidden p-2 transition ">
             <HamburgerMenuIcon />
@@ -30,14 +30,6 @@ export default function DashboardTopNav({ children }: { children: ReactNode }) {
               </Link>
             </SheetHeader>
             <div className="flex flex-col space-y-3 mt-[1rem]">
-              <DialogClose asChild>
-                <Link href="/dashboard">
-                  <Button variant="outline" className="w-full">
-                    <HomeIcon className="mr-2 h-4 w-4" />
-                    Home
-                  </Button>
-                </Link>
-              </DialogClose>
               <DialogClose asChild>
                 <Link href="/dashboard/events">
                   <Button variant="outline" className="w-full">
@@ -60,7 +52,6 @@ export default function DashboardTopNav({ children }: { children: ReactNode }) {
         </Dialog>
         <div className="flex justify-center items-center gap-2 ml-auto">
           {config?.auth?.enabled && <UserProfile />}
-          <ModeToggle />
         </div>
       </header>
       {children}
