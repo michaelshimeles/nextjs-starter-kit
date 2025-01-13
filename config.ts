@@ -3,7 +3,7 @@ const config = {
     enabled: true,
   },
   payments: {
-    enabled: true,
+    enabled: false,
   },
 };
 
