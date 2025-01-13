@@ -56,7 +56,7 @@ export default function EventsPage() {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-black drop-shadow-md">Events</h1>
         <Link href="/dashboard/events/new">
-          <Button className="bg-white text-pink-500 hover:bg-pink-100 hover:text-pink-600 font-semibold shadow-md transition-all duration-300">
+          <Button className="bg-gradient-to-r from-gray-900 to-gray-800 text-white hover:from-gray-800 hover:to-gray-900 transform hover:-translate-y-0.5 transition-all duration-300 font-semibold shadow-[0_0_15px_rgba(255,182,255,0.5)] hover:shadow-[0_0_20px_rgba(255,182,255,0.7)] border-2 border-pink-400/50 px-6 py-3">
             Stwórz wydarzenie
           </Button>
         </Link>

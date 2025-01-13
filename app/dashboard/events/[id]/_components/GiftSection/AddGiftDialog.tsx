@@ -25,7 +25,7 @@ export function AddGiftDialog({ eventId, onSuccess }: AddGiftDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-gradient-to-r from-green-400 to-teal-500 hover:opacity-90 text-white font-semibold px-6 py-3 rounded-lg shadow-md">
+        <Button className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white hover:from-indigo-700 hover:to-purple-800 transform hover:-translate-y-0.5 transition-all duration-300 font-semibold shadow-[0_0_20px_rgba(129,140,248,0.5)] hover:shadow-[0_0_25px_rgba(129,140,248,0.7)] border-2 border-indigo-300/50 px-6 py-3">
           <Plus className="h-5 w-5 mr-2" />
           Dodaj prezent
         </Button>

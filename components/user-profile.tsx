@@ -47,14 +47,12 @@ export function UserProfile() {
                         <DropdownMenuItem>
                             <User className="mr-2 h-4 w-4" />
                             <span>Profile</span>
-                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                         </DropdownMenuItem>
                     </Link>
                     <Link href="/dashboard/settings">
                         <DropdownMenuItem>
                             <Settings className="mr-2 h-4 w-4" />
                             <span>Settings</span>
-                            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                         </DropdownMenuItem>
                     </Link>
                 </DropdownMenuGroup>
@@ -62,7 +60,6 @@ export function UserProfile() {
                     <DropdownMenuItem>
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Log out</span>
-                        <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                     </DropdownMenuItem>
                 </SignOutButton>
             </DropdownMenuContent>
