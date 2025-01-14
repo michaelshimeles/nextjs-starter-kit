@@ -14,15 +14,27 @@ export function AccordionComponent() {
             </h2>
             <Accordion type="single" collapsible className="w-full mt-2">
                 <AccordionItem value="item-1">
-                    <AccordionTrigger><span className="font-medium">A po co to komu?</span></AccordionTrigger>
+                    <AccordionTrigger><span className="font-medium">Jak utworzyć nowe wydarzenie?</span></AccordionTrigger>
                     <AccordionContent>
-                        <p>Yes, this page isn&apos;t even a real landing page more so a template for you to build on</p>
+                        <p>Aby utworzyć nowe wydarzenie, przejdź do strony "Stwórz Wydarzenie" z poziomu swojego panelu. Wypełnij szczegóły wydarzenia, takie jak tytuł, opis, lokalizacja i data, a następnie kliknij "Zatwierdź", aby zapisać wydarzenie.</p>
                     </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
-                    <AccordionTrigger><span className="font-medium">A czy to w ogóle jest potrzebne?</span></AccordionTrigger>
+                    <AccordionTrigger><span className="font-medium"> Jak dodać prezenty do wydarzenia?</span></AccordionTrigger>
                     <AccordionContent>
-                        <p>Yes, this page isn&apos;t even a real landing page more so a template for you to build on</p>
+                        <p>Aby dodać prezenty, przejdź do sekcji prezentów wydarzenia i kliknij "Dodaj Prezent". Wypełnij szczegóły prezentu i zatwierdź formularz, aby dodać go do listy prezentów wydarzenia.</p>
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
+                    <AccordionTrigger><span className="font-medium">Jak mogę udostępnić moje wydarzenie innym?</span></AccordionTrigger>
+                    <AccordionContent>
+                        <p>Skorzystaj z funkcji "Udostępnij Wydarzenie", który jest widoczny na stronie utworzonego wydarzenia, aby uzyskać link do udostępnienia lub kod QR, który możesz wysłać swoim gościom.</p>
+                    </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-4">
+                    <AccordionTrigger><span className="font-medium">Jak skontaktować się z pomocą techniczną?</span></AccordionTrigger>
+                    <AccordionContent>
+                        <p></p>
                     </AccordionContent>
                 </AccordionItem>
             </Accordion>
