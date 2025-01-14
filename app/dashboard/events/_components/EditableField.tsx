@@ -66,21 +66,24 @@ export function EditableField({
 
   if (isEditing) {
     return (
-      <div className={`flex items-center gap-2 ${className}`}>
+      <div className={`w-full ${className}`}>
         {icon && <span className="text-blue-500">{icon}</span>}
         {type === 'textarea' ? (
-          <Textarea
-            value={editedValue}
-            onChange={(e) => setEditedValue(e.target.value)}
-            className="min-w-[300px]"
-            autoFocus
-          />
+          <div className="w-full mb-2">
+            <textarea
+              value={editedValue}
+              onChange={(e) => setEditedValue(e.target.value)}
+              className="w-full min-h-[120px] min-w-[300px] p-3 rounded-md border border-input bg-white text-gray-900 resize focus:outline-none focus:ring-2 focus:ring-ring shadow-sm"
+              style={{ resize: 'both' }}
+              autoFocus
+            />
+          </div>
         ) : (
           <Input
             type={type}
             value={editedValue}
             onChange={(e) => setEditedValue(e.target.value)}
-            className="min-w-[300px]"
+            className="min-w-[300px] text-gray-900"
             autoFocus
           />
         )}
@@ -92,7 +95,7 @@ export function EditableField({
           >
             {isLoading ? 'Zapisywanie...' : 'Zapisz'}
           </Button>
-          <Button 
+          <Button className='bg-white text-black'
             onClick={() => {
               setIsEditing(false);
               setEditedValue(value);

@@ -50,7 +50,7 @@ export function DateField({ event, isOwner, onUpdate }: DateFieldProps) {
 
   return (
     <div className="flex items-center gap-2 text-gray-700">
-      <span className="text-white-500">Data wydarzenia:</span>
+      <span className="text-black">Data wydarzenia:</span>
       {isOwner ? (
         <EditableField
           value={dateForInput}

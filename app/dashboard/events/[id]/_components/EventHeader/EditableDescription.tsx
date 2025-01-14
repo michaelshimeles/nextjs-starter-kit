@@ -25,15 +25,20 @@ export function EditableDescription({ event, isOwner, onUpdate }: EditableDescri
     }
   };
 
-  return isOwner ? (
-    <EditableField
-      value={event.description || ''}
-      className="text-sm text-gray-100 mt-2"
-      onSave={handleUpdate}
-    />
-  ) : (
-    <p className="text-sm text-gray-100 mt-2">
-      {event.description || 'Brak opisu'}
-    </p>
+  return (
+    <div className="w-full">
+      {isOwner ? (
+        <EditableField
+          value={event.description || ''}
+          className="w-full"
+          type="textarea"
+          onSave={handleUpdate}
+        />
+      ) : (
+        <p className="text-sm text-gray-100 mt-2">
+          {event.description || 'Brak opisu'}
+        </p>
+      )}
+    </div>
   );
 }
