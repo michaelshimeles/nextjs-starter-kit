@@ -1,17 +1,17 @@
 export default function Footer() {
     return (
-        <footer className="border-t dark:bg-black">
+        <footer className="bg-[#fbcfe8] text-gray-800 py-6">
             <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-                <div className="mt-8 border-t pt-8">
-                    <ul className="flex flex-wrap gap-4 text-xs">
+                <div className="mt-8 pt-8 border-t border-gray-300">
+                    <ul className="flex flex-wrap justify-center gap-4 text-xs">
                         <li>
                             <a 
                                 href="/" 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
-                                className="transition hover:opacity-75"
+                                className="transition hover:text-pink-600"
                             >
-                                Terms & Conditions
+                                Regulamin
                             </a>
                         </li>
                         <li>
@@ -19,13 +19,13 @@ export default function Footer() {
                                 href="/" 
                                 target="_blank" 
                                 rel="noopener noreferrer" 
-                                className="transition hover:opacity-75"
+                                className="transition hover:text-pink-600"
                             >
-                                Privacy Policy
+                                Polityka prywatności
                             </a>
                         </li>
                     </ul>
-                    <p className="mt-8 text-xs">&copy; 2025. Woopla All rights reserved.</p>
+                    <p className="mt-8 text-xs text-center">&copy; 2025. Woopla All rights reserved.</p>
                 </div>
             </div>
         </footer>

@@ -70,3 +70,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* footer {
+  background-color: #fbcfe8; /* Jasne tło 
+  color: #333; /* Ciemny kolor tekstu 
+  padding: 20px 0; /* Odstępy wewnętrzne 
+  text-align: center; /* Wyśrodkowanie tekstu 
+}
+
+footer a {
+  color: #007bff; /* Kolor linków 
+  transition: color 0.3s;
+}
+
+footer a:hover {
+  color: #0056b3; /* Kolor linków po najechaniu 
+}
+
+footer p {
+  margin-top: 10px; /* Odstęp nad tekstem 
+  font-size: 0.875rem; /* Rozmiar czcionki 
+} */
