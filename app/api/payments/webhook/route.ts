@@ -1,5 +1,5 @@
 import { db } from "@/db/drizzle";
-import { invoices, payments, subscriptions, users } from "@/db/schema";
+import { invoices, subscriptions, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -7,7 +7,9 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: NextRequest) {
+  console.log('🔄 Webhook request received');
   const reqText = await req.text();
+  console.log('📝 Request headers:', Object.fromEntries(req.headers.entries()));
   return webhooksHandler(reqText, req);
 }
 
@@ -25,6 +27,7 @@ async function handleSubscriptionEvent(
   event: Stripe.Event,
   type: "created" | "updated" | "deleted"
 ) {
+
   const subscription = event.data.object as Stripe.Subscription;
   const customerEmail = await getCustomerEmail(subscription.customer as string);
 
@@ -44,6 +47,8 @@ async function handleSubscriptionEvent(
     userId: subscription.metadata?.userId || "",
     email: customerEmail,
   };
+
+  console.log('📝 Subscription data:', subscriptionData);
 
   try {
     if (type === "deleted") {
@@ -109,6 +114,13 @@ async function handleInvoiceEvent(
   const invoice = event.data.object as Stripe.Invoice;
   const customerEmail = await getCustomerEmail(invoice.customer as string);
 
+  console.log('📊 Invoice details:', {
+    email: customerEmail,
+    amount: invoice.amount_paid,
+    currency: invoice.currency,
+    metadata: invoice.metadata
+  });
+
   if (!customerEmail) {
     return NextResponse.json({
       status: 500,
@@ -151,6 +163,8 @@ async function handleCheckoutSessionCompleted(event: Stripe.Event) {
   const session = event.data.object as Stripe.Checkout.Session;
   const metadata: any = session?.metadata;
 
+  console.log('🏷️ Session metadata:', metadata);
+
   if (metadata?.subscription === "true") {
     // This is for subscription payments
     const subscriptionId = session.subscription;
@@ -186,45 +200,45 @@ async function handleCheckoutSessionCompleted(event: Stripe.Event) {
     const dateTime = new Date(session.created * 1000).toISOString();
     try {
       // Fetch user
-      const user = await db.query.users.findFirst({
-        where: eq(users.userId, metadata?.userId),
-      });
+      // const user = await db.query.users.findFirst({
+      //   where: eq(users.userId, metadata?.userId),
+      // });
 
-      if (!user) {
-        throw new Error("User not found");
-      }
+      // if (!user) {
+      //   throw new Error("User not found");
+      // }
 
-      const paymentData = {
-        userId: metadata?.userId,
-        stripeId: session.id,
-        email: metadata?.email,
-        amount: String(session.amount_total! / 100),
-        customerDetails: JSON.stringify(session.customer_details),
-        paymentIntent: session.payment_intent as string,
-        paymentTime: dateTime,
-        currency: session.currency,
-      };
+      // const paymentData = {
+      //   userId: metadata?.userId,
+      //   stripeId: session.id,
+      //   email: metadata?.email,
+      //   amount: String(session.amount_total! / 100),
+      //   customerDetails: JSON.stringify(session.customer_details),
+      //   paymentIntent: session.payment_intent as string,
+      //   paymentTime: dateTime,
+      //   currency: session.currency,
+      // };
 
-      // Insert payment
-      const insertedPayment = await db
-        .insert(payments)
-        .values(paymentData)
-        .returning();
+      // // Insert payment
+      // const insertedPayment = await db
+      //   .insert(payments)
+      //   .values(paymentData)
+      //   .returning();
 
-      // Calculate and update user credits
-      const currentCredits = Number(user.credits || 0);
-      const updatedCredits = currentCredits + (session.amount_total || 0) / 100;
+      // // Calculate and update user credits
+      // const currentCredits = Number(user.credits || 0);
+      // const updatedCredits = currentCredits + (session.amount_total || 0) / 100;
 
-      const updatedUser = await db
-        .update(users)
-        .set({ credits: String(updatedCredits) })
-        .where(eq(users.userId, metadata?.userId))
-        .returning();
+      // const updatedUser = await db
+      //   .update(users)
+      //   .set({ credits: String(updatedCredits) })
+      //   .where(eq(users.userId, metadata?.userId))
+      //   .returning();
 
       return NextResponse.json({
         status: 200,
         message: "Payment and credits updated successfully",
-        updatedUser,
+        // updatedUser,
       });
     } catch (error) {
       console.error("Error handling checkout session:", error);
@@ -240,14 +254,22 @@ async function webhooksHandler(
   reqText: string,
   request: NextRequest
 ): Promise<NextResponse> {
+  console.log('🎯 Processing webhook request');
   const sig = request.headers.get("Stripe-Signature");
+  console.log('🔑 Stripe signature present:', !!sig);
 
   try {
+    console.log('🔄 Constructing Stripe event...');
     const event = await stripe.webhooks.constructEventAsync(
       reqText,
       sig!,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
+    console.log('✅ Event constructed successfully:', {
+      type: event.type,
+      id: event.id,
+      apiVersion: event.api_version
+    });
 
     switch (event.type) {
       case "customer.subscription.created":

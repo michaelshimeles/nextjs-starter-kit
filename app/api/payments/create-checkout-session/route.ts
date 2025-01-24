@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
         success_url: `${process.env.FRONTEND_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${process.env.FRONTEND_URL}/cancel`,
         allow_promotion_codes: true,
+        customer_email: email
       });
 
 

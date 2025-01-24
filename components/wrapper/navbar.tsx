@@ -10,11 +10,10 @@ import {
 import config from "@/config";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
-import { Dialog, DialogClose } from "@radix-ui/react-dialog";
-import { BlocksIcon } from "lucide-react";
+import { Dialog } from "@radix-ui/react-dialog";
+import { Github, Menu, Sparkles } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
 import ModeToggle from "../mode-toggle";
 import { Button } from "../ui/button";
 import {
@@ -24,13 +23,23 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import { UserProfile } from "../user-profile";
-import { redirect } from "next/navigation";
+import { motion } from "framer-motion";
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "Marketing Page",
-    href: "/marketing",
-    description: "Write some wavy here to get them to click.",
+    title: "Features",
+    href: "/features",
+    description: "Explore all the features available in our starter kit.",
+  },
+  {
+    title: "Documentation",
+    href: "/docs",
+    description: "Learn how to get started and make the most of our starter kit.",
+  },
+  {
+    title: "Examples",
+    href: "/examples",
+    description: "View example projects built with our starter kit.",
   },
 ];
 
@@ -43,86 +52,96 @@ export default function NavBar() {
   }
 
   return (
-    <div className="flex min-w-full fixed justify-between p-2 border-b z-10 dark:bg-black dark:bg-opacity-50 bg-white">
-      <div className="flex justify-between w-full min-[825px]:hidden">
-        <Dialog>
-          <SheetTrigger className="p-2 transition">
-            <Button
-              size="icon"
-              variant="ghost"
-              className="w-4 h-4"
-              aria-label="Open menu"
-              asChild
-            >
-              <GiHamburgerMenu />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <SheetHeader>
-              <SheetTitle>Next Starter</SheetTitle>
-            </SheetHeader>
-            <div className="flex flex-col space-y-3 mt-[1rem]">
-              <DialogClose asChild>
-                <Link href="/">
-                  <Button variant="outline" className="w-full">
-                    Home
-                  </Button>
-                </Link>
-              </DialogClose>
-              <DialogClose asChild>
-                <Link
-                  href="/dashboard"
-                  legacyBehavior
-                  passHref
-                  className="cursor-pointer"
-                >
-                  <Button variant="outline">Dashboard</Button>
-                </Link>
-              </DialogClose>
-            </div>
-          </SheetContent>
-        </Dialog>
-        <ModeToggle />
-      </div>
-      <NavigationMenu>
-        <NavigationMenuList className="max-[825px]:hidden flex gap-3 w-[100%] justify-between">
-          <Link href="/" className="pl-2 flex items-center" aria-label="Home">
-            <BlocksIcon aria-hidden="true" />
-            <span className="sr-only">Home</span>
-          </Link>
-        </NavigationMenuList>
-        <NavigationMenuList>
-          <NavigationMenuItem className="max-[825px]:hidden ml-5">
-            <NavigationMenuTrigger className="dark:bg-black dark:bg-opacity-50">
-              Features
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="flex flex-col w-[400px] gap-3 p-4 lg:w-[500px]">
-                {components.map((component, index) => (
-                  <ListItem
-                    key={index}
-                    title={component.title}
-                    // href={component.href}
-                    onMouseDown={() => redirect(component.href)}
-                  >
-                    {component.description}
-                  </ListItem>
+    <motion.div
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-md bg-white/80 dark:bg-black/80"
+    >
+      <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
+        {/* Logo - Mobile */}
+        <div className="flex lg:hidden items-center gap-2">
+          <Dialog>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="lg:hidden">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <SheetHeader>
+                <SheetTitle>Navigation</SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col gap-4 mt-4">
+                {components.map((item) => (
+                  <Link key={item.href} href={item.href}>
+                    <Button variant="ghost" className="w-full justify-start">
+                      {item.title}
+                    </Button>
+                  </Link>
                 ))}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem className="max-[825px]:hidden">
-            <Button variant="ghost" onMouseDown={() => redirect("/dashboard")}>
-              Dashboard
+              </div>
+            </SheetContent>
+          </Dialog>
+          <Link href="/" className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-blue-600" />
+            <span className="font-semibold">Next Starter</span>
+          </Link>
+        </div>
+
+        {/* Logo - Desktop */}
+        <div className="hidden lg:flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-blue-600" />
+            <span className="font-semibold">Next Starter</span>
+          </Link>
+        </div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-6">
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                    {components.map((component) => (
+                      <ListItem
+                        key={component.title}
+                        title={component.title}
+                        href={component.href}
+                      >
+                        {component.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+
+          <Link href="/dashboard">
+            <Button variant="ghost">Dashboard</Button>
+          </Link>
+
+          <Link href="https://github.com/michaelshimeles/nextjs14-starter-template" target="_blank">
+            <Button variant="ghost" size="icon">
+              <Github className="h-5 w-5" />
             </Button>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-      <div className="flex items-center gap-2 max-[825px]:hidden">
-        {userId && <UserProfile />}
-        <ModeToggle />
+          </Link>
+        </div>
+
+        {/* Right Side */}
+        <div className="flex items-center gap-2">
+          <ModeToggle />
+          {userId && <UserProfile />}
+          {!userId && config?.auth?.enabled && (
+            <Link href="/sign-in">
+              <Button variant="default" className="bg-blue-600 hover:bg-blue-500">Sign in</Button>
+            </Link>
+          )}
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -150,4 +169,3 @@ const ListItem = React.forwardRef<
     </li>
   );
 });
-ListItem.displayName = "ListItem";

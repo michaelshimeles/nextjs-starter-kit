@@ -13,19 +13,6 @@ export const users = pgTable("users", {
   credits: text("credits"),
 });
 
-export const payments = pgTable("payments", {
-  id: serial("id").primaryKey(),
-  createdTime: timestamp("created_time").defaultNow(),
-  stripeId: text("stripe_id"),
-  email: text("email"),
-  amount: text("amount"),
-  paymentTime: text("payment_time"),
-  paymentDate: text("payment_date"),
-  currency: text("currency"),
-  userId: text("user_id"),
-  customerDetails: text("customer_details"),
-  paymentIntent: text("payment_intent"),
-});
 
 export const subscriptions = pgTable("subscriptions", {
   id: serial("id").primaryKey(),
