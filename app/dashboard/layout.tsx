@@ -3,13 +3,15 @@ import { currentUser } from "@clerk/nextjs/server"
 import { ReactNode } from "react"
 import DashboardSideBar from "./_components/dashboard-side-bar"
 import DashboardTopNav from "./_components/dashbord-top-nav"
+import { redirect } from "next/navigation"
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
 
   const user = await currentUser()
-  const { authorized, message } = await isAuthorized(user?.id!)
+  const { authorized } = await isAuthorized(user?.id!)
+
   if (!authorized) {
-    console.log('authorized check fired')
+    redirect("/not-subscriber")
   }
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
