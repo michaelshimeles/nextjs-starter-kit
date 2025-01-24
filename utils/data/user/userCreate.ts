@@ -12,13 +12,20 @@ export const userCreate = async ({
   user_id,
 }: userCreateProps) => {
   try {
-    const result = db.insert(users).values({
+    console.log("info", {
       email,
       firstName: first_name,
       lastName: last_name,
       profileImageUrl: profile_image_url,
       userId: user_id,
     });
+    const result = db.insert(users).values({
+      email,
+      firstName: first_name,
+      lastName: last_name,
+      profileImageUrl: profile_image_url,
+      userId: user_id,
+    }).returning();
 
     return result;
   } catch (error: any) {

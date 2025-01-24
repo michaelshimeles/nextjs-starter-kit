@@ -1,6 +1,6 @@
 {
-  "id": "e8cd8ad0-42b7-4511-aab9-dfa6dcc23641",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "6b473409-c307-4c39-a7f7-eb8e3b4bf10c",
+  "prevId": "e8cd8ad0-42b7-4511-aab9-dfa6dcc23641",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -300,8 +300,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.user": {
-      "name": "user",
+    "public.users": {
+      "name": "users",
       "schema": "",
       "columns": {
         "id": {
@@ -370,15 +370,15 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "user_email_unique": {
-          "name": "user_email_unique",
+        "users_email_unique": {
+          "name": "users_email_unique",
           "nullsNotDistinct": false,
           "columns": [
             "email"
           ]
         },
-        "user_user_id_unique": {
-          "name": "user_user_id_unique",
+        "users_user_id_unique": {
+          "name": "users_user_id_unique",
           "nullsNotDistinct": false,
           "columns": [
             "user_id"

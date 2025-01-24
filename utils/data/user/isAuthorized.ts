@@ -24,28 +24,10 @@ export const isAuthorized = async (
     };
   }
 
-
   try {
     const data = await db.select().from(users);
 
-    // const { data, error } = await supabase
-    //   .from("subscriptions")
-    //   .select("*")
-    //   .eq("user_id", userId);
-
-    // if (error?.code)
-    //   return {
-    //     authorized: false,
-    //     message: error.message,
-    //   };
-
-    // if (data && data[0].status === "active") {
-    //   return {
-    //     authorized: true,
-    //     message: "User is subscribed",
-    //   };
-    // }
-
+    console.log('data', data)
     return {
       authorized: false,
       message: "User is not subscribed",

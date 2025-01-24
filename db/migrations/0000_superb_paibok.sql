@@ -60,6 +60,7 @@ CREATE TABLE "user" (
 	"profile_image_url" text,
 	"user_id" text,
 	"subscription" text,
+	"credits" text,
 	CONSTRAINT "user_email_unique" UNIQUE("email"),
 	CONSTRAINT "user_user_id_unique" UNIQUE("user_id")
 );

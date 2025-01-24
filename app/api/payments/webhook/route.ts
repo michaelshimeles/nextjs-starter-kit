@@ -119,8 +119,8 @@ async function handleInvoiceEvent(
   const invoiceData = {
     invoiceId: invoice.id,
     subscriptionId: invoice.subscription as string,
-    amountPaid: status === "succeeded" ? invoice.amount_paid / 100 : undefined,
-    amountDue: status === "failed" ? invoice.amount_due / 100 : undefined,
+    amountPaid: status === "succeeded" ? String(invoice.amount_paid / 100) : undefined,
+    amountDue: status === "failed" ? String(invoice.amount_due / 100) : undefined,
     currency: invoice.currency,
     status,
     userId: invoice.metadata?.userId,
@@ -198,7 +198,7 @@ async function handleCheckoutSessionCompleted(event: Stripe.Event) {
         userId: metadata?.userId,
         stripeId: session.id,
         email: metadata?.email,
-        amount: (session.amount_total! / 100).toString(),
+        amount: String(session.amount_total! / 100),
         customerDetails: JSON.stringify(session.customer_details),
         paymentIntent: session.payment_intent as string,
         paymentTime: dateTime,
@@ -217,7 +217,7 @@ async function handleCheckoutSessionCompleted(event: Stripe.Event) {
 
       const updatedUser = await db
         .update(users)
-        .set({ credits: updatedCredits })
+        .set({ credits: String(updatedCredits) })
         .where(eq(users.userId, metadata?.userId))
         .returning();
 

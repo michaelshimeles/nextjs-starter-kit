@@ -7,11 +7,11 @@ import { Button } from "../ui/button";
 export default function HeroSection() {
     return (
         <section className='flex flex-col items-center justify-center leading-6 mt-[3rem]' aria-label="Nextjs Starter Kit Hero">
-            <h1 className={`text-2xl sm:text-2xl md:text-3xl lg:text-4xl scroll-m-20 font-semibold tracking-tight text-center max-w-[1120px] bg-gradient-to-b dark:text-white`}>
-                Nextjs Starter Kit: Build & Ship Fast
+            <h1 className={`text-4xl md:text-5xl lg:text-6xl scroll-m-20 font-semibold tracking-tight text-center max-w-[1120px] bg-gradient-to-b dark:text-white`}>
+                Next Starter
             </h1>
             <p className="mx-auto max-w-[700px] text-gray-500 text-center mt-2 dark:text-gray-400">
-                The Ultimate Nextjs 15 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters
+                The Ultimate Nextjs 15 Starter Kit. One click deployment and everything else you need to run your SaaS.
             </p>
             <div className="flex justify-center items-center gap-3">
                 <Link href="/dashboard" className="mt-5">

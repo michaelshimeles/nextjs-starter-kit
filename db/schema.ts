@@ -1,11 +1,6 @@
-import {
-  pgTable,
-  serial,
-  text,
-  timestamp
-} from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
-export const users = pgTable("user", {
+export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   createdTime: timestamp("created_time").defaultNow(),
   email: text("email").unique(),
@@ -15,6 +10,7 @@ export const users = pgTable("user", {
   profileImageUrl: text("profile_image_url"),
   userId: text("user_id").unique(),
   subscription: text("subscription"),
+  credits: text("credits"),
 });
 
 export const payments = pgTable("payments", {
