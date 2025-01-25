@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(req: NextRequest) {
   const { userId, email, priceId, subscription } = await req.json();
 
-  console.log("userId, email, priceId, subscription", userId, email, priceId, subscription);
+  console.log("subscription", subscription);
 
   if (subscription) {
     try {
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
         cancel_url: `${process.env.FRONTEND_URL}/cancel`,
       });
 
-      console.log("session", session);
+      // console.log("session", session);
 
       return NextResponse.json({ sessionId: session.id });
     } catch (error) {

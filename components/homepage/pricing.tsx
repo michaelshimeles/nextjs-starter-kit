@@ -47,7 +47,7 @@ const PricingHeader = ({
   title: string;
   subtitle: string;
 }) => (
-  <div className="text-center mb-16">
+  <div className="text-center mb-10">
     {/* Pill badge */}
     <div className="mx-auto w-fit rounded-full border border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-900/30 px-4 py-1 mb-6">
       <div className="flex items-center gap-2 text-sm font-medium text-blue-900 dark:text-blue-200">
@@ -69,8 +69,12 @@ const PricingSwitch = ({ onSwitch }: PricingSwitchProps) => (
   <div className="flex justify-center items-center gap-3">
     <Tabs defaultValue="0" className="w-[400px]" onValueChange={onSwitch}>
       <TabsList className="w-full">
-        <TabsTrigger value="0" className="w-full">Monthly</TabsTrigger>
-        <TabsTrigger value="1" className="w-full">Yearly</TabsTrigger>
+        <TabsTrigger value="0" className="w-full">
+          Monthly
+        </TabsTrigger>
+        <TabsTrigger value="1" className="w-full">
+          Yearly
+        </TabsTrigger>
       </TabsList>
     </Tabs>
   </div>
@@ -92,112 +96,86 @@ const PricingCard = ({
   exclusive,
 }: PricingCardProps) => {
   const router = useRouter();
+
+  console.log("priceIdMonthly", priceIdMonthly);
   return (
     <Card
-      className={cn("w-full max-w-sm flex flex-col justify-between py-6 px-8", {
+      className={cn("w-full max-w-sm flex flex-col justify-between px-2 py-1", {
         "relative border-2 border-blue-500 dark:border-blue-400": popular,
         "shadow-2xl bg-gradient-to-b from-gray-900 to-gray-800 text-white":
           exclusive,
       })}
     >
       {popular && (
-        <div className="absolute top-0 right-6 transform -translate-y-1/2">
-          <div className="bg-blue-500 text-white text-sm font-medium px-4 py-1 rounded-full shadow-lg">
-            Most Popular
-          </div>
+        <div className="absolute -top-3 left-0 right-0 mx-auto w-fit rounded-full bg-blue-500 dark:bg-blue-400 px-3 py-1">
+          <p className="text-sm font-medium text-white">Most Popular</p>
         </div>
       )}
+
       <div>
-        <CardHeader className="pb-8 pt-4 space-y-1">
-          <CardTitle
-            className={cn("text-xl font-bold", {
-              "text-white": exclusive,
-              "text-gray-900 dark:text-white": !exclusive,
-            })}
-          >
-            {title}
-          </CardTitle>
-          <div className="flex items-baseline gap-1">
-            <span className="text-4xl font-bold">
-              {yearlyPrice && isYearly
-                ? "$" + yearlyPrice
-                : monthlyPrice
-                ? "$" + monthlyPrice
-                : "Custom"}
-            </span>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              {yearlyPrice && isYearly
-                ? "/year"
-                : monthlyPrice
-                ? "/month"
-                : null}
-            </span>
-          </div>
-          {isYearly && yearlyPrice && monthlyPrice && (
-            <div className="text-sm text-blue-500 dark:text-blue-400 font-medium">
-              Save ${monthlyPrice * 12 - yearlyPrice} yearly
-            </div>
-          )}
+        <CardHeader className="space-y-2 pb-4">
+          <CardTitle className="text-xl">{title}</CardTitle>
           <CardDescription
-            className={cn("pt-1.5", {
+            className={cn("", {
               "text-gray-300": exclusive,
-              "text-gray-600 dark:text-gray-300": !exclusive,
             })}
           >
             {description}
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {features.map((feature: string, index) => (
-            <motion.div
-              key={feature}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="flex items-center gap-3"
+
+        <CardContent className="pb-4">
+          <div className="flex items-baseline gap-1">
+            <span
+              className={cn("text-4xl font-bold", {
+                "text-white": exclusive,
+              })}
             >
-              <CheckCircle2
-                className={cn("h-5 w-5", {
-                  "text-blue-400": exclusive,
-                  "text-green-500 dark:text-green-400": !exclusive,
-                })}
-              />
-              <span
-                className={cn("text-sm", {
-                  "text-gray-300": exclusive,
-                  "text-gray-600 dark:text-gray-300": !exclusive,
-                })}
-              >
-                {feature}
-              </span>
-            </motion.div>
-          ))}
+              ${isYearly ? yearlyPrice : monthlyPrice}
+            </span>
+            <span
+              className={cn("text-muted-foreground", {
+                "text-gray-300": exclusive,
+              })}
+            >
+              /mo
+            </span>
+          </div>
+
+          <div className="mt-6 space-y-2">
+            {features.map((feature) => (
+              <div key={feature} className="flex gap-2">
+                <CheckCircle2
+                  className={cn("h-5 w-5 text-blue-500", {
+                    "text-blue-400": exclusive,
+                  })}
+                />
+                <p
+                  className={cn("text-muted-foreground", {
+                    "text-gray-300": exclusive,
+                  })}
+                >
+                  {feature}
+                </p>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </div>
-      <CardFooter className="pt-8">
+
+      <CardFooter>
         <Button
           onClick={() => {
-            if (user?.id) {
-              handleCheckout(isYearly ? priceIdYearly : priceIdMonthly, true);
-            } else {
-              toast("Please login or sign up to purchase", {
-                description: "You must be logged in to make a purchase",
-                action: {
-                  label: "Sign Up",
-                  onClick: () => router.push("/sign-up"),
-                },
-              });
+            if (!user) {
+              router.push("/sign-in");
+              return;
             }
+            handleCheckout(isYearly ? priceIdYearly : priceIdMonthly, true);
           }}
-          className={cn(
-            "w-full py-6 text-sm font-medium transition-all duration-200",
-            {
-              "bg-white text-gray-900 hover:bg-gray-100": exclusive,
-              "bg-blue-500 text-white hover:bg-blue-600": popular && !exclusive,
-              "bg-gray-900 text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100":
-                !popular && !exclusive,
-            }
-          )}
+          className={cn("w-full", {
+            "bg-blue-500 hover:bg-blue-400": popular,
+            "bg-white text-gray-900 hover:bg-gray-100": exclusive,
+          })}
         >
           {actionLabel}
         </Button>
@@ -219,6 +197,7 @@ export default function Pricing() {
 
   const handleCheckout = async (priceId: string, subscription: boolean) => {
     try {
+      console.log("subscription", subscription);
       const { data } = await axios.post(
         `/api/payments/create-checkout-session`,
         {
