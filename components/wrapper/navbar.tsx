@@ -11,6 +11,7 @@ import config from "@/config";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import { Dialog } from "@radix-ui/react-dialog";
+import { motion } from "framer-motion";
 import { Github, Menu, Sparkles, Twitter, Youtube } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
@@ -23,7 +24,6 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import { UserProfile } from "../user-profile";
-import { motion } from "framer-motion";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -212,3 +212,4 @@ const ListItem = React.forwardRef<
     </li>
   );
 });
+ListItem.displayName = "ListItem";
