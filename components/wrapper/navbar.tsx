@@ -199,7 +199,6 @@ export default function NavBar() {
         {/* Right Side */}
         <div className="flex items-center gap-2">
           <ModeToggle />
-          {userId && <UserProfile />}
           {!userId && config?.auth?.enabled && (
             <Link href="/sign-in" prefetch={true}>
               <Button
@@ -210,6 +209,10 @@ export default function NavBar() {
               </Button>
             </Link>
           )}
+          {userId && <UserProfile />}
+          <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmichaelshimeles%2Fnextjs-starter-kit&env=NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,CLERK_SECRET_KEY,NEXT_PUBLIC_CLERK_SIGN_IN_URL,NEXT_PUBLIC_CLERK_SIGN_UP_URL,NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,DATABASE_URL,NEXT_PUBLIC_BASE_URL,OPENAI_API_KEY&envDescription=You'll%20need%20api%20keys%20from%20Clerk%20Auth%2C%20Neon%20Postgres%2C%20%26%20OpenAI&project-name=next-starter&repository-name=next-starter&redirect-url=https%3A%2F%2Fwww.nextstarter.xyz%2F&demo-title=Next%20Starter&demo-description=The%20Ultimate%20Nextjs%2015%20Starter%20Kit%20for%20quickly%20building%20your%20SaaS%2C%20giving%20you%20time%20to%20focus%20on%20what%20really%20matters&demo-url=https%3A%2F%2Fwww.nextstarter.xyz%2F&demo-image=https%3A%2F%2Fdwdwn8b5ye.ufs.sh%2Ff%2FMD2AM9SEY8GucGJl7b5qyE7FjNDKYduLOG2QHWh3f5RgSi0c">
+            <img src="https://vercel.com/button" alt="Deploy with Vercel" />
+          </a>
         </div>
       </div>
     </motion.div>
