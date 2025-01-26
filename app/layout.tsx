@@ -10,8 +10,8 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://nextstarter.xyz/"),
   title: {
-    default: "Next Starter",
-    template: `%s | Nextjs Starter Kit`,
+    default: 'Next Starter',
+    template: `%s | Next Starter`
   },
   description:
     "The Ultimate Nextjs 15 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters",
