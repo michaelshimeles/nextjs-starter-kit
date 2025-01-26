@@ -24,22 +24,13 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import { UserProfile } from "../user-profile";
+import CustomLink from "../custom-link";
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "Features",
-    href: "/features",
-    description: "Explore all the features available in our starter kit.",
-  },
-  {
-    title: "Documentation",
-    href: "/docs",
-    description: "Learn how to get started and make the most of our starter kit.",
-  },
-  {
-    title: "Examples",
-    href: "/examples",
-    description: "View example projects built with our starter kit.",
+    title: "AI Playground",
+    href: "/playground",
+    description: "Interact with the AI in the playground.",
   },
   {
     title: "Dashboard",
@@ -162,9 +153,13 @@ export default function NavBar() {
             </NavigationMenuList>
           </NavigationMenu>
 
-          <Link href="/dashboard">
+          <CustomLink href="/dashboard">
             <Button variant="ghost">Dashboard</Button>
-          </Link>
+          </CustomLink>
+          <CustomLink href="/playground">
+            <Button variant="ghost">AI Playground</Button>
+          </CustomLink>
+
 
           <Link href="https://github.com/michaelshimeles/nextjs14-starter-template" target="_blank">
             <Button variant="ghost" size="icon">

@@ -17,7 +17,7 @@ export default function DashboardSideBar() {
   return (
     <div className="w-64 border-r h-full bg-background">
       <div className="flex h-full flex-col">
-        <div className="flex h-14 items-center border-b px-4">
+        <div className="flex h-[3.45rem] items-center border-b px-4">
           <CustomLink className="flex items-center gap-2 font-semibold hover:cursor-pointer" href="/">
             <span>Nextjs Starter Kit</span>
           </CustomLink>
