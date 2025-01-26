@@ -13,7 +13,7 @@ const nextConfig = {
       pathname: '/**'
     }, {
       protocol: 'https',
-      hostname: 'github.com',
+      hostname: 'dwdwn8b5ye.ufs.sh',
       port: '',
       pathname: '/**'
     }, {

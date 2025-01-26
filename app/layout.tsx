@@ -1,39 +1,46 @@
-import Provider from '@/app/provider'
-import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "@/components/ui/sonner"
-import AuthWrapper from '@/components/wrapper/auth-wrapper'
-import { Analytics } from "@vercel/analytics/react"
-import { GeistSans } from 'geist/font/sans'
-import type { Metadata } from 'next'
-import './globals.css'
+import Provider from "@/app/provider";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import AuthWrapper from "@/components/wrapper/auth-wrapper";
+import { Analytics } from "@vercel/analytics/react";
+import { GeistSans } from "geist/font/sans";
+import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://nextstarter.xyz/"),
   title: {
-    default: 'Next Starter',
-    template: `%s | Nextjs Starter Kit`
+    default: "Next Starter",
+    template: `%s | Nextjs Starter Kit`,
   },
-  description: 'The Ultimate Nextjs 15 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters',
+  description:
+    "The Ultimate Nextjs 15 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters",
   openGraph: {
-    description: 'The Ultimate Nextjs 15 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters',
-    images: ['https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png'],
-    url: 'https://nextstarter.xyz/'
+    description:
+      "The Ultimate Nextjs 15 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters",
+    images: [
+      "https://dwdwn8b5ye.ufs.sh/f/MD2AM9SEY8GucGJl7b5qyE7FjNDKYduLOG2QHWh3f5RgSi0c",
+    ],
+    url: "https://nextstarter.xyz/",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Nextjs Starter Kit',
-    description: 'The Ultimate Nextjs 15 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters',
+    card: "summary_large_image",
+    title: "Nextjs Starter Kit",
+    description:
+      "The Ultimate Nextjs 15 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters",
     siteId: "",
     creator: "@rasmickyy",
     creatorId: "",
-    images: ['https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png'],
+    images: [
+      "https://dwdwn8b5ye.ufs.sh/f/MD2AM9SEY8GucGJl7b5qyE7FjNDKYduLOG2QHWh3f5RgSi0c",
+    ],
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <AuthWrapper>
@@ -66,5 +73,5 @@ export default function RootLayout({
         </body>
       </html>
     </AuthWrapper>
-  )
+  );
 }

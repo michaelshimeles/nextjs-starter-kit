@@ -1,8 +1,3 @@
-type BlogPost = {
-  slug: string;
-  created_at: string;
-};
-
 type SitemapEntry = {
   url: string;
   lastModified: string;
@@ -18,7 +13,7 @@ type SitemapEntry = {
 };
 
 export default async function sitemap(): Promise<SitemapEntry[]> {
-  const baseUrl = "https://starter.rasmic.xyz";
+  const baseUrl = "https://nextstarter.xyz";
 
   const staticPages: SitemapEntry[] = [
     {
