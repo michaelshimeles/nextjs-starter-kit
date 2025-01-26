@@ -1,7 +1,6 @@
 "use client"
 
 import CustomLink from '@/components/custom-link'
-import { Separator } from '@/components/ui/separator'
 import clsx from 'clsx'
 import {
   Banknote,

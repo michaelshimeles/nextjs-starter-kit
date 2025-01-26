@@ -25,6 +25,8 @@ import {
 } from "../ui/sheet";
 import { UserProfile } from "../user-profile";
 import CustomLink from "../custom-link";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -40,10 +42,10 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export default function NavBar() {
-  let userId = null;
-  /* eslint-disable react-hooks/rules-of-hooks */
-  if (config?.auth?.enabled) {
-    const user = useAuth();
+  const user  = useAuth();
+  let userId;
+
+  if (user) {
     userId = user?.userId;
   }
 
@@ -72,10 +74,15 @@ export default function NavBar() {
               </SheetHeader>
               <div className="flex flex-col gap-1 mt-6">
                 <div className="px-2 pb-4">
-                  <h2 className="text-sm font-medium text-muted-foreground mb-2">Navigation</h2>
+                  <h2 className="text-sm font-medium text-muted-foreground mb-2">
+                    Navigation
+                  </h2>
                   {components.map((item) => (
                     <Link key={item.href} href={item.href}>
-                      <Button variant="ghost" className="w-full justify-start text-base font-normal h-11 border border-muted/40 mb-2 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors">
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start text-base font-normal h-11 border border-muted/40 mb-2 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors"
+                      >
                         {item.title}
                       </Button>
                     </Link>
@@ -83,21 +90,34 @@ export default function NavBar() {
                 </div>
 
                 <div className="px-2 py-4 border-t">
-                  <h2 className="text-sm font-medium text-muted-foreground mb-2">Links</h2>
-                  <Link href="https://github.com/michaelshimeles/nextjs14-starter-template" target="_blank">
-                    <Button variant="ghost" className="w-full justify-start text-base font-normal h-11 border border-muted/40 mb-2 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors">
+                  <h2 className="text-sm font-medium text-muted-foreground mb-2">
+                    Links
+                  </h2>
+                  <Link
+                    href="https://github.com/michaelshimeles/nextjs14-starter-template"
+                    target="_blank"
+                  >
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-base font-normal h-11 border border-muted/40 mb-2 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors"
+                    >
                       <Github className="h-4 w-4 mr-2" />
                       GitHub
                     </Button>
                   </Link>
                   <Link href="https://twitter.com/rasmickyy" target="_blank">
-                    <Button variant="ghost" className="w-full justify-start text-base font-normal h-11 border border-muted/40 mb-2 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors">
-                      <Twitter className="h-4 w-4 mr-2" />
-                      X (Twitter)
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-base font-normal h-11 border border-muted/40 mb-2 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <Twitter className="h-4 w-4 mr-2" />X (Twitter)
                     </Button>
                   </Link>
                   <Link href="https://youtube.com/@rasmickyy" target="_blank">
-                    <Button variant="ghost" className="w-full justify-start text-base font-normal h-11 border border-muted/40 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors">
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-base font-normal h-11 border border-muted/40 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors"
+                    >
                       <Youtube className="h-4 w-4 mr-2" />
                       YouTube
                     </Button>
@@ -159,13 +179,11 @@ export default function NavBar() {
           <CustomLink href="/playground">
             <Button variant="ghost">AI Playground</Button>
           </CustomLink>
-
-
-          <Link href="https://github.com/michaelshimeles/nextjs14-starter-template" target="_blank">
+          <CustomLink href="https://github.com/michaelshimeles/nextjs14-starter-template">
             <Button variant="ghost" size="icon">
               <Github className="h-5 w-5" />
             </Button>
-          </Link>
+          </CustomLink>
         </div>
 
         {/* Right Side */}
@@ -173,9 +191,14 @@ export default function NavBar() {
           <ModeToggle />
           {userId && <UserProfile />}
           {!userId && config?.auth?.enabled && (
-            <Link href="/sign-in">
-              <Button variant="default" className="bg-blue-600 hover:bg-blue-500">Sign in</Button>
-            </Link>
+            <CustomLink href="/sign-in">
+              <Button
+                variant="default"
+                className="bg-blue-600 hover:bg-blue-500 text-white"
+              >
+                Sign in
+              </Button>
+            </CustomLink>
           )}
         </div>
       </div>

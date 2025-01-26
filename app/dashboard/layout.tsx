@@ -14,6 +14,7 @@ export default async function DashboardLayout({
   const { authorized } = await isAuthorized(user?.id!);
 
   if (!authorized) {
+    console.log("not authorized");
     redirect("/not-subscriber");
   }
   return (
