@@ -1,87 +1,112 @@
-# Getting Started
+# Next.js 15 Starter Kit
 
-## Prerequisites
-- Node.js and yarn/bun installed
-- Accounts and API keys for:
-  - Supabase
-  - Stripe (if using payments)
-  - Clerk (if using authentication)
+A modern, feature-rich starter template for building production-ready applications with Next.js 15, Tailwind CSS, and TypeScript.
 
-## Setup
+![Next Starter Kit](https://dwdwn8b5ye.ufs.sh/f/MD2AM9SEY8GucGJl7b5qyE7FjNDKYduLOG2QHWh3f5RgSi0c)
+
+## Features
+
+### Core Technologies
+- ⚡ **Next.js 15** - The latest version with App Router
+- 🎨 **Tailwind CSS** - Utility-first CSS framework
+- 📘 **TypeScript** - Type-safe code
+- 🔒 **Authentication** - Clerk for secure user management
+- 🎭 **Shadcn/ui** - Beautiful and accessible components
+
+### Performance Optimizations
+- 🚀 **Route Prefetching** - Instant page transitions
+- 🖼️ **Optimized Images** - Eager loading for critical images
+- 🌓 **Dark/Light Mode** - System-aware theme switching
+- 📱 **Responsive Design** - Mobile-first approach
+
+### Developer Experience
+- 🧩 **Component Library** - Pre-built, customizable components
+- 🎮 **AI Playground** - Built-in AI chat interface
+- 📊 **Dashboard Template** - Ready-to-use admin interface
+- 🔍 **SEO Optimized** - Meta tags and sitemap generation
+
+### Additional Features
+- 🎬 **Custom Video Player** - Built-in video playback component
+- 📝 **Blog Support** - Ready for content creation
+- 🔄 **State Management** - Clean and efficient
+- 🌐 **API Integration** - Ready for backend services
+
+## Quick Start
 
 1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd <project-directory>
-   ```
+```bash
+git clone https://github.com/michaelshimeles/nextjs14-starter-template.git
+```
 
 2. Install dependencies:
-   ```
-   yarn
-   ```
+```bash
+bun install
+```
 
 3. Set up environment variables:
-   Create a `.env` file in the root directory with the following variables:
-   ```
-   SUPABASE_URL=<your-supabase-project-url>
-   SUPABASE_SERVICE_KEY=<your-supabase-service-key>
+```bash
+cp .env.example .env.local
+```
 
-   # If using Stripe
-   STRIPE_SECRET_KEY=<your-stripe-secret-key>
-   NEXT_PUBLIC_STRIPE_PRICE_ID=<your-stripe-price-id>
+4. Configure your environment variables:
+```env
+# Authentication (Clerk)
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 
-   # If using Clerk
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<your-clerk-publishable-key>
-   CLERK_SECRET_KEY=<your-clerk-secret-key>
-   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
-   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
-   ```
+# Database
+DATABASE_URL=
 
-4. Configure features:
-   In `config.ts`, set the desired features:
-   ```typescript
-   const config = {
-     auth: {
-       enabled: true, // Set to false if not using Clerk
-     },
-     payments: {
-       enabled: true, // Set to false if not using Stripe
-     }
-   };
-   ```
+# Frontend
+FRONTEND_URL=http://localhost:3000
+```
 
-5. Set up the database:
-   Run Prisma migrations:
-   ```
-   npx prisma migrate dev
-   ```
+5. Run the development server:
+```bash
+bun run dev
+```
 
-6. Start the development server:
-   ```
-   yarn dev
-   ```
+Open [http://localhost:3000](http://localhost:3000) to see your application.
 
-7. Open your browser and navigate to `http://localhost:3000` to see your application running.
+## Project Structure
 
-## Additional Configuration
+```
+├── app/
+│   ├── (auth)/         # Authentication routes
+│   ├── (marketing)/    # Marketing pages
+│   ├── api/           # API routes
+│   ├── dashboard/     # Dashboard pages
+│   └── playground/    # AI Playground
+├── components/        # Reusable components
+├── config/           # Configuration files
+├── lib/             # Utility functions
+└── public/          # Static assets
+```
 
-- Webhooks: Set up webhooks for Clerk (if using auth) at `/api/auth/webhook` and for Stripe (if using payments) at `/api/payments/webhook`.
-- Customize the landing page, dashboard, and other components as needed.
-- Modify the Prisma schema in `prisma/schema.prisma` if you need to change the database structure.
+## Available Scripts
 
-## Important Security Notes
+- `bun run dev` - Start development server
+- `bun run build` - Build for production
+- `bun run start` - Start production server
+- `bun run lint` - Run ESLint
+- `bun run format` - Format code with Prettier
 
-- Enable Row Level Security (RLS) in your Supabase project to ensure data protection at the database level.
-- Always make Supabase calls on the server-side (in API routes or server components) to keep your service key secure.
+## Contributing
 
-## Learn More
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-Refer to the documentation of the individual technologies used in this project for more detailed information:
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [Supabase Documentation](https://supabase.io/docs)
-- [Prisma Documentation](https://www.prisma.io/docs)
-- [Clerk Documentation](https://clerk.dev/docs) (if using auth)
-- [Stripe Documentation](https://stripe.com/docs) (if using payments)
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+If you find this template helpful, please give it a ⭐️ on GitHub!
