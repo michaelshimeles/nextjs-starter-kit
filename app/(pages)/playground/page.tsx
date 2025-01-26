@@ -1,6 +1,5 @@
 "use client";
 
-import CustomLink from "@/components/custom-link";
 import ModeToggle from "@/components/mode-toggle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,12 +14,12 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { useChat } from "ai/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUp, Bot, Download, Share, Sparkles, User } from "lucide-react";
+import { ArrowUp, Bot, Download, Share, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { useChat } from "ai/react";
-import Link from "next/link";
 
 interface Message {
   role: "user" | "assistant";
@@ -29,7 +28,7 @@ interface Message {
 }
 
 export default function PlaygroundPage() {
-  const [model, setModel] = useState("gpt-4");
+  const [model, setModel] = useState("deepseek:deepseek-reasoner");
   const [systemPrompt, setSystemPrompt] = useState("");
 
   // Model parameters
@@ -66,8 +65,11 @@ export default function PlaygroundPage() {
                 <h1 className="text-sm font-medium">AI Playground</h1>
               </div>
             </Link>
-            <Badge variant="outline" className="text-xs dark:border-zinc-800 border-zinc-200">
-              {model}
+            <Badge
+              variant="outline"
+              className="text-xs dark:border-zinc-800 border-zinc-200"
+            >
+              {model?.split(":")[1]}
             </Badge>
           </div>
           <div className="flex items-center gap-2">
@@ -124,33 +126,34 @@ export default function PlaygroundPage() {
             </AnimatePresence>
 
             {/* Only show loading when isLoading is true AND there's no message being streamed */}
-            {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex gap-3 dark:bg-zinc-900/50 bg-white rounded-lg p-4"
-              >
-                <div className="w-6 h-6 rounded-full border dark:border-zinc-800 border-zinc-200 flex items-center justify-center">
-                  <Sparkles className="w-4 h-4" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex gap-1">
-                    <span
-                      className="w-2 h-2 rounded-full dark:bg-zinc-700 bg-zinc-200 animate-bounce"
-                      style={{ animationDelay: "0ms" }}
-                    />
-                    <span
-                      className="w-2 h-2 rounded-full dark:bg-zinc-700 bg-zinc-200 animate-bounce"
-                      style={{ animationDelay: "150ms" }}
-                    />
-                    <span
-                      className="w-2 h-2 rounded-full dark:bg-zinc-700 bg-zinc-200 animate-bounce"
-                      style={{ animationDelay: "300ms" }}
-                    />
+            {isLoading &&
+              messages[messages.length - 1]?.role !== "assistant" && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex gap-3 dark:bg-zinc-900/50 bg-white rounded-lg p-4"
+                >
+                  <div className="w-6 h-6 rounded-full border dark:border-zinc-800 border-zinc-200 flex items-center justify-center">
+                    <Sparkles className="w-4 h-4" />
                   </div>
-                </div>
-              </motion.div>
-            )}
+                  <div className="flex-1">
+                    <div className="flex gap-1 mt-[0.5rem]">
+                      <span
+                        className="w-2 h-2 rounded-full dark:bg-zinc-700 bg-zinc-200 animate-bounce"
+                        style={{ animationDelay: "0ms" }}
+                      />
+                      <span
+                        className="w-2 h-2 rounded-full dark:bg-zinc-700 bg-zinc-200 animate-bounce"
+                        style={{ animationDelay: "150ms" }}
+                      />
+                      <span
+                        className="w-2 h-2 rounded-full dark:bg-zinc-700 bg-zinc-200 animate-bounce"
+                        style={{ animationDelay: "300ms" }}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
           </div>
         </ScrollArea>
 
@@ -210,15 +213,26 @@ export default function PlaygroundPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="gpt-4o">GPT-4o</SelectItem>
-                    <SelectItem value="gpt-4">GPT-4</SelectItem>
-                    <SelectItem value="gpt-3.5-turbo">GPT-3.5 Turbo</SelectItem>
-                    <SelectItem value="gpt-4-turbo">GPT-4 Turbo</SelectItem>
-                    <SelectItem value="claude-3-haiku-20240307">Claude 3 Haiku</SelectItem>
+                    <SelectItem value="openai:gpt-4o">GPT-4o</SelectItem>
+                    <SelectItem value="openai:gpt-4">GPT-4</SelectItem>
+                    <SelectItem value="openai:gpt-3.5-turbo">
+                      GPT-3.5 Turbo
+                    </SelectItem>
+                    <SelectItem value="openai:gpt-4-turbo">
+                      GPT-4 Turbo
+                    </SelectItem>
+                    {/* <SelectItem value="claude-3-haiku-20240307">Claude 3 Haiku</SelectItem>
                     <SelectItem value="claude-3-sonnet-20240307">Claude 3 Sonnet</SelectItem>
-                    <SelectItem value="claude-3-opus-20240307">Claude 3 Opus</SelectItem>
-                    <SelectItem value="deepseek-chat">Deepseek Chat</SelectItem>
-                    <SelectItem value="deepseek-coder">Deepseek Coder</SelectItem>
+                    <SelectItem value="claude-3-opus-20240307">Claude 3 Opus</SelectItem> */}
+                    <SelectItem value="deepseek:deepseek-chat">
+                      Deepseek Chat
+                    </SelectItem>
+                    <SelectItem value="deepseek:deepseek-coder">
+                      Deepseek Coder
+                    </SelectItem>
+                    <SelectItem value="deepseek:deepseek-reasoner">
+                      Deepseek Reasoner
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>

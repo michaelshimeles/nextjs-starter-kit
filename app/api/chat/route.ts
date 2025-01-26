@@ -2,7 +2,8 @@ import { openai } from "@ai-sdk/openai";
 import { auth } from "@clerk/nextjs/server";
 import { streamText } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
-import { deepseek } from '@ai-sdk/deepseek';
+import { deepseek } from "@ai-sdk/deepseek";
+import { registry } from "@/utils/registry";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
     topP,
     frequencyPenalty,
     presencePenalty,
-    systemPrompt
+    systemPrompt,
   } = await req.json();
 
   const { userId } = await auth();
@@ -42,25 +43,15 @@ export async function POST(req: Request) {
 
   console.log("model", model);
 
-  const getModelProvider = (modelId: string) => {
-    if (modelId.startsWith('claude')) {
-      return anthropic(modelId);
-    }
-    if (modelId.startsWith('deepseek')) {
-      return deepseek(modelId);
-    }
-    return openai(modelId);
-  };
-
   const result = streamText({
-    model: getModelProvider(model || "gpt-4o"),
+    model: registry.languageModel(model),
     messages,
     temperature: temperature || 0.7,
     maxTokens: maxTokens || 1000,
     topP: topP || 0.9,
     frequencyPenalty: frequencyPenalty || 0.0,
     presencePenalty: presencePenalty || 0.0,
-    system: systemPrompt || defaultSystemPrompt,
+    // system: systemPrompt || defaultSystemPrompt,
     // tools,
     maxSteps: 5,
     onStepFinish({
@@ -72,18 +63,20 @@ export async function POST(req: Request) {
       stepType,
     }) {
       // your own logic, e.g. for saving the chat history or recording usage
-      // console.log("stepType", stepType);
-      // console.log("text", text);
-      // console.log("finishReason", finishReason);
-      // console.log("usage", usage);
+      console.log("stepType", stepType);
+      console.log("text", text);
+      console.log("finishReason", finishReason);
+      console.log("usage", usage);
 
       if (finishReason === "tool-calls") {
         const toolInvocations = toolResults?.[0];
         // saveToolResult(userId!, toolInvocations);
+        console.log("toolInvocations", toolInvocations);
       }
     },
     onFinish: ({ text, toolResults, toolCalls, finishReason }) => {
       console.log("text", text);
+      console.log("finishReason", finishReason);
       // insertMessage(userId!, "assistant", text);
     },
   });
