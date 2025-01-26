@@ -1,26 +1,16 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { db } from "@/db/drizzle";
+import { invoices, subscriptions, users } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: NextRequest) {
-  const cookieStore = await cookies();
-
-  const supabase: any = createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
-    }
-  );
+  console.log('🔄 Webhook request received');
   const reqText = await req.text();
-  return webhooksHandler(reqText, req, supabase);
+  console.log('📝 Request headers:', Object.fromEntries(req.headers.entries()));
+  return webhooksHandler(reqText, req);
 }
 
 async function getCustomerEmail(customerId: string): Promise<string | null> {
@@ -35,9 +25,9 @@ async function getCustomerEmail(customerId: string): Promise<string | null> {
 
 async function handleSubscriptionEvent(
   event: Stripe.Event,
-  type: "created" | "updated" | "deleted",
-  supabase: ReturnType<typeof createServerClient>
+  type: "created" | "updated" | "deleted"
 ) {
+
   const subscription = event.data.object as Stripe.Subscription;
   const customerEmail = await getCustomerEmail(subscription.customer as string);
 
@@ -48,68 +38,88 @@ async function handleSubscriptionEvent(
     });
   }
 
-  const subscriptionData: any = {
-    subscription_id: subscription.id,
-    stripe_user_id: subscription.customer,
+  const subscriptionData = {
+    subscriptionId: subscription.id,
+    stripeUserId: subscription.customer as string,
     status: subscription.status,
-    start_date: new Date(subscription.created * 1000).toISOString(),
-    plan_id: subscription.items.data[0]?.price.id,
-    user_id: subscription.metadata?.userId || "",
+    startDate: new Date(subscription.created * 1000).toISOString(),
+    planId: subscription.items.data[0]?.price.id,
+    userId: subscription.metadata?.userId || "",
     email: customerEmail,
   };
 
-  let data, error;
-  if (type === "deleted") {
-    ({ data, error } = await supabase
-      .from("subscriptions")
-      .update({ status: "cancelled", email: customerEmail })
-      .match({ subscription_id: subscription.id })
-      .select());
-    if (!error) {
-      const { error: userError } = await supabase
-        .from("user")
-        .update({ subscription: null })
-        .eq("email", customerEmail);
-      if (userError) {
-        console.error("Error updating user subscription status:", userError);
+  console.log('📝 Subscription data:', subscriptionData);
+
+  try {
+    if (type === "deleted") {
+      // Update subscriptions table
+      await db
+        .update(subscriptions)
+        .set({
+          status: "cancelled",
+          email: customerEmail,
+        })
+        .where(eq(subscriptions.subscriptionId, subscription.id));
+
+      // Update user table to remove subscription
+      await db
+        .update(users)
+        .set({ subscription: null })
+        .where(eq(users.email, customerEmail));
+    } else {
+      // Either insert or update subscription based on type
+      if (type === "created") {
+        const insertedData = await db
+          .insert(subscriptions)
+          .values(subscriptionData)
+          .returning();
+
         return NextResponse.json({
-          status: 500,
-          error: "Error updating user subscription status",
+          status: 200,
+          message: "Subscription created successfully",
+          data: insertedData,
+        });
+      } else {
+        const updatedData = await db
+          .update(subscriptions)
+          .set(subscriptionData)
+          .where(eq(subscriptions.subscriptionId, subscription.id))
+          .returning();
+
+        return NextResponse.json({
+          status: 200,
+          message: "Subscription updated successfully",
+          data: updatedData,
         });
       }
     }
-  } else {
-    ({ data, error } = await supabase
-      .from("subscriptions")
-      [type === "created" ? "insert" : "update"](
-        type === "created" ? [subscriptionData] : subscriptionData
-      )
-      .match({ subscription_id: subscription.id })
-      .select());
-  }
 
-  if (error) {
+    return NextResponse.json({
+      status: 200,
+      message: `Subscription ${type} success`,
+    });
+  } catch (error) {
     console.error(`Error during subscription ${type}:`, error);
     return NextResponse.json({
       status: 500,
       error: `Error during subscription ${type}`,
     });
   }
-
-  return NextResponse.json({
-    status: 200,
-    message: `Subscription ${type} success`,
-    data,
-  });
 }
 
 async function handleInvoiceEvent(
   event: Stripe.Event,
-  status: "succeeded" | "failed",
-  supabase: ReturnType<typeof createServerClient>
+  status: "succeeded" | "failed"
 ) {
   const invoice = event.data.object as Stripe.Invoice;
   const customerEmail = await getCustomerEmail(invoice.customer as string);
+
+  console.log('📊 Invoice details:', {
+    email: customerEmail,
+    amount: invoice.amount_paid,
+    currency: invoice.currency,
+    metadata: invoice.metadata
+  });
 
   if (!customerEmail) {
     return NextResponse.json({
@@ -119,57 +129,60 @@ async function handleInvoiceEvent(
   }
 
   const invoiceData = {
-    invoice_id: invoice.id,
-    subscription_id: invoice.subscription as string,
-    amount_paid: status === "succeeded" ? invoice.amount_paid / 100 : undefined,
-    amount_due: status === "failed" ? invoice.amount_due / 100 : undefined,
+    invoiceId: invoice.id,
+    subscriptionId: invoice.subscription as string,
+    amountPaid: status === "succeeded" ? String(invoice.amount_paid / 100) : undefined,
+    amountDue: status === "failed" ? String(invoice.amount_due / 100) : undefined,
     currency: invoice.currency,
     status,
-    user_id: invoice.metadata?.userId,
+    userId: invoice.metadata?.userId,
     email: customerEmail,
   };
 
-  const { data, error } = await supabase.from("invoices").insert([invoiceData]);
+  try {
+    const insertedInvoice = await db
+      .insert(invoices)
+      .values(invoiceData)
+      .returning();
 
-  if (error) {
+    return NextResponse.json({
+      status: 200,
+      message: `Invoice payment ${status}`,
+      data: insertedInvoice,
+    });
+  } catch (error) {
     console.error(`Error inserting invoice (payment ${status}):`, error);
     return NextResponse.json({
       status: 500,
       error: `Error inserting invoice (payment ${status})`,
     });
   }
-
-  return NextResponse.json({
-    status: 200,
-    message: `Invoice payment ${status}`,
-    data,
-  });
 }
 
-async function handleCheckoutSessionCompleted(
-  event: Stripe.Event,
-  supabase: ReturnType<typeof createServerClient>
-) {
+async function handleCheckoutSessionCompleted(event: Stripe.Event) {
   const session = event.data.object as Stripe.Checkout.Session;
   const metadata: any = session?.metadata;
+
+  console.log('🏷️ Session metadata:', metadata);
 
   if (metadata?.subscription === "true") {
     // This is for subscription payments
     const subscriptionId = session.subscription;
     try {
+      // Update subscription metadata in Stripe
       await stripe.subscriptions.update(subscriptionId as string, { metadata });
 
-      const { error: invoiceError } = await supabase
-        .from("invoices")
-        .update({ user_id: metadata?.userId })
-        .eq("email", metadata?.email);
-      if (invoiceError) throw new Error("Error updating invoice");
+      // Update invoice with user ID
+      await db
+        .update(invoices)
+        .set({ userId: metadata?.userId })
+        .where(eq(invoices.email, metadata?.email));
 
-      const { error: userError } = await supabase
-        .from("user")
-        .update({ subscription: session.id })
-        .eq("user_id", metadata?.userId);
-      if (userError) throw new Error("Error updating user subscription");
+      // Update user's subscription
+      await db
+        .update(users)
+        .set({ subscription: session.id })
+        .where(eq(users.userId, metadata?.userId));
 
       return NextResponse.json({
         status: 200,
@@ -186,45 +199,52 @@ async function handleCheckoutSessionCompleted(
     // This is for one-time payments
     const dateTime = new Date(session.created * 1000).toISOString();
     try {
-      const { data: user, error: userError } = await supabase
-        .from("user")
-        .select("*")
-        .eq("user_id", metadata?.userId);
-      if (userError) throw new Error("Error fetching user");
+      // Fetch user
+      // const user = await db.query.users.findFirst({
+      //   where: eq(users.userId, metadata?.userId),
+      // });
 
-      const paymentData = {
-        user_id: metadata?.userId,
-        stripe_id: session.id,
-        email: metadata?.email,
-        amount: session.amount_total! / 100,
-        customer_details: JSON.stringify(session.customer_details),
-        payment_intent: session.payment_intent,
-        payment_time: dateTime,
-        currency: session.currency,
-      };
+      // if (!user) {
+      //   throw new Error("User not found");
+      // }
 
-      const { data: paymentsData, error: paymentsError } = await supabase
-        .from("payments")
-        .insert([paymentData]);
-      if (paymentsError) throw new Error("Error inserting payment");
-      const updatedCredits =
-        Number(user?.[0]?.credits || 0) + (session.amount_total || 0) / 100;
-      const { data: updatedUser, error: userUpdateError } = await supabase
-        .from("user")
-        .update({ credits: updatedCredits })
-        .eq("user_id", metadata?.userId);
-      if (userUpdateError) throw new Error("Error updating user credits");
+      // const paymentData = {
+      //   userId: metadata?.userId,
+      //   stripeId: session.id,
+      //   email: metadata?.email,
+      //   amount: String(session.amount_total! / 100),
+      //   customerDetails: JSON.stringify(session.customer_details),
+      //   paymentIntent: session.payment_intent as string,
+      //   paymentTime: dateTime,
+      //   currency: session.currency,
+      // };
+
+      // // Insert payment
+      // const insertedPayment = await db
+      //   .insert(payments)
+      //   .values(paymentData)
+      //   .returning();
+
+      // // Calculate and update user credits
+      // const currentCredits = Number(user.credits || 0);
+      // const updatedCredits = currentCredits + (session.amount_total || 0) / 100;
+
+      // const updatedUser = await db
+      //   .update(users)
+      //   .set({ credits: String(updatedCredits) })
+      //   .where(eq(users.userId, metadata?.userId))
+      //   .returning();
 
       return NextResponse.json({
         status: 200,
         message: "Payment and credits updated successfully",
-        updatedUser,
+        // updatedUser,
       });
     } catch (error) {
       console.error("Error handling checkout session:", error);
       return NextResponse.json({
         status: 500,
-        error,
+        error: String(error),
       });
     }
   }
@@ -232,31 +252,38 @@ async function handleCheckoutSessionCompleted(
 
 async function webhooksHandler(
   reqText: string,
-  request: NextRequest,
-  supabase: ReturnType<typeof createServerClient>
+  request: NextRequest
 ): Promise<NextResponse> {
+  console.log('🎯 Processing webhook request');
   const sig = request.headers.get("Stripe-Signature");
+  console.log('🔑 Stripe signature present:', !!sig);
 
   try {
+    console.log('🔄 Constructing Stripe event...');
     const event = await stripe.webhooks.constructEventAsync(
       reqText,
       sig!,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
+    console.log('✅ Event constructed successfully:', {
+      type: event.type,
+      id: event.id,
+      apiVersion: event.api_version
+    });
 
     switch (event.type) {
       case "customer.subscription.created":
-        return handleSubscriptionEvent(event, "created", supabase);
+        return handleSubscriptionEvent(event, "created");
       case "customer.subscription.updated":
-        return handleSubscriptionEvent(event, "updated", supabase);
+        return handleSubscriptionEvent(event, "updated");
       case "customer.subscription.deleted":
-        return handleSubscriptionEvent(event, "deleted", supabase);
+        return handleSubscriptionEvent(event, "deleted");
       case "invoice.payment_succeeded":
-        return handleInvoiceEvent(event, "succeeded", supabase);
+        return handleInvoiceEvent(event, "succeeded");
       case "invoice.payment_failed":
-        return handleInvoiceEvent(event, "failed", supabase);
+        return handleInvoiceEvent(event, "failed");
       case "checkout.session.completed":
-        return handleCheckoutSessionCompleted(event, supabase);
+        return handleCheckoutSessionCompleted(event);
       default:
         return NextResponse.json({
           status: 400,

@@ -6,6 +6,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(req: NextRequest) {
   const { userId, email, priceId, subscription } = await req.json();
 
+  console.log("subscription", subscription);
+
   if (subscription) {
     try {
       const session = await stripe.checkout.sessions.create({
@@ -16,6 +18,7 @@ export async function POST(req: NextRequest) {
         success_url: `${process.env.FRONTEND_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${process.env.FRONTEND_URL}/cancel`,
         allow_promotion_codes: true,
+        customer_email: email
       });
 
 
@@ -34,6 +37,8 @@ export async function POST(req: NextRequest) {
         success_url: `${process.env.FRONTEND_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${process.env.FRONTEND_URL}/cancel`,
       });
+
+      // console.log("session", session);
 
       return NextResponse.json({ sessionId: session.id });
     } catch (error) {

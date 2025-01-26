@@ -1,14 +1,17 @@
 "server only";
 
+import config from "@/config";
+import { db } from "@/db/drizzle";
+import { users } from "@/db/schema";
 import { clerkClient } from "@clerk/nextjs/server";
-import { cookies } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
-import config from "@/tailwind.config";
+import { eq } from "drizzle-orm";
 
 export const isAuthorized = async (
   userId: string
 ): Promise<{ authorized: boolean; message: string }> => {
+  console.log("GET HIT")
   if (!config?.payments?.enabled) {
+    console.log("Payments are disabled")
     return {
       authorized: true,
       message: "Payments are disabled",
@@ -24,36 +27,13 @@ export const isAuthorized = async (
     };
   }
 
-  const cookieStore = await cookies();
-
-  const supabase = createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
-    }
-  );
-
   try {
-    const { data, error } = await supabase
-      .from("subscriptions")
-      .select("*")
-      .eq("user_id", userId);
+    const data = await db.select().from(users).where(eq(users.userId, userId));
 
-    if (error?.code)
-      return {
-        authorized: false,
-        message: error.message,
-      };
-
-    if (data && data[0].status === "active") {
+    if (data?.[0]?.subscription) {
       return {
         authorized: true,
-        message: "User is subscribed",
+        message: "User is authorized",
       };
     }
 

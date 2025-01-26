@@ -1,7 +1,7 @@
-"server only"
+"server only";
 
-import { cookies } from "next/headers";
-import { createServerClient } from "@supabase/ssr";
+import { db } from "@/db/drizzle";
+import { users } from "@/db/schema";
 import { userCreateProps } from "@/utils/types";
 
 export const userCreate = async ({
@@ -11,39 +11,23 @@ export const userCreate = async ({
   profile_image_url,
   user_id,
 }: userCreateProps) => {
-  const cookieStore = await cookies();
-
-  const supabase = createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
-    }
-  );
-
   try {
-    const { data, error } = await supabase
-      .from("user")
-      .insert([
-        {
-          email,
-          first_name,
-          last_name,
-          profile_image_url,
-          user_id,
-        },
-      ])
-      .select();
+    console.log("info", {
+      email,
+      firstName: first_name,
+      lastName: last_name,
+      profileImageUrl: profile_image_url,
+      userId: user_id,
+    });
+    const result = db.insert(users).values({
+      email,
+      firstName: first_name,
+      lastName: last_name,
+      profileImageUrl: profile_image_url,
+      userId: user_id,
+    }).returning();
 
-    console.log("data", data);
-    console.log("error", error);
-
-    if (error?.code) return error;
-    return data;
+    return result;
   } catch (error: any) {
     throw new Error(error.message);
   }

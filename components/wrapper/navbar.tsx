@@ -1,130 +1,233 @@
-"use client"
-import Link from 'next/link';
-import * as React from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { Button } from "../ui/button";
-import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
-import { UserProfile } from "../user-profile";
-import ModeToggle from "../mode-toggle";
-import { BlocksIcon } from "lucide-react";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
+"use client";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import config from "@/config";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
-import { Dialog, DialogClose } from "@radix-ui/react-dialog";
+import { Dialog } from "@radix-ui/react-dialog";
+import { motion } from "framer-motion";
+import { Github, Menu, Sparkles, Twitter, Youtube } from "lucide-react";
+import Link from "next/link";
+import * as React from "react";
+import ModeToggle from "../mode-toggle";
+import { Button } from "../ui/button";
+import {
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
+import { UserProfile } from "../user-profile";
+import CustomLink from "../custom-link";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 const components: { title: string; href: string; description: string }[] = [
-    {
-        title: "Marketing Page",
-        href: "/marketing-page",
-        description: "Write some wavy here to get them to click.",
-    },
+  {
+    title: "AI Playground",
+    href: "/playground",
+    description: "Interact with the AI in the playground.",
+  },
+  {
+    title: "Dashboard",
+    href: "/dashboard",
+    description: "Access your personal dashboard.",
+  },
 ];
 
 export default function NavBar() {
-    let userId = null;
-    /* eslint-disable react-hooks/rules-of-hooks */
-    if (config?.auth?.enabled) {
-        const user = useAuth();
-        userId = user?.userId;
-    }
+  const user  = useAuth();
+  let userId;
 
-    return (
-        <div className="flex min-w-full fixed justify-between p-2 border-b z-10 dark:bg-black dark:bg-opacity-50 bg-white">
-            <div className="flex justify-between w-full min-[825px]:hidden">
-                <Dialog>
-                    <SheetTrigger className="p-2 transition">
-                        <Button size="icon" variant="ghost" className="w-4 h-4" aria-label="Open menu" asChild>
-                            <GiHamburgerMenu />
-                        </Button>
-                    </SheetTrigger>
-                    <SheetContent side="left">
-                        <SheetHeader>
-                            <SheetTitle>Next Starter</SheetTitle>
-                        </SheetHeader>
-                        <div className="flex flex-col space-y-3 mt-[1rem]">
-                            <DialogClose asChild>
-                                <Link href="/">
-                                    <Button variant="outline" className="w-full">Home</Button>
-                                </Link>
-                            </DialogClose>
-                            <DialogClose asChild>
-                                <Link href="/dashboard" legacyBehavior passHref className="cursor-pointer">
-                                    <Button variant="outline">
-                                        Dashboard
-                                    </Button>
-                                </Link>
-                            </DialogClose>
-                        </div>
-                    </SheetContent>
-                </Dialog>
-                <ModeToggle />
-            </div>
-            <NavigationMenu>
-                <NavigationMenuList className="max-[825px]:hidden flex gap-3 w-[100%] justify-between">
-                    <Link href="/" className="pl-2 flex items-center" aria-label="Home">
-                        <BlocksIcon aria-hidden="true" />
-                        <span className="sr-only">Home</span>
+  if (user) {
+    userId = user?.userId;
+  }
+
+  return (
+    <motion.div
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-md bg-white/80 dark:bg-black/80"
+    >
+      <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
+        {/* Logo - Mobile */}
+        <div className="flex lg:hidden items-center gap-2">
+          <Dialog>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="lg:hidden">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px]">
+              <SheetHeader className="pb-6 border-b">
+                <SheetTitle className="flex items-center gap-2">
+                  <Sparkles className="h-5 w-5 text-blue-600" />
+                  <span>Next Starter</span>
+                </SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col gap-1 mt-6">
+                <div className="px-2 pb-4">
+                  <h2 className="text-sm font-medium text-muted-foreground mb-2">
+                    Navigation
+                  </h2>
+                  {components.map((item) => (
+                    <Link key={item.href} href={item.href}>
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start text-base font-normal h-11 border border-muted/40 mb-2 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors"
+                      >
+                        {item.title}
+                      </Button>
                     </Link>
-                </NavigationMenuList>
-                <NavigationMenuList>
-                    <NavigationMenuItem className="max-[825px]:hidden ml-5">
-                        <NavigationMenuTrigger className="dark:bg-black dark:bg-opacity-50">
-                            Features
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="flex flex-col w-[400px] gap-3 p-4 lg:w-[500px]">
-                                {components.map((component, index) => (
-                                    <ListItem
-                                        key={index}
-                                        title={component.title}
-                                        href={component.href}
-                                    >
-                                        {component.description}
-                                    </ListItem>
-                                ))}
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem className="max-[825px]:hidden">
-                        <Link href="/dashboard" legacyBehavior passHref>
-                            <Button variant="ghost">
-                                Dashboard
-                            </Button>
-                        </Link>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-            </NavigationMenu>
-            <div className="flex items-center gap-2 max-[825px]:hidden">
-                {userId && <UserProfile />}
-                <ModeToggle />
-            </div>
+                  ))}
+                </div>
+
+                <div className="px-2 py-4 border-t">
+                  <h2 className="text-sm font-medium text-muted-foreground mb-2">
+                    Links
+                  </h2>
+                  <Link
+                    href="https://github.com/michaelshimeles/nextjs14-starter-template"
+                    target="_blank"
+                  >
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-base font-normal h-11 border border-muted/40 mb-2 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <Github className="h-4 w-4 mr-2" />
+                      GitHub
+                    </Button>
+                  </Link>
+                  <Link href="https://twitter.com/rasmickyy" target="_blank">
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-base font-normal h-11 border border-muted/40 mb-2 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <Twitter className="h-4 w-4 mr-2" />X (Twitter)
+                    </Button>
+                  </Link>
+                  <Link href="https://youtube.com/@rasmickyy" target="_blank">
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-base font-normal h-11 border border-muted/40 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <Youtube className="h-4 w-4 mr-2" />
+                      YouTube
+                    </Button>
+                  </Link>
+                </div>
+
+                {!userId && config?.auth?.enabled && (
+                  <div className="px-2 py-4 border-t mt-auto">
+                    <Link href="/sign-in">
+                      <Button className="w-full bg-blue-600 hover:bg-blue-500">
+                        Sign in
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </SheetContent>
+          </Dialog>
+          <Link href="/" className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-blue-600" />
+            <span className="font-semibold">Next Starter</span>
+          </Link>
         </div>
-    );
+
+        {/* Logo - Desktop */}
+        <div className="hidden lg:flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-blue-600" />
+            <span className="font-semibold">Next Starter</span>
+          </Link>
+        </div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-6">
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                    {components.map((component) => (
+                      <ListItem
+                        key={component.title}
+                        title={component.title}
+                        href={component.href}
+                      >
+                        {component.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+
+          <CustomLink href="/dashboard">
+            <Button variant="ghost">Dashboard</Button>
+          </CustomLink>
+          <CustomLink href="/playground">
+            <Button variant="ghost">AI Playground</Button>
+          </CustomLink>
+          <CustomLink href="https://github.com/michaelshimeles/nextjs14-starter-template">
+            <Button variant="ghost" size="icon">
+              <Github className="h-5 w-5" />
+            </Button>
+          </CustomLink>
+        </div>
+
+        {/* Right Side */}
+        <div className="flex items-center gap-2">
+          <ModeToggle />
+          {userId && <UserProfile />}
+          {!userId && config?.auth?.enabled && (
+            <CustomLink href="/sign-in">
+              <Button
+                variant="default"
+                className="bg-blue-600 hover:bg-blue-500 text-white"
+              >
+                Sign in
+              </Button>
+            </CustomLink>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
 }
 
 const ListItem = React.forwardRef<
-    React.ElementRef<"a">,
-    React.ComponentPropsWithoutRef<"a">
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
 >(({ className, title, children, ...props }, ref) => {
-    return (
-        <li>
-            <NavigationMenuLink asChild>
-                <a
-                    ref={ref}
-                    className={cn(
-                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                        className
-                    )}
-                    {...props}
-                >
-                    <div className="text-sm font-medium leading-none">{title}</div>
-                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        {children}
-                    </p>
-                </a>
-            </NavigationMenuLink>
-        </li>
-    );
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
 });
 ListItem.displayName = "ListItem";

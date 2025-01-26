@@ -8,7 +8,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://starter.rasmic.xyz"),
+  metadataBase: new URL("https://nextstarter.xyz/"),
   title: {
     default: 'Next Starter',
     template: `%s | Next Starter`
@@ -17,14 +17,14 @@ export const metadata: Metadata = {
   openGraph: {
     description: 'The Ultimate Nextjs 15 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters',
     images: ['https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png'],
-    url: 'https://starter.rasmic.xyz/'
+    url: 'https://nextstarter.xyz/'
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Nextjs Starter Kit',
     description: 'The Ultimate Nextjs 15 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters',
     siteId: "",
-    creator: "@rasmic",
+    creator: "@rasmickyy",
     creatorId: "",
     images: ['https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png'],
   },
@@ -54,7 +54,7 @@ export default function RootLayout({
           <Provider>
             <ThemeProvider
               attribute="class"
-              defaultTheme="system"
+              defaultTheme="dark"
               enableSystem
               disableTransitionOnChange
             >
