@@ -15,6 +15,7 @@ import { motion } from "framer-motion";
 import { Github, Menu, Sparkles, Twitter, Youtube } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
+import CustomLink from "../custom-link";
 import ModeToggle from "../mode-toggle";
 import { Button } from "../ui/button";
 import {
@@ -24,9 +25,6 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import { UserProfile } from "../user-profile";
-import CustomLink from "../custom-link";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -42,7 +40,7 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export default function NavBar() {
-  const user  = useAuth();
+  const user = useAuth();
   let userId;
 
   if (user) {
@@ -78,7 +76,7 @@ export default function NavBar() {
                     Navigation
                   </h2>
                   {components.map((item) => (
-                    <Link key={item.href} href={item.href}>
+                    <Link key={item.href} href={item.href} prefetch={true}>
                       <Button
                         variant="ghost"
                         className="w-full justify-start text-base font-normal h-11 border border-muted/40 mb-2 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors"
@@ -96,6 +94,7 @@ export default function NavBar() {
                   <Link
                     href="https://github.com/michaelshimeles/nextjs14-starter-template"
                     target="_blank"
+                    prefetch={true}
                   >
                     <Button
                       variant="ghost"
@@ -105,7 +104,11 @@ export default function NavBar() {
                       GitHub
                     </Button>
                   </Link>
-                  <Link href="https://twitter.com/rasmickyy" target="_blank">
+                  <Link
+                    href="https://twitter.com/rasmickyy"
+                    target="_blank"
+                    prefetch={true}
+                  >
                     <Button
                       variant="ghost"
                       className="w-full justify-start text-base font-normal h-11 border border-muted/40 mb-2 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors"
@@ -113,7 +116,11 @@ export default function NavBar() {
                       <Twitter className="h-4 w-4 mr-2" />X (Twitter)
                     </Button>
                   </Link>
-                  <Link href="https://youtube.com/@rasmickyy" target="_blank">
+                  <Link
+                    href="https://youtube.com/@rasmickyy"
+                    target="_blank"
+                    prefetch={true}
+                  >
                     <Button
                       variant="ghost"
                       className="w-full justify-start text-base font-normal h-11 border border-muted/40 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/50 dark:hover:text-blue-400 transition-colors"
@@ -126,7 +133,7 @@ export default function NavBar() {
 
                 {!userId && config?.auth?.enabled && (
                   <div className="px-2 py-4 border-t mt-auto">
-                    <Link href="/sign-in">
+                    <Link href="/sign-in" prefetch={true}>
                       <Button className="w-full bg-blue-600 hover:bg-blue-500">
                         Sign in
                       </Button>
@@ -136,7 +143,7 @@ export default function NavBar() {
               </div>
             </SheetContent>
           </Dialog>
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" prefetch={true} className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-blue-600" />
             <span className="font-semibold">Next Starter</span>
           </Link>
@@ -144,7 +151,7 @@ export default function NavBar() {
 
         {/* Logo - Desktop */}
         <div className="hidden lg:flex items-center gap-2">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" prefetch={true} className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-blue-600" />
             <span className="font-semibold">Next Starter</span>
           </Link>
@@ -173,17 +180,20 @@ export default function NavBar() {
             </NavigationMenuList>
           </NavigationMenu>
 
-          <CustomLink href="/dashboard">
+          <Link href="/dashboard" prefetch={true}>
             <Button variant="ghost">Dashboard</Button>
-          </CustomLink>
-          <CustomLink href="/playground">
+          </Link>
+          <Link href="/playground" prefetch={true}>
             <Button variant="ghost">AI Playground</Button>
-          </CustomLink>
-          <CustomLink href="https://github.com/michaelshimeles/nextjs14-starter-template">
+          </Link>
+          <Link
+            href="https://github.com/michaelshimeles/nextjs14-starter-template"
+            prefetch={true}
+          >
             <Button variant="ghost" size="icon">
               <Github className="h-5 w-5" />
             </Button>
-          </CustomLink>
+          </Link>
         </div>
 
         {/* Right Side */}
@@ -191,14 +201,14 @@ export default function NavBar() {
           <ModeToggle />
           {userId && <UserProfile />}
           {!userId && config?.auth?.enabled && (
-            <CustomLink href="/sign-in">
+            <Link href="/sign-in" prefetch={true}>
               <Button
                 variant="default"
                 className="bg-blue-600 hover:bg-blue-500 text-white"
               >
                 Sign in
               </Button>
-            </CustomLink>
+            </Link>
           )}
         </div>
       </div>

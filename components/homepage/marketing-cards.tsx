@@ -120,6 +120,7 @@ export default function TechStack() {
                         alt={project.name}
                         width={30}
                         height={30}
+                        loading="eager"
                         className="hidden dark:block w-full h-full object-contain"
                       />
                       <Image
@@ -127,6 +128,7 @@ export default function TechStack() {
                         alt={project.name}
                         width={30}
                         height={30}
+                        loading="eager"
                         className="dark:hidden w-full h-full object-contain"
                       />
                     </div>
