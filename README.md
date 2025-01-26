@@ -10,14 +10,16 @@ A modern, feature-rich starter template for building production-ready applicatio
 - ⚡ **Next.js 15** - The latest version with App Router
 - 🎨 **Tailwind CSS** - Utility-first CSS framework
 - 📘 **TypeScript** - Type-safe code
-- 🔒 **Authentication** - Clerk for secure user management
+- 🔒 **Authentication** - Clerk integration with persistent authorization toggle
 - 🎭 **Shadcn/ui** - Beautiful and accessible components
+- 🖼️ **SVG Support** - Native SVG rendering with image fallbacks
 
 ### Performance Optimizations
-- 🚀 **Route Prefetching** - Instant page transitions
+- 🚀 **Route Prefetching** - Instant page transitions for dashboard, playground, and auth pages
 - 🖼️ **Optimized Images** - Eager loading for critical images
-- 🌓 **Dark/Light Mode** - System-aware theme switching
+- 🌓 **Dark/Light Mode** - System-aware theme switching with custom gradients
 - 📱 **Responsive Design** - Mobile-first approach
+- 💾 **State Persistence** - Local storage for user preferences
 
 ### Developer Experience
 - 🧩 **Component Library** - Pre-built, customizable components
@@ -62,7 +64,10 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 DATABASE_URL=
 
 # Frontend
-FRONTEND_URL=http://localhost:3000
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+# Optional: AI Integration
+OPENAI_API_KEY=
 ```
 
 5. Run the development server:
@@ -81,10 +86,16 @@ Open [http://localhost:3000](http://localhost:3000) to see your application.
 │   ├── api/           # API routes
 │   ├── dashboard/     # Dashboard pages
 │   └── playground/    # AI Playground
-├── components/        # Reusable components
+├── components/
+│   ├── homepage/     # Landing page components
+│   ├── shared/       # Shared UI components
+│   └── wrapper/      # Layout wrappers and navigation
 ├── config/           # Configuration files
 ├── lib/             # Utility functions
-└── public/          # Static assets
+├── public/          # Static assets
+│   ├── images/      # Image assets
+│   └── svg/         # SVG assets
+└── styles/          # Global styles
 ```
 
 ## Available Scripts
