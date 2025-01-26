@@ -36,14 +36,14 @@ export default async function MarketingPage() {
           copy. Great for marketing your product and getting sales.
         </p>
         <div className="flex gap-2 mt-2">
-          <CustomLink href="/dashboard" className="mt-2">
+          <Link href="/dashboard" prefetch={true} className="mt-2">
             <Button size="lg">Get Started</Button>
-          </CustomLink>
-          <CustomLink href="/dashboard" className="mt-2">
+          </Link>
+          <Link href="/dashboard" prefetch={true} className="mt-2">
             <Button size="lg" variant="outline">
               Get Started
             </Button>
-          </CustomLink>
+          </Link>
         </div>
         <div className="mb-3 mt-[1.5rem] max-w-[900px] w-full">
           <VideoPlayer videoSrc="https://utfs.io/f/08b0a37f-afd7-4623-b5cc-e85184528fce-1f02.mp4" />

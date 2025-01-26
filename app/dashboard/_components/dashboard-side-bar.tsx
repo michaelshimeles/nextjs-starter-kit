@@ -8,6 +8,7 @@ import {
   HomeIcon,
   Settings
 } from "lucide-react"
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 export default function DashboardSideBar() {
@@ -17,13 +18,13 @@ export default function DashboardSideBar() {
     <div className="w-64 border-r h-full bg-background">
       <div className="flex h-full flex-col">
         <div className="flex h-[3.45rem] items-center border-b px-4">
-          <CustomLink className="flex items-center gap-2 font-semibold hover:cursor-pointer" href="/">
+          <Link prefetch={true} className="flex items-center gap-2 font-semibold hover:cursor-pointer" href="/">
             <span>Nextjs Starter Kit</span>
-          </CustomLink>
+          </Link>
         </div>
 
         <nav className="flex-1 space-y-1 p-4">
-          <CustomLink
+          <Link prefetch={true}
             href="/dashboard"
             className={clsx(
               "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors",
@@ -34,9 +35,9 @@ export default function DashboardSideBar() {
           >
             <HomeIcon className="h-4 w-4" />
             Overview
-          </CustomLink>
+          </Link>
 
-          <CustomLink
+          <Link prefetch={true}
             href="/dashboard/projects"
             className={clsx(
               "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors",
@@ -47,9 +48,9 @@ export default function DashboardSideBar() {
           >
             <Folder className="h-4 w-4" />
             Projects
-          </CustomLink>
+          </Link>
 
-          <CustomLink
+          <Link prefetch={true}
             href="/dashboard/finance"
             className={clsx(
               "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors",
@@ -60,9 +61,9 @@ export default function DashboardSideBar() {
           >
             <Banknote className="h-4 w-4" />
             Finance
-          </CustomLink>
+          </Link>
 
-          <CustomLink
+          <Link prefetch={true}
             href="/dashboard/settings"
             className={clsx(
               "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors",
@@ -73,7 +74,7 @@ export default function DashboardSideBar() {
           >
             <Settings className="h-4 w-4" />
             Settings
-          </CustomLink>
+          </Link>
         </nav>
       </div>
     </div>

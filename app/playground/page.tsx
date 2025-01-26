@@ -20,6 +20,7 @@ import { ArrowUp, Bot, Download, Share, Sparkles, User } from "lucide-react";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useChat } from "ai/react";
+import Link from "next/link";
 
 interface Message {
   role: "user" | "assistant";
@@ -59,12 +60,12 @@ export default function PlaygroundPage() {
       <div className="flex-1 flex flex-col">
         <header className="flex items-center justify-between py-3 px-4 border-b border-zinc-800">
           <div className="flex items-center gap-3">
-            <CustomLink href="/">
+            <Link prefetch={true} href="/">
               <div className="flex items-center gap-2">
                 <Bot className="w-5 h-5" />
                 <h1 className="text-sm font-medium">AI Playground</h1>
               </div>
-            </CustomLink>
+            </Link>
             <Badge variant="outline" className="text-xs border-zinc-800">
               {model}
             </Badge>
