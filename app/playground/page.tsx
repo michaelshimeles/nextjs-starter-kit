@@ -55,10 +55,10 @@ export default function PlaygroundPage() {
   console.log("messages", messages);
 
   return (
-    <div className="flex h-screen bg-black text-white">
+    <div className="flex h-screen dark:bg-black bg-white dark:text-white text-black">
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
-        <header className="flex items-center justify-between py-3 px-4 border-b border-zinc-800">
+        <header className="flex items-center justify-between py-3 px-4 border-b dark:border-zinc-800 border-zinc-200">
           <div className="flex items-center gap-3">
             <Link prefetch={true} href="/">
               <div className="flex items-center gap-2">
@@ -66,7 +66,7 @@ export default function PlaygroundPage() {
                 <h1 className="text-sm font-medium">AI Playground</h1>
               </div>
             </Link>
-            <Badge variant="outline" className="text-xs border-zinc-800">
+            <Badge variant="outline" className="text-xs dark:border-zinc-800 border-zinc-200">
               {model}
             </Badge>
           </div>
@@ -75,7 +75,7 @@ export default function PlaygroundPage() {
             <Button
               size="sm"
               variant="outline"
-              className="h-8 text-xs border-zinc-800 hover:bg-zinc-900"
+              className="h-8 text-xs dark:border-zinc-800 border-zinc-200 dark:hover:bg-zinc-900 hover:bg-zinc-100"
             >
               <Share className="w-3.5 h-3.5 mr-1.5" />
               Share
@@ -83,7 +83,7 @@ export default function PlaygroundPage() {
             <Button
               size="sm"
               variant="outline"
-              className="h-8 text-xs border-zinc-800 hover:bg-zinc-900"
+              className="h-8 text-xs dark:border-zinc-800 border-zinc-200 dark:hover:bg-zinc-900 hover:bg-zinc-100"
             >
               <Download className="w-3.5 h-3.5 mr-1.5" />
               Export
@@ -99,46 +99,52 @@ export default function PlaygroundPage() {
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className={`flex gap-3 ${
-                    message.role === "assistant" ? "bg-zinc-900/50" : ""
-                  } rounded-lg p-4`}
+                  transition={{ duration: 0.3 }}
+                  className={`flex items-start gap-3 ${
+                    message.role === "assistant"
+                      ? "flex-row"
+                      : "flex-row-reverse"
+                  }`}
                 >
-                  <div className="w-6 h-6 rounded-full border border-zinc-800 flex items-center justify-center flex-shrink-0">
-                    {message.role === "user" ? (
-                      <User className="w-4 h-4" />
-                    ) : (
-                      <Sparkles className="w-4 h-4" />
-                    )}
-                  </div>
-                  <div className="flex-1 prose prose-invert max-w-none">
-                    <ReactMarkdown>{message.content}</ReactMarkdown>
-                  </div>
+                  {message.content && (
+                    <div
+                      className={`${
+                        message.role === "user"
+                          ? "bg-[#007AFF] text-white rounded-[20px] rounded-br-[8px]"
+                          : "bg-[#E9E9EB] dark:bg-[#1C1C1E] text-black dark:text-white rounded-[20px] rounded-bl-[8px]"
+                      } flex flex-col px-[12px] py-[8px] max-w-[280px] w-fit leading-[1.35]`}
+                    >
+                      <div className="text-[14px] py-1">
+                        <ReactMarkdown>{message.content}</ReactMarkdown>
+                      </div>
+                    </div>
+                  )}{" "}
                 </motion.div>
               ))}
             </AnimatePresence>
 
-            {isLoading && (
+            {/* Only show loading when isLoading is true AND there's no message being streamed */}
+            {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="flex gap-3 bg-zinc-900/50 rounded-lg p-4"
+                className="flex gap-3 dark:bg-zinc-900/50 bg-white rounded-lg p-4"
               >
-                <div className="w-6 h-6 rounded-full border border-zinc-800 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full border dark:border-zinc-800 border-zinc-200 flex items-center justify-center">
                   <Sparkles className="w-4 h-4" />
                 </div>
                 <div className="flex-1">
                   <div className="flex gap-1">
                     <span
-                      className="w-2 h-2 rounded-full bg-zinc-700 animate-bounce"
+                      className="w-2 h-2 rounded-full dark:bg-zinc-700 bg-zinc-200 animate-bounce"
                       style={{ animationDelay: "0ms" }}
                     />
                     <span
-                      className="w-2 h-2 rounded-full bg-zinc-700 animate-bounce"
+                      className="w-2 h-2 rounded-full dark:bg-zinc-700 bg-zinc-200 animate-bounce"
                       style={{ animationDelay: "150ms" }}
                     />
                     <span
-                      className="w-2 h-2 rounded-full bg-zinc-700 animate-bounce"
+                      className="w-2 h-2 rounded-full dark:bg-zinc-700 bg-zinc-200 animate-bounce"
                       style={{ animationDelay: "300ms" }}
                     />
                   </div>
@@ -148,7 +154,7 @@ export default function PlaygroundPage() {
           </div>
         </ScrollArea>
 
-        <div className="p-4 border-t border-zinc-800">
+        <div className="p-4 border-t dark:border-zinc-800 border-zinc-200">
           <div className="max-w-3xl mx-auto">
             <div className="relative">
               <Textarea
@@ -161,7 +167,7 @@ export default function PlaygroundPage() {
                   }
                 }}
                 placeholder="Send a message..."
-                className="min-h-[100px] bg-zinc-900/50 border-zinc-800 resize-none pr-24 text-sm"
+                className="min-h-[100px] bg-transparent dark:bg-zinc-900/50 bg-white border dark:border-zinc-800 border-zinc-200 focus:border-zinc-400 dark:focus:border-zinc-600"
               />
               <div className="absolute bottom-3 right-3">
                 <Button
@@ -179,10 +185,10 @@ export default function PlaygroundPage() {
       </div>
 
       {/* Settings Sidebar */}
-      <div className="w-80 border-l border-zinc-800 bg-black/50 backdrop-blur-sm">
+      <div className="w-80 border-l dark:border-zinc-800 border-zinc-200 dark:bg-black/50 bg-white backdrop-blur-sm">
         <div className="p-4">
           <Tabs defaultValue="model">
-            <TabsList className="w-full bg-zinc-900/50 border border-zinc-800">
+            <TabsList className="w-full dark:bg-zinc-900/50 bg-zinc-100 border dark:border-zinc-800 border-zinc-200">
               <TabsTrigger value="model" className="flex-1">
                 Model
               </TabsTrigger>
@@ -196,11 +202,11 @@ export default function PlaygroundPage() {
 
             <TabsContent value="model" className="mt-4 space-y-4">
               <div>
-                <label className="text-xs text-zinc-400 mb-2 block">
+                <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
                   Model
                 </label>
                 <Select value={model} onValueChange={setModel}>
-                  <SelectTrigger className="bg-zinc-900/50 border-zinc-800">
+                  <SelectTrigger className="dark:bg-zinc-900/50 bg-white border dark:border-zinc-800 border-zinc-200">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -221,7 +227,7 @@ export default function PlaygroundPage() {
             <TabsContent value="parameters" className="mt-4 space-y-4">
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs text-zinc-400 mb-2 block">
+                  <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
                     Temperature ({temperature})
                   </label>
                   <Slider
@@ -233,7 +239,7 @@ export default function PlaygroundPage() {
                 </div>
 
                 <div>
-                  <label className="text-xs text-zinc-400 mb-2 block">
+                  <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
                     Max Tokens ({maxTokens})
                   </label>
                   <Slider
@@ -245,7 +251,7 @@ export default function PlaygroundPage() {
                 </div>
 
                 <div>
-                  <label className="text-xs text-zinc-400 mb-2 block">
+                  <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
                     Top P ({topP})
                   </label>
                   <Slider
@@ -257,7 +263,7 @@ export default function PlaygroundPage() {
                 </div>
 
                 <div>
-                  <label className="text-xs text-zinc-400 mb-2 block">
+                  <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
                     Frequency Penalty ({frequencyPenalty})
                   </label>
                   <Slider
@@ -269,7 +275,7 @@ export default function PlaygroundPage() {
                 </div>
 
                 <div>
-                  <label className="text-xs text-zinc-400 mb-2 block">
+                  <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
                     Presence Penalty ({presencePenalty})
                   </label>
                   <Slider
@@ -284,14 +290,14 @@ export default function PlaygroundPage() {
 
             <TabsContent value="system" className="mt-4 space-y-4">
               <div>
-                <label className="text-xs text-zinc-400 mb-2 block">
+                <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
                   System Prompt
                 </label>
                 <Textarea
                   placeholder="Enter a custom system prompt (leave empty to use default)"
                   value={systemPrompt}
                   onChange={(e) => setSystemPrompt(e.target.value)}
-                  className="h-[200px] bg-zinc-900/50 border-zinc-800"
+                  className="h-[200px] dark:bg-zinc-900/50 bg-white border dark:border-zinc-800 border-zinc-200"
                 />
               </div>
             </TabsContent>
