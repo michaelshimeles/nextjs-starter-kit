@@ -16,10 +16,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { useChat } from "ai/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUp, Bot, ChevronDown, ChevronUp, Download, Share, Sparkles } from "lucide-react";
+import {
+  ArrowUp,
+  Bot,
+  ChevronDown,
+  ChevronUp,
+  Copy,
+  Check,
+  Download,
+  Share,
+  Sparkles,
+} from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 interface Message {
   role: "user" | "assistant";
@@ -28,9 +40,18 @@ interface Message {
   timestamp: Date;
 }
 
+interface CodeProps {
+  node?: any;
+  inline?: boolean;
+  className?: string;
+  children?: React.ReactNode;
+}
+
 export default function PlaygroundPage() {
   const [model, setModel] = useState("deepseek:deepseek-reasoner");
   const [systemPrompt, setSystemPrompt] = useState("");
+  const [expandedReasoning, setExpandedReasoning] = useState<number[]>([]);
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   // Model parameters
   const [temperature, setTemperature] = useState(0.7);
@@ -39,14 +60,16 @@ export default function PlaygroundPage() {
   const [frequencyPenalty, setFrequencyPenalty] = useState(0.0);
   const [presencePenalty, setPresencePenalty] = useState(0.0);
 
-  const [expandedReasoning, setExpandedReasoning] = useState<number[]>([]);
-
   const toggleReasoning = (index: number) => {
     setExpandedReasoning((prev) =>
-      prev.includes(index)
-        ? prev.filter((i) => i !== index)
-        : [...prev, index]
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
+  };
+
+  const handleCopyCode = async (code: string) => {
+    await navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    setTimeout(() => setCopiedCode(null), 2000);
   };
 
   const { messages, isLoading, input, handleInputChange, handleSubmit } =
@@ -62,7 +85,43 @@ export default function PlaygroundPage() {
       },
     });
 
-  console.log("messages", messages);
+  const components = {
+    code({ node, inline, className, children, ...props }: CodeProps) {
+      const match = /language-(\w+)/.exec(className || '');
+      const language = match ? match[1] : 'text';
+      const code = String(children).replace(/\n$/, '');
+
+      return !inline ? (
+        <div className="relative rounded-lg overflow-hidden my-2">
+          <div className="flex items-center justify-between px-4 py-2 bg-[#282C34] text-gray-200">
+            <span className="text-xs font-medium">{language}</span>
+            <button
+              onClick={() => handleCopyCode(code)}
+              className="hover:text-white transition-colors"
+            >
+              {copiedCode === code ? (
+                <Check className="w-4 h-4" />
+              ) : (
+                <Copy className="w-4 h-4" />
+              )}
+            </button>
+          </div>
+          <SyntaxHighlighter
+            style={oneDark}
+            language={language}
+            PreTag="div"
+            className="!bg-[#1E1E1E] !m-0 !p-4 !rounded-b-lg"
+          >
+            {code}
+          </SyntaxHighlighter>
+        </div>
+      ) : (
+        <code className="bg-gray-100 dark:bg-gray-800 rounded px-1 py-0.5" {...props}>
+          {children}
+        </code>
+      );
+    }
+  };
 
   return (
     <div className="flex h-screen dark:bg-black bg-white dark:text-white text-black">
@@ -119,7 +178,7 @@ export default function PlaygroundPage() {
                       : "flex-row-reverse"
                   }`}
                 >
-                  <div className="flex flex-col gap-2 max-w-[280px]">
+                  <div className="flex flex-col gap-2 max-w-[480px]">
                     {message.reasoning && (
                       <div
                         className={`${
@@ -127,14 +186,18 @@ export default function PlaygroundPage() {
                             ? "bg-[#007AFF] text-white"
                             : "bg-[#E9E9EB] dark:bg-[#1C1C1E] text-black dark:text-white"
                         } rounded-[20px] ${
-                          message.role === "user" ? "rounded-br-[8px]" : "rounded-bl-[8px]"
+                          message.role === "user"
+                            ? "rounded-br-[8px]"
+                            : "rounded-bl-[8px]"
                         }`}
                       >
                         <button
                           onClick={() => toggleReasoning(index)}
                           className="w-full flex items-center justify-between px-3 py-2"
                         >
-                          <span className="text-xs font-medium opacity-70">Reasoning</span>
+                          <span className="text-xs font-medium opacity-70">
+                            Reasoning
+                          </span>
                           {expandedReasoning.includes(index) ? (
                             <ChevronUp className="w-3 h-3 opacity-70" />
                           ) : (
@@ -143,7 +206,9 @@ export default function PlaygroundPage() {
                         </button>
                         {expandedReasoning.includes(index) && (
                           <div className="px-3 pb-3 text-[12px] opacity-70">
-                            <ReactMarkdown>{message.reasoning}</ReactMarkdown>
+                            <ReactMarkdown components={components}>
+                              {message.reasoning}
+                            </ReactMarkdown>
                           </div>
                         )}
                       </div>
@@ -155,11 +220,15 @@ export default function PlaygroundPage() {
                             ? "bg-[#007AFF] text-white"
                             : "bg-[#E9E9EB] dark:bg-[#1C1C1E] text-black dark:text-white"
                         } rounded-[20px] ${
-                          message.role === "user" ? "rounded-br-[8px]" : "rounded-bl-[8px]"
+                          message.role === "user"
+                            ? "rounded-br-[8px]"
+                            : "rounded-bl-[8px]"
                         } px-3 py-2`}
                       >
                         <div className="text-[14px]">
-                          <ReactMarkdown>{message.content}</ReactMarkdown>
+                          <ReactMarkdown components={components}>
+                            {message.content}
+                          </ReactMarkdown>
                         </div>
                       </div>
                     )}
@@ -256,25 +325,25 @@ export default function PlaygroundPage() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="openai:gpt-4o">GPT-4o</SelectItem>
-                    <SelectItem value="openai:gpt-4">GPT-4</SelectItem>
+                    <SelectItem value="openai:gpt-4o">gpt-4o</SelectItem>
+                    <SelectItem value="openai:gpt-4">gpt-4</SelectItem>
                     <SelectItem value="openai:gpt-3.5-turbo">
-                      GPT-3.5 Turbo
+                      gpt-3.5 turbo
                     </SelectItem>
                     <SelectItem value="openai:gpt-4-turbo">
-                      GPT-4 Turbo
+                      gpt-4 turbo
                     </SelectItem>
-                    {/* <SelectItem value="claude-3-haiku-20240307">Claude 3 Haiku</SelectItem>
-                    <SelectItem value="claude-3-sonnet-20240307">Claude 3 Sonnet</SelectItem>
-                    <SelectItem value="claude-3-opus-20240307">Claude 3 Opus</SelectItem> */}
                     <SelectItem value="deepseek:deepseek-chat">
-                      Deepseek Chat
+                      deepseek chat
                     </SelectItem>
                     <SelectItem value="deepseek:deepseek-coder">
-                      Deepseek Coder
+                      deepseek coder
                     </SelectItem>
                     <SelectItem value="deepseek:deepseek-reasoner">
-                      Deepseek Reasoner
+                      deepseek-r
+                    </SelectItem>
+                    <SelectItem value="groq:deepseek-r1-distill-llama-70b">
+                      deepseek-r1-distill-llama-70b
                     </SelectItem>
                   </SelectContent>
                 </Select>

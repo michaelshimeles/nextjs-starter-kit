@@ -15,7 +15,6 @@ import { motion } from "framer-motion";
 import { Github, Menu, Sparkles, Twitter, Youtube } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
-import CustomLink from "../custom-link";
 import ModeToggle from "../mode-toggle";
 import { Button } from "../ui/button";
 import {
@@ -36,6 +35,11 @@ const components: { title: string; href: string; description: string }[] = [
     title: "Dashboard",
     href: "/dashboard",
     description: "Access your personal dashboard.",
+  },
+  {
+    title: "Blog",
+    href: "/blog",
+    description: "Read my interesting blog posts.",
   },
 ];
 

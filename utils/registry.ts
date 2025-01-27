@@ -1,5 +1,6 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createDeepSeek } from "@ai-sdk/deepseek";
+import { createGroq } from '@ai-sdk/groq';
 import { createOpenAI } from "@ai-sdk/openai";
 import { experimental_createProviderRegistry as createProviderRegistry } from "ai";
 
@@ -16,5 +17,9 @@ export const registry = createProviderRegistry({
   }),
   deepseek: createDeepSeek({
     apiKey: process.env.DEEPSEEK_API_KEY,
+  }),
+  groq: createGroq({
+    // custom settings
+    apiKey: process.env.GROQ_API_KEY,
   }),
 });
