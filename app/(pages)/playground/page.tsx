@@ -16,14 +16,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { useChat } from "ai/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUp, Bot, Download, Share, Sparkles } from "lucide-react";
+import { ArrowUp, Bot, ChevronDown, ChevronUp, Download, Share, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  reasoning?: string;
   timestamp: Date;
 }
 
@@ -37,6 +38,16 @@ export default function PlaygroundPage() {
   const [topP, setTopP] = useState(0.9);
   const [frequencyPenalty, setFrequencyPenalty] = useState(0.0);
   const [presencePenalty, setPresencePenalty] = useState(0.0);
+
+  const [expandedReasoning, setExpandedReasoning] = useState<number[]>([]);
+
+  const toggleReasoning = (index: number) => {
+    setExpandedReasoning((prev) =>
+      prev.includes(index)
+        ? prev.filter((i) => i !== index)
+        : [...prev, index]
+    );
+  };
 
   const { messages, isLoading, input, handleInputChange, handleSubmit } =
     useChat({
@@ -108,44 +119,51 @@ export default function PlaygroundPage() {
                       : "flex-row-reverse"
                   }`}
                 >
-                  {message.reasoning ? (
-                    <div
-                      className={`${
-                        message.role === "user"
-                          ? "bg-[#007AFF] text-white rounded-[20px] rounded-br-[8px]"
-                          : "bg-[#E9E9EB] dark:bg-[#1C1C1E] text-black dark:text-white rounded-[20px] rounded-bl-[8px]"
-                      } flex flex-col px-[12px] py-[8px] max-w-[280px] w-fit leading-[1.35]`}
-                    >
-                      <div className="text-[14px] py-1">
-                        <ReactMarkdown>{message.reasoning}</ReactMarkdown>
+                  <div className="flex flex-col gap-2 max-w-[280px]">
+                    {message.reasoning && (
+                      <div
+                        className={`${
+                          message.role === "user"
+                            ? "bg-[#007AFF] text-white"
+                            : "bg-[#E9E9EB] dark:bg-[#1C1C1E] text-black dark:text-white"
+                        } rounded-[20px] ${
+                          message.role === "user" ? "rounded-br-[8px]" : "rounded-bl-[8px]"
+                        }`}
+                      >
+                        <button
+                          onClick={() => toggleReasoning(index)}
+                          className="w-full flex items-center justify-between px-3 py-2"
+                        >
+                          <span className="text-xs font-medium opacity-70">Reasoning</span>
+                          {expandedReasoning.includes(index) ? (
+                            <ChevronUp className="w-3 h-3 opacity-70" />
+                          ) : (
+                            <ChevronDown className="w-3 h-3 opacity-70" />
+                          )}
+                        </button>
+                        {expandedReasoning.includes(index) && (
+                          <div className="px-3 pb-3 text-[12px] opacity-70">
+                            <ReactMarkdown>{message.reasoning}</ReactMarkdown>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ) : (
-                    <div
-                      className={`${
-                        message.role === "user"
-                          ? "bg-[#007AFF] text-white rounded-[20px] rounded-br-[8px]"
-                          : "bg-[#E9E9EB] dark:bg-[#1C1C1E] text-black dark:text-white rounded-[20px] rounded-bl-[8px]"
-                      } flex flex-col px-[12px] py-[8px] max-w-[280px] w-fit leading-[1.35]`}
-                    >
-                      <div className="text-[14px] py-1">
-                        <ReactMarkdown>{message.reasoning}</ReactMarkdown>
+                    )}
+                    {message.content && (
+                      <div
+                        className={`${
+                          message.role === "user"
+                            ? "bg-[#007AFF] text-white"
+                            : "bg-[#E9E9EB] dark:bg-[#1C1C1E] text-black dark:text-white"
+                        } rounded-[20px] ${
+                          message.role === "user" ? "rounded-br-[8px]" : "rounded-bl-[8px]"
+                        } px-3 py-2`}
+                      >
+                        <div className="text-[14px]">
+                          <ReactMarkdown>{message.content}</ReactMarkdown>
+                        </div>
                       </div>
-                    </div>
-                  )}{" "}
-                  {message.content && (
-                    <div
-                      className={`${
-                        message.role === "user"
-                          ? "bg-[#007AFF] text-white rounded-[20px] rounded-br-[8px]"
-                          : "bg-[#E9E9EB] dark:bg-[#1C1C1E] text-black dark:text-white rounded-[20px] rounded-bl-[8px]"
-                      } flex flex-col px-[12px] py-[8px] max-w-[280px] w-fit leading-[1.35]`}
-                    >
-                      <div className="text-[14px] py-1">
-                        <ReactMarkdown>{message.content}</ReactMarkdown>
-                      </div>
-                    </div>
-                  )}{" "}
+                    )}
+                  </div>
                 </motion.div>
               ))}
             </AnimatePresence>
