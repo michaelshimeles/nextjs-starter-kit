@@ -108,6 +108,31 @@ export default function PlaygroundPage() {
                       : "flex-row-reverse"
                   }`}
                 >
+                  {message.reasoning ? (
+                    <div
+                      className={`${
+                        message.role === "user"
+                          ? "bg-[#007AFF] text-white rounded-[20px] rounded-br-[8px]"
+                          : "bg-[#E9E9EB] dark:bg-[#1C1C1E] text-black dark:text-white rounded-[20px] rounded-bl-[8px]"
+                      } flex flex-col px-[12px] py-[8px] max-w-[280px] w-fit leading-[1.35]`}
+                    >
+                      <div className="text-[14px] py-1">
+                        <ReactMarkdown>{message.reasoning}</ReactMarkdown>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className={`${
+                        message.role === "user"
+                          ? "bg-[#007AFF] text-white rounded-[20px] rounded-br-[8px]"
+                          : "bg-[#E9E9EB] dark:bg-[#1C1C1E] text-black dark:text-white rounded-[20px] rounded-bl-[8px]"
+                      } flex flex-col px-[12px] py-[8px] max-w-[280px] w-fit leading-[1.35]`}
+                    >
+                      <div className="text-[14px] py-1">
+                        <ReactMarkdown>{message.reasoning}</ReactMarkdown>
+                      </div>
+                    </div>
+                  )}{" "}
                   {message.content && (
                     <div
                       className={`${
