@@ -1,9 +1,10 @@
-import { openai } from "@ai-sdk/openai";
-import { auth } from "@clerk/nextjs/server";
-import { streamText } from "ai";
-import { anthropic } from "@ai-sdk/anthropic";
-import { deepseek } from "@ai-sdk/deepseek";
 import { registry } from "@/utils/registry";
+import { groq } from "@ai-sdk/groq";
+import {
+  extractReasoningMiddleware,
+  streamText,
+  experimental_wrapLanguageModel as wrapLanguageModel,
+} from "ai";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -19,8 +20,6 @@ export async function POST(req: Request) {
     presencePenalty,
     systemPrompt,
   } = await req.json();
-
-  const { userId } = await auth();
 
   const defaultSystemPrompt = `
     You are an advanced AI assistant in an interactive playground environment. Your primary goals are:
@@ -41,17 +40,23 @@ export async function POST(req: Request) {
   const role =
     messages?.[messages?.length - 1].role === "user" ? "user" : "assistant";
 
-  console.log("model", model);
+  const enhancedModel = wrapLanguageModel({
+    model: groq("deepseek-r1-distill-llama-70b"),
+    middleware: extractReasoningMiddleware({ tagName: "think" }),
+  });
 
   const result = streamText({
-    model: registry.languageModel(model),
+    model:
+      model === "deepseek:deepseek-reasoner"
+        ? enhancedModel
+        : registry.languageModel(model),
     messages,
     temperature: temperature || 0.7,
     maxTokens: maxTokens || 1000,
     topP: topP || 0.9,
     frequencyPenalty: frequencyPenalty || 0.0,
     presencePenalty: presencePenalty || 0.0,
-    // system: systemPrompt || defaultSystemPrompt,
+    system: systemPrompt || defaultSystemPrompt,
     // tools,
     maxSteps: 5,
     onStepFinish({
