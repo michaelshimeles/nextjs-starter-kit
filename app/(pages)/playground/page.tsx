@@ -55,7 +55,7 @@ export default function PlaygroundPage() {
 
   // Model parameters
   const [temperature, setTemperature] = useState(0.7);
-  const [maxTokens, setMaxTokens] = useState(1000);
+  const [maxTokens, setMaxTokens] = useState(4000);
   const [topP, setTopP] = useState(0.9);
   const [frequencyPenalty, setFrequencyPenalty] = useState(0.0);
   const [presencePenalty, setPresencePenalty] = useState(0.0);
@@ -139,7 +139,7 @@ export default function PlaygroundPage() {
               variant="outline"
               className="text-xs dark:border-zinc-800 border-zinc-200"
             >
-              {model?.split(":")[1]}
+              {model?.split(":")[1] === "deepseek-reasoner" ? "deepseek-r" : model?.split(":")[1]}
             </Badge>
           </div>
           <div className="flex items-center gap-2">
