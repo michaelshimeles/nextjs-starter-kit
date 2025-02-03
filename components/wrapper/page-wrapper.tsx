@@ -13,7 +13,7 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
     if (user) {
       storeUser();
     }
-  }, [user, storeUser]);
+  }, [user]);
 
 
   return (
