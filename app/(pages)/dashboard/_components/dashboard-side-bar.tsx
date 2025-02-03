@@ -1,7 +1,7 @@
 "use client"
 
-import CustomLink from '@/components/custom-link'
 import clsx from 'clsx'
+import { usePreloadedQuery } from 'convex/react'
 import {
   Banknote,
   Folder,
@@ -9,10 +9,20 @@ import {
   Settings
 } from "lucide-react"
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { redirect, usePathname } from 'next/navigation'
 
-export default function DashboardSideBar() {
+export default function DashboardSideBar({
+  preloadedSubscriptionStatus
+}: {
+  preloadedSubscriptionStatus: any
+}) {
   const pathname = usePathname();
+  
+  const { hasActiveSubscription } = usePreloadedQuery(preloadedSubscriptionStatus);
+
+  if (!hasActiveSubscription) {
+    redirect("/pricing")
+  }
 
   return (
     <div className="w-64 border-r h-full bg-background">
