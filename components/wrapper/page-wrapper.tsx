@@ -1,7 +1,21 @@
+"use client"
+import { useEffect } from 'react';
 import Footer from './footer'
 import NavBar from './navbar'
+import { useMutation, useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 
 export default function PageWrapper({ children }: { children: React.ReactNode }) {
+  const user = useQuery(api.users.getUser);
+  const storeUser = useMutation(api.users.store);
+
+  useEffect(() => {
+    if (user) {
+      storeUser();
+    }
+  }, [user, storeUser]);
+
+
   return (
     <>
       <NavBar />

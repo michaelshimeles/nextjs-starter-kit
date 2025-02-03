@@ -1,6 +1,6 @@
 "use client";
 
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,16 +9,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CheckCircle2, DollarSign } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import React, { useEffect, useState } from "react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
-import axios from "axios";
-import { loadStripe } from "@stripe/stripe-js";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useAction, useQuery } from "convex/react";
+import { CheckCircle2, DollarSign } from "lucide-react";
 import { motion } from "motion/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 type PricingSwitchProps = {
   onSwitch: (value: string) => void;
@@ -26,9 +25,6 @@ type PricingSwitchProps = {
 
 type PricingCardProps = {
   user: any;
-  handleCheckout: any;
-  priceIdMonthly: any;
-  priceIdYearly: any;
   isYearly?: boolean;
   title: string;
   monthlyPrice?: number;
@@ -82,11 +78,8 @@ const PricingSwitch = ({ onSwitch }: PricingSwitchProps) => (
 
 const PricingCard = ({
   user,
-  handleCheckout,
   isYearly,
   title,
-  priceIdMonthly,
-  priceIdYearly,
   monthlyPrice,
   yearlyPrice,
   description,
@@ -97,7 +90,26 @@ const PricingCard = ({
 }: PricingCardProps) => {
   const router = useRouter();
 
-  console.log("priceIdMonthly", priceIdMonthly);
+  const getProCheckoutUrl = useAction(api.subscriptions.getProOnboardingCheckoutUrl);
+  const subscriptionStatus = useQuery(api.subscriptions.getUserSubscriptionStatus);
+
+
+
+  const handleCheckout = async (interval: "month" | "year") => {
+    try {
+      const checkoutProUrl = await getProCheckoutUrl({
+        interval
+      });
+
+      if (checkoutProUrl) {
+        window.location.href = checkoutProUrl;
+      }
+    } catch (error) {
+      console.error("Failed to get checkout URL:", error);
+    }
+  };
+
+
   return (
     <Card
       className={cn("w-full max-w-sm flex flex-col justify-between px-2 py-1", {
@@ -170,7 +182,7 @@ const PricingCard = ({
               router.push("/sign-in");
               return;
             }
-            handleCheckout(isYearly ? priceIdYearly : priceIdMonthly, true);
+            handleCheckout("month")
           }}
           className={cn("w-full", {
             "bg-blue-500 hover:bg-blue-400": popular,
@@ -189,64 +201,12 @@ export default function Pricing() {
   const togglePricingPeriod = (value: string) =>
     setIsYearly(parseInt(value) === 1);
   const { user } = useUser();
-  const [stripePromise, setStripePromise] = useState<Promise<any> | null>(null);
-
-  useEffect(() => {
-    setStripePromise(loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!));
-  }, []);
-
-  const handleCheckout = async (priceId: string, subscription: boolean) => {
-    try {
-      console.log("subscription", subscription);
-      const { data } = await axios.post(
-        `/api/payments/create-checkout-session`,
-        {
-          userId: user?.id,
-          email: user?.emailAddresses?.[0]?.emailAddress,
-          priceId,
-          subscription,
-        }
-      );
-
-      if (data.sessionId) {
-        const stripe = await stripePromise;
-        const response = await stripe?.redirectToCheckout({
-          sessionId: data.sessionId,
-        });
-        return response;
-      } else {
-        console.error("Failed to create checkout session");
-        toast("Failed to create checkout session");
-        return;
-      }
-    } catch (error) {
-      console.error("Error during checkout:", error);
-      toast("Error during checkout");
-      return;
-    }
-  };
 
   const plans = [
     {
-      title: "Basic",
-      monthlyPrice: 10,
-      yearlyPrice: 100,
-      description:
-        "Perfect for individuals and small teams just getting started.",
-      features: [
-        "All essential features",
-        "Up to 5 team members",
-        "20GB storage",
-        "Basic support",
-      ],
-      priceIdMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
-      priceIdYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
-      actionLabel: "Get Started",
-    },
-    {
       title: "Pro",
-      monthlyPrice: 25,
-      yearlyPrice: 250,
+      monthlyPrice: 12,
+      yearlyPrice: 100,
       description: "Advanced features for growing teams and businesses.",
       features: [
         "All Basic features",
@@ -255,26 +215,8 @@ export default function Pricing() {
         "Priority support",
         "Advanced analytics",
       ],
-      priceIdMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
-      priceIdYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
       actionLabel: "Get Pro",
       popular: true,
-    },
-    {
-      title: "Enterprise",
-      description: "Custom solutions for large organizations.",
-      features: [
-        "All Pro features",
-        "Unlimited team members",
-        "Unlimited storage",
-        "24/7 dedicated support",
-        "Custom integrations",
-        "SLA guarantees",
-      ],
-      actionLabel: "Contact Sales",
-      priceIdMonthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
-      priceIdYearly: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
-      exclusive: true,
     },
   ];
 
@@ -291,13 +233,12 @@ export default function Pricing() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mt-10"
+          className="flex justify-center mt-10"
         >
           {plans.map((plan) => (
             <PricingCard
               key={plan.title}
               user={user}
-              handleCheckout={handleCheckout}
               {...plan}
               isYearly={isYearly}
             />
