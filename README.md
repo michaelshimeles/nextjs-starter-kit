@@ -12,7 +12,8 @@ A modern, feature-rich starter template for building production-ready applicatio
 - 📘 **TypeScript** - Type-safe code
 - 🔒 **Authentication** - Clerk integration with persistent authorization toggle
 - 🎭 **Shadcn/ui** - Beautiful and accessible components
-- 🖼️ **SVG Support** - Native SVG rendering with image fallbacks
+- 💾 **Convex DB** - Real-time database with built-in file storage and serverless functions
+- 💳 **Polar.sh** - Open-source solution for managing subscriptions and payments
 
 ### Performance Optimizations
 - 🚀 **Route Prefetching** - Instant page transitions for dashboard, playground, and auth pages
@@ -20,11 +21,12 @@ A modern, feature-rich starter template for building production-ready applicatio
 - 🌓 **Dark/Light Mode** - System-aware theme switching with custom gradients
 - 📱 **Responsive Design** - Mobile-first approach
 - 💾 **State Persistence** - Local storage for user preferences
+- 🔄 **Real-time Updates** - Powered by Convex DB's real-time capabilities
 
 ### Developer Experience
 - 🧩 **Component Library** - Pre-built, customizable components
 - 🎮 **AI Playground** - Built-in AI chat interface
-- 📊 **Dashboard Template** - Ready-to-use admin interface
+- 📊 **Dashboard Template** - Ready-to-use admin interface with subscription management
 - 🔍 **SEO Optimized** - Meta tags and sitemap generation
 
 ### Additional Features
@@ -60,8 +62,13 @@ NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
 NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 
-# Database
-DATABASE_URL=
+# Convex
+NEXT_PUBLIC_CONVEX_URL=
+CONVEX_DEPLOYMENT=
+CONVEX_ADMIN_KEY=
+
+# Polar.sh
+POLAR_WEBHOOK_SECRET=
 
 # Frontend
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
@@ -91,6 +98,7 @@ Open [http://localhost:3000](http://localhost:3000) to see your application.
 │   ├── shared/       # Shared UI components
 │   └── wrapper/      # Layout wrappers and navigation
 ├── config/           # Configuration files
+├── convex/          # Convex DB schema and functions
 ├── lib/             # Utility functions
 ├── public/          # Static assets
 │   ├── images/      # Image assets
