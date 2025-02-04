@@ -20,7 +20,6 @@ A modern, feature-rich starter template for building production-ready applicatio
 - 🖼️ **Optimized Images** - Eager loading for critical images
 - 🌓 **Dark/Light Mode** - System-aware theme switching with custom gradients
 - 📱 **Responsive Design** - Mobile-first approach
-- 💾 **State Persistence** - Local storage for user preferences
 - 🔄 **Real-time Updates** - Powered by Convex DB's real-time capabilities
 
 ### Developer Experience
@@ -29,11 +28,9 @@ A modern, feature-rich starter template for building production-ready applicatio
 - 📊 **Dashboard Template** - Ready-to-use admin interface with subscription management
 - 🔍 **SEO Optimized** - Meta tags and sitemap generation
 
-### Additional Features
-- 🎬 **Custom Video Player** - Built-in video playback component
-- 📝 **Blog Support** - Ready for content creation
-- 🔄 **State Management** - Clean and efficient
-- 🌐 **API Integration** - Ready for backend services
+## Convex DB Integration
+
+To set up your Convex database, visit: [https://convex.link/rasmicstarter](https://convex.link/rasmicstarter)
 
 ## Quick Start
 
@@ -113,6 +110,10 @@ Open [http://localhost:3000](http://localhost:3000) to see your application.
 - `bun run start` - Start production server
 - `bun run lint` - Run ESLint
 - `bun run format` - Format code with Prettier
+
+## Sponsors and Supporters
+
+Special thanks to [Convex](https://www.convex.dev/) for their sponsorship and support in making this starter kit possible. Their real-time database and file storage solutions have been instrumental in creating a powerful foundation for modern web applications.
 
 ## Contributing
 
