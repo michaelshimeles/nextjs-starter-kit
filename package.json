@@ -59,6 +59,7 @@
     "@vercel/analytics": "^1.2.2",
     "ai": "^4.1.9",
     "axios": "^1.6.8",
+    "babel-plugin-react-compiler": "^19.0.0-beta-714736e-20250131",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
