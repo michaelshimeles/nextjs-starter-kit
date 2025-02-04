@@ -28,7 +28,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useCallback, useMemo, memo } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -47,8 +47,132 @@ interface CodeProps {
   children?: React.ReactNode;
 }
 
+// Memoized Header Component
+const Header = memo(({ model }: { model: string }) => (
+  <header className="flex items-center justify-between py-3 px-4 border-b dark:border-zinc-800 border-zinc-200">
+    <div className="flex items-center gap-3">
+      <Link prefetch={true} href="/">
+        <div className="flex items-center gap-2">
+          <Bot className="w-5 h-5" />
+          <h1 className="text-sm font-medium">AI Playground</h1>
+        </div>
+      </Link>
+      <Badge
+        variant="outline"
+        className="text-xs dark:border-zinc-800 border-zinc-200"
+      >
+        {model?.split(":")[1] === "deepseek-reasoner" ? "deepseek-r" : model?.split(":")[1]}
+      </Badge>
+    </div>
+    <div className="flex items-center gap-2">
+      <ModeToggle />
+    </div>
+  </header>
+));
+
+Header.displayName = 'Header';
+
+// Memoized Code Component
+const CodeBlock = memo(({ node, inline, className, children, copiedCode, onCopy, ...props }: CodeProps & { copiedCode: string | null, onCopy: (code: string) => void }) => {
+  const match = /language-(\w+)/.exec(className || '');
+  const language = match ? match[1] : 'text';
+  const code = String(children).replace(/\n$/, '');
+
+  if (inline) {
+    return (
+      <code className="bg-gray-100 dark:bg-gray-800 rounded px-1 py-0.5" {...props}>
+        {children}
+      </code>
+    );
+  }
+
+  return (
+    <div className="relative rounded-lg overflow-hidden my-2">
+      <div className="flex items-center justify-between px-4 py-2 bg-[#282C34] text-gray-200">
+        <span className="text-xs font-medium">{language}</span>
+        <button
+          onClick={() => onCopy(code)}
+          className="hover:text-white transition-colors"
+        >
+          {copiedCode === code ? (
+            <Check className="w-4 h-4" />
+          ) : (
+            <Copy className="w-4 h-4" />
+          )}
+        </button>
+      </div>
+      <SyntaxHighlighter
+        style={oneDark}
+        language={language}
+        PreTag="div"
+        className="!bg-[#1E1E1E] !m-0 !p-4 !rounded-b-lg"
+      >
+        {code}
+      </SyntaxHighlighter>
+    </div>
+  );
+});
+
+CodeBlock.displayName = 'CodeBlock';
+
+// Memoized Message Component
+const MessageItem = memo(({ message, isExpanded, onToggle, copiedCode, onCopy }: { 
+  message: Message, 
+  isExpanded: boolean, 
+  onToggle: () => void,
+  copiedCode: string | null,
+  onCopy: (code: string) => void
+}) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="p-4 border-b dark:border-zinc-800 border-zinc-200"
+  >
+    <div className="flex items-start gap-3">
+      {message.role === "assistant" ? (
+        <Bot className="mt-1 w-5 h-5" />
+      ) : (
+        <Sparkles className="mt-1 w-5 h-5" />
+      )}
+      <div className="flex-1">
+        <ReactMarkdown
+          components={{
+            code: (props) => (
+              <CodeBlock {...props} copiedCode={copiedCode} onCopy={onCopy} />
+            ),
+          }}
+        >
+          {message.content}
+        </ReactMarkdown>
+        {message.reasoning && (
+          <div className="mt-2">
+            <button
+              onClick={onToggle}
+              className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+            >
+              Reasoning
+              {isExpanded ? (
+                <ChevronUp className="w-4 h-4" />
+              ) : (
+                <ChevronDown className="w-4 h-4" />
+              )}
+            </button>
+            {isExpanded && (
+              <div className="mt-2 p-3 bg-gray-50 dark:bg-zinc-900 rounded-lg">
+                <ReactMarkdown>{message.reasoning}</ReactMarkdown>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  </motion.div>
+));
+
+MessageItem.displayName = 'MessageItem';
+
 export default function PlaygroundPage() {
-  const [model, setModel] = useState("deepseek:deepseek-reasoner");
+  const [model, setModel] = useState("openai:gpt-4");
   const [systemPrompt, setSystemPrompt] = useState("");
   const [expandedReasoning, setExpandedReasoning] = useState<number[]>([]);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
@@ -60,17 +184,17 @@ export default function PlaygroundPage() {
   const [frequencyPenalty, setFrequencyPenalty] = useState(0.0);
   const [presencePenalty, setPresencePenalty] = useState(0.0);
 
-  const toggleReasoning = (index: number) => {
+  const toggleReasoning = useCallback((index: number) => {
     setExpandedReasoning((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
-  };
+  }, []);
 
-  const handleCopyCode = async (code: string) => {
+  const handleCopyCode = useCallback(async (code: string) => {
     await navigator.clipboard.writeText(code);
     setCopiedCode(code);
     setTimeout(() => setCopiedCode(null), 2000);
-  };
+  }, []);
 
   const { messages, isLoading, input, handleInputChange, handleSubmit } =
     useChat({
@@ -84,6 +208,9 @@ export default function PlaygroundPage() {
         systemPrompt,
       },
     });
+
+
+    console.log("messages", messages)
 
   const components = {
     code({ node, inline, className, children, ...props }: CodeProps) {

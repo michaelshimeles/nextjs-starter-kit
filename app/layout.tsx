@@ -45,6 +45,13 @@ export default function RootLayout({
   return (
     <AuthWrapper>
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <script
+            crossOrigin="anonymous"
+            src="//unpkg.com/react-scan/dist/auto.global.js"
+          />
+          {/* rest of your scripts go under */}
+        </head>
         <body className={GeistSans.className}>
           <Provider>
             <ThemeProvider
