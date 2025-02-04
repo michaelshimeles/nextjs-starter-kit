@@ -4,16 +4,20 @@ import Footer from './footer'
 import NavBar from './navbar'
 import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
+import { useAuth } from '@clerk/nextjs';
 
 export default function PageWrapper({ children }: { children: React.ReactNode }) {
+  const { isSignedIn } = useAuth();
   const user = useQuery(api.users.getUser);
   const storeUser = useMutation(api.users.store);
 
+  console.log('user', user)
+
   useEffect(() => {
-    if (user) {
+    if (user && isSignedIn) {
       storeUser();
     }
-  }, [user]);
+  }, [user, isSignedIn]);
 
 
   return (
