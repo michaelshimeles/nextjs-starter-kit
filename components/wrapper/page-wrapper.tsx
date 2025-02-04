@@ -11,8 +11,6 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
   const user = useQuery(api.users.getUser);
   const storeUser = useMutation(api.users.store);
 
-  console.log('user', user)
-
   useEffect(() => {
     if (user && isSignedIn) {
       storeUser();

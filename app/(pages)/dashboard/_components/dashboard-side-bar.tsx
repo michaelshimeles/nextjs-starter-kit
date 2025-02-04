@@ -20,6 +20,7 @@ export default function DashboardSideBar({
   
   const { hasActiveSubscription } = usePreloadedQuery(preloadedSubscriptionStatus);
 
+  // console.log("hasActiveSubscription", hasActiveSubscription)
   if (!hasActiveSubscription) {
     redirect("/pricing")
   }

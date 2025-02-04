@@ -163,6 +163,7 @@ export const getProOnboardingCheckoutUrl = action({
 export const getUserSubscriptionStatus = query({
     handler: async (ctx) => {
         const identity = await ctx.auth.getUserIdentity();
+        console.log("identity", identity)
         if (!identity) {
             return { hasActiveSubscription: false };
         }

@@ -4,9 +4,14 @@ import { Button } from '@/components/ui/button';
 import NavBar from '@/components/wrapper/navbar';
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
+import { api } from '@/convex/_generated/api';
+import { useQuery } from 'convex/react';
 
 export default function SuccessPage() {
   const { userId } = useAuth();
+  const subscriptionStatus = useQuery(api.subscriptions.getUserSubscriptionStatus);
+
+  const canAccessDashboard = userId && subscriptionStatus?.hasActiveSubscription;
 
   return (
     <main className="flex min-w-screen flex-col items-center justify-between">
@@ -17,8 +22,8 @@ export default function SuccessPage() {
       <p className="leading-7 text-center w-[60%]">
         Let&apos;s get cooking
       </p>
-      <Link href={userId ? "/dashboard" : "/pricing"} className='mt-4'>
-        <Button>{userId ? "Access Dashboard" : "View Pricing"}</Button>
+      <Link href={canAccessDashboard ? "/dashboard" : "/pricing"} className='mt-4'>
+        <Button>{canAccessDashboard ? "Access Dashboard" : "View Pricing"}</Button>
       </Link>
     </main>
   )
