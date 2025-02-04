@@ -29,7 +29,7 @@ export default defineSchema({
     users: defineTable({
         createdAt: v.string(),
         email: v.string(),
-        name: v.string(),
+        name: v.optional(v.string()),
         image: v.optional(v.string()),
         userId: v.string(),
         subscription: v.optional(v.string()),
