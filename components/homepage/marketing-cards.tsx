@@ -109,7 +109,7 @@ const ProjectsData = [
     <path d="M21.0437 7L12.0001 12L2.95654 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M2.95654 17L12.0001 12L21.0437 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`,
-    url: "https://convex.dev",
+    url: "https://convex.link/rasmicstarter",
     color: "from-[#FF4F00] to-[#FF8A00]",
   },
   {
