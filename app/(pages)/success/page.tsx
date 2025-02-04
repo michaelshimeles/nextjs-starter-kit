@@ -1,12 +1,13 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import NavBar from '@/components/wrapper/navbar';
+import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 
-export default async function SuccessPage(
-  props: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-  }
-) {
+export default function SuccessPage() {
+  const { userId } = useAuth();
+
   return (
     <main className="flex min-w-screen flex-col items-center justify-between">
       <NavBar />
@@ -16,8 +17,8 @@ export default async function SuccessPage(
       <p className="leading-7 text-center w-[60%]">
         Let&apos;s get cooking
       </p>
-      <Link href="/dashboard" className='mt-4'>
-        <Button>Access Dashboard</Button>
+      <Link href={userId ? "/dashboard" : "/pricing"} className='mt-4'>
+        <Button>{userId ? "Access Dashboard" : "View Pricing"}</Button>
       </Link>
     </main>
   )
