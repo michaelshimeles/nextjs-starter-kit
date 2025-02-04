@@ -1,12 +1,11 @@
 "use client";
 
+import Pricing from "@/components/homepage/pricing";
 import { Button } from "@/components/ui/button";
 import PageWrapper from "@/components/wrapper/page-wrapper";
+import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import Pricing from "@/components/homepage/pricing";
-import config from "@/config";
 
 export default function NotSubscriber() {
   return (
@@ -116,11 +115,9 @@ export default function NotSubscriber() {
         </div>
       </section>
 
-      {config.auth.enabled && config.payments.enabled && (
-        <section id="pricing" className="pb-[5rem]">
-          <Pricing />
-        </section>
-      )}
+      <section id="pricing" className="pb-[5rem]">
+        <Pricing />
+      </section>
     </PageWrapper>
   );
 }
