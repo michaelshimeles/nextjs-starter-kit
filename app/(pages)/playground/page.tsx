@@ -125,9 +125,9 @@ export default function PlaygroundPage() {
   };
 
   return (
-    <div className="flex h-screen dark:bg-black bg-white dark:text-white text-black">
+    <div className="flex flex-col lg:flex-row h-screen dark:bg-black bg-white dark:text-white text-black">
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col h-[65vh] lg:h-screen">
         <header className="flex items-center justify-between py-3 px-4 border-b dark:border-zinc-800 border-zinc-200">
           <div className="flex items-center gap-3">
             <Link prefetch={true} href="/">
@@ -148,7 +148,7 @@ export default function PlaygroundPage() {
             <Button
               size="sm"
               variant="outline"
-              className="h-8 text-xs dark:border-zinc-800 border-zinc-200 dark:hover:bg-zinc-900 hover:bg-zinc-100"
+              className="h-8 text-xs dark:border-zinc-800 border-zinc-200 dark:hover:bg-zinc-900 hover:bg-zinc-100 hidden sm:inline-flex"
             >
               <Share className="w-3.5 h-3.5 mr-1.5" />
               Share
@@ -156,7 +156,7 @@ export default function PlaygroundPage() {
             <Button
               size="sm"
               variant="outline"
-              className="h-8 text-xs dark:border-zinc-800 border-zinc-200 dark:hover:bg-zinc-900 hover:bg-zinc-100"
+              className="h-8 text-xs dark:border-zinc-800 border-zinc-200 dark:hover:bg-zinc-900 hover:bg-zinc-100 hidden sm:inline-flex"
             >
               <Download className="w-3.5 h-3.5 mr-1.5" />
               Export
@@ -283,7 +283,7 @@ export default function PlaygroundPage() {
                   }
                 }}
                 placeholder="Send a message..."
-                className="min-h-[100px] bg-transparent dark:bg-zinc-900/50 bg-white border dark:border-zinc-800 border-zinc-200 focus:border-zinc-400 dark:focus:border-zinc-600"
+                className="min-h-[60px] lg:min-h-[100px] bg-transparent dark:bg-zinc-900/50 bg-white border dark:border-zinc-800 border-zinc-200 focus:border-zinc-400 dark:focus:border-zinc-600"
               />
               <div className="absolute bottom-3 right-3">
                 <Button
@@ -301,133 +301,135 @@ export default function PlaygroundPage() {
       </div>
 
       {/* Settings Sidebar */}
-      <div className="w-80 border-l dark:border-zinc-800 border-zinc-200 dark:bg-black/50 bg-white backdrop-blur-sm">
-        <div className="p-4">
-          <Tabs defaultValue="model">
+      <div className="h-[35vh] lg:h-screen lg:w-80 border-t lg:border-t-0 lg:border-l dark:border-zinc-800 border-zinc-200 dark:bg-black/50 bg-white backdrop-blur-sm">
+        <div className="h-full">
+          <Tabs defaultValue="model" className="h-full flex flex-col">
             <TabsList className="w-full dark:bg-zinc-900/50 bg-zinc-100 border dark:border-zinc-800 border-zinc-200">
-              <TabsTrigger value="model" className="flex-1">
+              <TabsTrigger value="model" className="flex-1 text-xs sm:text-sm">
                 Model
               </TabsTrigger>
-              <TabsTrigger value="parameters" className="flex-1">
+              <TabsTrigger value="parameters" className="flex-1 text-xs sm:text-sm">
                 Parameters
               </TabsTrigger>
-              <TabsTrigger value="system" className="flex-1">
+              <TabsTrigger value="system" className="flex-1 text-xs sm:text-sm">
                 System
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="model" className="mt-4 space-y-4">
-              <div>
-                <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
-                  Model
-                </label>
-                <Select value={model} onValueChange={setModel}>
-                  <SelectTrigger className="dark:bg-zinc-900/50 bg-white border dark:border-zinc-800 border-zinc-200">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="openai:gpt-4o">gpt-4o</SelectItem>
-                    <SelectItem value="openai:gpt-4">gpt-4</SelectItem>
-                    <SelectItem value="openai:gpt-3.5-turbo">
-                      gpt-3.5 turbo
-                    </SelectItem>
-                    <SelectItem value="openai:gpt-4-turbo">
-                      gpt-4 turbo
-                    </SelectItem>
-                    <SelectItem value="deepseek:deepseek-chat">
-                      deepseek chat
-                    </SelectItem>
-                    <SelectItem value="deepseek:deepseek-coder">
-                      deepseek coder
-                    </SelectItem>
-                    <SelectItem value="deepseek:deepseek-reasoner">
-                      deepseek-r
-                    </SelectItem>
-                    <SelectItem value="groq:deepseek-r1-distill-llama-70b">
-                      deepseek-r1-distill-llama-70b
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="parameters" className="mt-4 space-y-4">
-              <div className="space-y-4">
+            <div className="flex-1 overflow-y-auto p-4">
+              <TabsContent value="model" className="mt-0 space-y-4 h-full">
                 <div>
                   <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
-                    Temperature ({temperature})
+                    Model
                   </label>
-                  <Slider
-                    value={[temperature]}
-                    onValueChange={([value]) => setTemperature(value)}
-                    max={2}
-                    step={0.1}
-                  />
+                  <Select value={model} onValueChange={setModel}>
+                    <SelectTrigger className="dark:bg-zinc-900/50 bg-white border dark:border-zinc-800 border-zinc-200">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="openai:gpt-4o">gpt-4o</SelectItem>
+                      <SelectItem value="openai:gpt-4">gpt-4</SelectItem>
+                      <SelectItem value="openai:gpt-3.5-turbo">
+                        gpt-3.5 turbo
+                      </SelectItem>
+                      <SelectItem value="openai:gpt-4-turbo">
+                        gpt-4 turbo
+                      </SelectItem>
+                      <SelectItem value="deepseek:deepseek-chat">
+                        deepseek chat
+                      </SelectItem>
+                      <SelectItem value="deepseek:deepseek-coder">
+                        deepseek coder
+                      </SelectItem>
+                      <SelectItem value="deepseek:deepseek-reasoner">
+                        deepseek-r
+                      </SelectItem>
+                      <SelectItem value="groq:deepseek-r1-distill-llama-70b">
+                        deepseek-r1-distill-llama-70b
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
+              </TabsContent>
 
+              <TabsContent value="parameters" className="mt-0 space-y-4 h-full">
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
+                      Temperature ({temperature})
+                    </label>
+                    <Slider
+                      value={[temperature]}
+                      onValueChange={([value]) => setTemperature(value)}
+                      max={2}
+                      step={0.1}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
+                      Max Tokens ({maxTokens})
+                    </label>
+                    <Slider
+                      value={[maxTokens]}
+                      onValueChange={([value]) => setMaxTokens(value)}
+                      max={4000}
+                      step={100}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
+                      Top P ({topP})
+                    </label>
+                    <Slider
+                      value={[topP]}
+                      onValueChange={([value]) => setTopP(value)}
+                      max={1}
+                      step={0.1}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
+                      Frequency Penalty ({frequencyPenalty})
+                    </label>
+                    <Slider
+                      value={[frequencyPenalty]}
+                      onValueChange={([value]) => setFrequencyPenalty(value)}
+                      max={2}
+                      step={0.1}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
+                      Presence Penalty ({presencePenalty})
+                    </label>
+                    <Slider
+                      value={[presencePenalty]}
+                      onValueChange={([value]) => setPresencePenalty(value)}
+                      max={2}
+                      step={0.1}
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="system" className="mt-0 space-y-4 h-full">
                 <div>
                   <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
-                    Max Tokens ({maxTokens})
+                    System Prompt
                   </label>
-                  <Slider
-                    value={[maxTokens]}
-                    onValueChange={([value]) => setMaxTokens(value)}
-                    max={4000}
-                    step={100}
+                  <Textarea
+                    placeholder="Enter a custom system prompt (leave empty to use default)"
+                    value={systemPrompt}
+                    onChange={(e) => setSystemPrompt(e.target.value)}
+                    className="h-[200px] dark:bg-zinc-900/50 bg-white border dark:border-zinc-800 border-zinc-200"
                   />
                 </div>
-
-                <div>
-                  <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
-                    Top P ({topP})
-                  </label>
-                  <Slider
-                    value={[topP]}
-                    onValueChange={([value]) => setTopP(value)}
-                    max={1}
-                    step={0.1}
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
-                    Frequency Penalty ({frequencyPenalty})
-                  </label>
-                  <Slider
-                    value={[frequencyPenalty]}
-                    onValueChange={([value]) => setFrequencyPenalty(value)}
-                    max={2}
-                    step={0.1}
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
-                    Presence Penalty ({presencePenalty})
-                  </label>
-                  <Slider
-                    value={[presencePenalty]}
-                    onValueChange={([value]) => setPresencePenalty(value)}
-                    max={2}
-                    step={0.1}
-                  />
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="system" className="mt-4 space-y-4">
-              <div>
-                <label className="text-xs dark:text-zinc-400 text-zinc-600 mb-2 block">
-                  System Prompt
-                </label>
-                <Textarea
-                  placeholder="Enter a custom system prompt (leave empty to use default)"
-                  value={systemPrompt}
-                  onChange={(e) => setSystemPrompt(e.target.value)}
-                  className="h-[200px] dark:bg-zinc-900/50 bg-white border dark:border-zinc-800 border-zinc-200"
-                />
-              </div>
-            </TabsContent>
+              </TabsContent>
+            </div>
           </Tabs>
         </div>
       </div>
