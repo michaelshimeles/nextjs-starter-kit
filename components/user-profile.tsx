@@ -4,7 +4,7 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from "@/components/ui/avatar"
+} from "@/components/ui/avatar";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,26 +13,18 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu"
-import config from "@/config"
-import { SignOutButton, useUser } from "@clerk/nextjs"
+} from "@/components/ui/dropdown-menu";
+import { SignOutButton, useUser } from "@clerk/nextjs";
 import {
-    CreditCard,
     LogOut,
     Settings,
     Sparkles,
     User
-} from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Button } from "./ui/button"
+} from "lucide-react";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 export function UserProfile() {
-    const router = useRouter()
-
-    if (!config?.auth?.enabled) {
-        router.back()
-    }
     const { user } = useUser();
 
     return (

@@ -1,40 +1,36 @@
-import { NextResponse } from "next/server";
-import config from "./config";
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { fetchQuery } from 'convex/nextjs';
+import { NextResponse } from 'next/server';
+import { api } from './convex/_generated/api';
 
-let clerkMiddleware: (arg0: (auth: any, req: any) => any) => { (arg0: any): any; new(): any; }, createRouteMatcher;
+const isProtectedRoute = createRouteMatcher(['/dashboard(.*)'])
 
-if (config.auth.enabled) {
-  try {
-    ({ clerkMiddleware, createRouteMatcher } = require("@clerk/nextjs/server"));
-  } catch (error) {
-    console.warn("Clerk modules not available. Auth will be disabled.");
-    config.auth.enabled = false;
+export default clerkMiddleware(async (auth, req) => {
+
+  const token = (await (await auth()).getToken({ template: "convex" }))
+
+
+  const { hasActiveSubscription } = await fetchQuery(api.subscriptions.getUserSubscriptionStatus, {
+  }, {
+    token: token!,
+  });
+
+  const isDashboard = req.nextUrl.href.includes(`/dashboard`)
+
+  if (isDashboard && !hasActiveSubscription) {
+    const pricingUrl = new URL('/pricing', req.nextUrl.origin)
+    // Redirect to the pricing page
+    return NextResponse.redirect(pricingUrl);
   }
-}
 
-const isProtectedRoute = config.auth.enabled
-  ? createRouteMatcher(["/dashboard(.*)"])
-  : () => false;
+  if (isProtectedRoute(req)) await auth.protect()
+})
 
-export default function middleware(req: any) {
-  if (config.auth.enabled) {
-    return clerkMiddleware(async (auth, req) => {
-      const resolvedAuth = await auth();
-
-      if (!resolvedAuth.userId && isProtectedRoute(req)) {
-        return resolvedAuth.redirectToSignIn();
-      } else {
-        return NextResponse.next();
-      }
-    })(req);
-  } else {
-    return NextResponse.next();
-  }
-}
-
-export const middlewareConfig = {
+export const config = {
   matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    "/(api|trpc)(.*)",
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
   ],
-};
+}

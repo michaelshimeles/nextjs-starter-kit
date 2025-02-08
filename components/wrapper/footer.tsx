@@ -1,10 +1,9 @@
 "use client"
-import { useForm } from 'react-hook-form';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import Link from 'next/link';
 import { ArrowRight, Github, Sparkles, Twitter } from 'lucide-react';
-import { motion } from "framer-motion";
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 export default function Footer() {
     const {

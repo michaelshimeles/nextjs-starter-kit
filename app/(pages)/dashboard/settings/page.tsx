@@ -1,24 +1,19 @@
 "use client"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-import { Bell, Globe, Lock, Mail, Moon, Palette, Shield, User } from "lucide-react";
-import config from '@/config';
-import { useUser } from '@clerk/nextjs';
 import { Textarea } from "@/components/ui/textarea";
+import { useUser } from '@clerk/nextjs';
+import { Bell, Globe, Lock, Mail, Moon, Palette, Shield } from "lucide-react";
 
 export default function SettingsPage() {
-  let user = null;
-  /* eslint-disable react-hooks/rules-of-hooks */
-  if (config?.auth?.enabled) {
-    user = useUser();
-  }
+  const user = useUser();
 
   return (
     <div className="flex flex-col gap-6 p-6">

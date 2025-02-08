@@ -163,7 +163,7 @@ export const getProOnboardingCheckoutUrl = action({
 export const getUserSubscriptionStatus = query({
     handler: async (ctx) => {
         const identity = await ctx.auth.getUserIdentity();
-        console.log("identity", identity)
+
         if (!identity) {
             return { hasActiveSubscription: false };
         }
@@ -236,7 +236,6 @@ export const subscriptionStoreWebhook = mutation({
 
         switch (eventType) {
             case 'subscription.created':
-                console.log("subscription.created:", args.body);
 
                 // Insert new subscription
                 await ctx.db.insert("subscriptions", {
@@ -266,8 +265,6 @@ export const subscriptionStoreWebhook = mutation({
                 break;
 
             case 'subscription.updated':
-                console.log("subscription.updated:", args.body);
-
                 // Find existing subscription
                 const existingSub = await ctx.db
                     .query("subscriptions")
@@ -288,8 +285,6 @@ export const subscriptionStoreWebhook = mutation({
                 break;
 
             case 'subscription.active':
-                console.log("subscription.active:", args.body);
-
                 // Find and update subscription
                 const activeSub = await ctx.db
                     .query("subscriptions")
@@ -305,8 +300,6 @@ export const subscriptionStoreWebhook = mutation({
                 break;
 
             case 'subscription.canceled':
-                console.log("subscription.canceled:", args.body);
-
                 // Find and update subscription
                 const canceledSub = await ctx.db
                     .query("subscriptions")
@@ -326,8 +319,6 @@ export const subscriptionStoreWebhook = mutation({
                 break;
 
             case 'subscription.uncanceled':
-                console.log("subscription.uncanceled:", args.body);
-
                 // Find and update subscription
                 const uncanceledSub = await ctx.db
                     .query("subscriptions")
@@ -346,8 +337,6 @@ export const subscriptionStoreWebhook = mutation({
                 break;
 
             case 'subscription.revoked':
-                console.log("subscription.revoked:", args.body);
-
                 // Find and update subscription
                 const revokedSub = await ctx.db
                     .query("subscriptions")

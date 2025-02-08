@@ -1,7 +1,6 @@
 "use client"
 
 import clsx from 'clsx'
-import { usePreloadedQuery } from 'convex/react'
 import {
   Banknote,
   Folder,
@@ -9,7 +8,7 @@ import {
   Settings
 } from "lucide-react"
 import Link from 'next/link'
-import { redirect, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 export default function DashboardSideBar() {
   const pathname = usePathname();
