@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 import DashboardSideBar from "./_components/dashboard-side-bar";
 import DashboardTopNav from "./_components/dashbord-top-nav";
+import { getAuthToken } from "@/lib/auth";
 
 export default async function DashboardLayout({
   children,
@@ -14,12 +15,15 @@ export default async function DashboardLayout({
 
   const { userId } = await auth();
 
+  const token = await getAuthToken();
+
   if (!userId) {
     redirect("/sign-in");
   }
 
   const { hasActiveSubscription } = await fetchQuery(api.subscriptions.getUserSubscriptionStatus, {
-    userId,
+  }, {
+    token: token!,
   });
 
 

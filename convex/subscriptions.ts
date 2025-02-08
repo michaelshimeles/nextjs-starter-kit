@@ -161,19 +161,17 @@ export const getProOnboardingCheckoutUrl = action({
 });
 
 export const getUserSubscriptionStatus = query({
-    args: {
-        userId: v.optional(v.string()),
-    },
-    handler: async (ctx, args) => {
-
-        if (!args?.userId) {
+    handler: async (ctx) => {
+        const identity = await ctx.auth.getUserIdentity();
+        console.log("identity", identity)
+        if (!identity) {
             return { hasActiveSubscription: false };
         }
 
         const user = await ctx.db
             .query("users")
             .withIndex("by_token", (q) =>
-                q.eq("tokenIdentifier", args.userId!)
+                q.eq("tokenIdentifier", identity.subject)
             )
             .unique();
 
@@ -187,7 +185,6 @@ export const getUserSubscriptionStatus = query({
             .first();
 
         const hasActiveSubscription = subscription?.status === "active";
-
         return { hasActiveSubscription };
     }
 });
