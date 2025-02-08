@@ -6,12 +6,31 @@ import { Dialog, DialogClose } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { UserProfile } from '@/components/user-profile'
+import { api } from '@/convex/_generated/api'
 import { HamburgerMenuIcon } from '@radix-ui/react-icons'
+import { useAction, useQuery } from 'convex/react'
 import { Banknote, Folder, HomeIcon, Settings } from 'lucide-react'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
 export default function DashboardTopNav({ children }: { children: ReactNode }) {
+  const subscription = useQuery(api.subscriptions.getUserSubscription);
+
+  const getDashboardUrl = useAction(api.subscriptions.getUserDashboardUrl);
+
+  const handleManageSubscription = async () => {
+    try {
+      const result = await getDashboardUrl({
+        customerId: subscription?.customerId!
+      });
+      if (result?.url) {
+        window.location.href = result.url;
+      }
+    } catch (error) {
+      console.error("Error getting dashboard URL:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col">
       <header className="flex h-14 lg:h-[55px] items-center gap-4 border-b px-3">
@@ -66,6 +85,7 @@ export default function DashboardTopNav({ children }: { children: ReactNode }) {
           </SheetContent>
         </Dialog>
         <div className="flex justify-center items-center gap-2 ml-auto">
+          <Button variant={"outline"} onClick={handleManageSubscription}>Manage Subscription</Button>
           {<UserProfile />}
           <ModeToggle />
         </div>
