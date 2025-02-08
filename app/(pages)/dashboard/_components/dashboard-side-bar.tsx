@@ -11,20 +11,9 @@ import {
 import Link from 'next/link'
 import { redirect, usePathname } from 'next/navigation'
 
-export default function DashboardSideBar({
-  preloadedSubscriptionStatus
-}: {
-  preloadedSubscriptionStatus: any
-}) {
+export default function DashboardSideBar() {
   const pathname = usePathname();
   
-  const { hasActiveSubscription } = usePreloadedQuery(preloadedSubscriptionStatus);
-
-  // console.log("hasActiveSubscription", hasActiveSubscription)
-  if (!hasActiveSubscription) {
-    redirect("/pricing")
-  }
-
   return (
     <div className="w-64 border-r h-full bg-background">
       <div className="flex h-full flex-col">

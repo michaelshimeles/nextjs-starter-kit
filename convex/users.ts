@@ -1,6 +1,10 @@
 import { v } from "convex/values";
+<<<<<<< HEAD
 import { action, mutation, query } from "./_generated/server";
 import { api } from "./_generated/api";
+=======
+import { mutation, query } from "./_generated/server";
+>>>>>>> c91b854 (Fix hasActiveSub function)
 
 export const getUser = query({
     args: {},
