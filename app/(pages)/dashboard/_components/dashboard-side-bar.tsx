@@ -39,7 +39,7 @@ export default function DashboardSideBar() {
   const pathname = usePathname();
   
   return (
-    <div className="w-64 border-r h-full bg-background">
+    <div className="min-[1024px]:block hidden w-64 border-r h-full bg-background">
       <div className="flex h-full flex-col">
         <div className="flex h-[3.45rem] items-center border-b px-4">
           <Link prefetch={true} className="flex items-center gap-2 font-semibold hover:cursor-pointer" href="/">
