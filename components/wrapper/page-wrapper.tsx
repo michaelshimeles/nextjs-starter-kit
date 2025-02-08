@@ -1,10 +1,10 @@
 "use client"
-import { useEffect } from 'react';
-import Footer from './footer'
-import NavBar from './navbar'
-import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { useAuth } from '@clerk/nextjs';
+import { useMutation, useQuery } from 'convex/react';
+import { useEffect } from 'react';
+import Footer from './footer';
+import NavBar from './navbar';
 
 export default function PageWrapper({ children }: { children: React.ReactNode }) {
   const { isSignedIn } = useAuth();
@@ -15,7 +15,7 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
     if (user && isSignedIn) {
       storeUser();
     }
-  }, [user, isSignedIn]);
+  }, [user, isSignedIn, storeUser]);
 
 
   return (

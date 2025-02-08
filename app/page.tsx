@@ -1,10 +1,9 @@
 import { AccordionComponent } from "@/components/homepage/accordion-component";
-import BlogSample from "@/components/homepage/blog-samples";
 import HeroSection from "@/components/homepage/hero-section";
 import MarketingCards from "@/components/homepage/marketing-cards";
+import Pricing from "@/components/homepage/pricing";
 import SideBySide from "@/components/homepage/side-by-side";
 import PageWrapper from "@/components/wrapper/page-wrapper";
-import Pricing from "@/components/homepage/pricing";
 export default function Home() {
 
   return (
@@ -14,7 +13,6 @@ export default function Home() {
       </div>
       <SideBySide />
       <MarketingCards />
-      <BlogSample />
       <Pricing />
       <AccordionComponent />
     </PageWrapper>
