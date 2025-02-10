@@ -31,8 +31,6 @@ const createCheckout = async ({
         accessToken: process.env.POLAR_ACCESS_TOKEN,
     });
 
-    console.log("Initialized Polar SDK with token:", process.env.POLAR_ACCESS_TOKEN?.substring(0, 8) + "...");
-
     const result = await polar.checkouts.custom.create({
         productPriceId,
         successUrl,
@@ -55,54 +53,9 @@ export const getPlanByKey = internalQuery({
     },
 });
 
-export const getOnboardingCheckoutUrl = action({
-    handler: async (ctx) => {
-        const identity = await ctx.auth.getUserIdentity();
-        if (!identity) {
-            throw new Error("Not authenticated");
-        }
-
-        const user = await ctx.runQuery(api.users.getUserByToken, {
-            tokenIdentifier: identity.subject
-        });
-
-        if (!user) {
-            throw new Error("User not found");
-        }
-
-        const product = await ctx.runQuery(internal.subscriptions.getPlanByKey, {
-            key: "free",
-        });
-
-        const price = product?.prices.month?.usd;
-
-        if (!price) {
-            throw new Error("Price not found");
-        }
-        if (!user.email) {
-            throw new Error("User email not found");
-        }
-        const metadata = {
-            userId: user.tokenIdentifier,
-            userEmail: user.email,
-            tokenIdentifier: identity.subject,
-            plan: "free"
-        };
-
-        const checkout = await createCheckout({
-            customerEmail: user.email,
-            productPriceId: price.polarId,
-            metadata,
-            successUrl: `${process.env.FRONTEND_URL}/success`,
-        });
-
-        return checkout.url;
-    },
-});
-
 export const getProOnboardingCheckoutUrl = action({
     args: {
-        interval: schema.tables.subscriptions.validator.fields.interval,
+        priceId: v.any(),
     },
     handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();
@@ -110,51 +63,19 @@ export const getProOnboardingCheckoutUrl = action({
             throw new Error("Not authenticated");
         }
 
-        const user = await ctx.runQuery(api.users.getUserByToken, {
-            tokenIdentifier: identity.subject
-        });
-
-        if (!user) {
-            throw new Error("User not found");
-        }
-
-        const product = await ctx.runQuery(internal.subscriptions.getPlanByKey, {
-            key: "pro",
-        });
-
-        const price =
-            args.interval === "month"
-                ? product?.prices.month?.usd
-                : product?.prices.year?.usd;
-
-        console.log("Selected price:", JSON.stringify(price, null, 2));
-
-        if (!price) {
-            throw new Error("Price not found");
-        }
-        if (!user.email) {
-            throw new Error("User email not found");
-        }
-
-        const metadata: Record<string, string> = {
-            userId: user.tokenIdentifier,
-            userEmail: user.email,
+        const metadata = {
+            userId: identity.subject,
+            userEmail: identity.email,
             tokenIdentifier: identity.subject,
             plan: "pro"
         };
 
-        if (args.interval) {
-            metadata.interval = args.interval;
-        }
-
         const checkout = await createCheckout({
-            customerEmail: user.email,
-            productPriceId: price.polarId,
+            customerEmail: identity.email!,
+            productPriceId: args.priceId,
             successUrl: `${process.env.FRONTEND_URL}/success`,
-            metadata
+            metadata: metadata as Record<string, string>
         });
-
-        console.log("Checkout:", checkout);
 
         return checkout.url;
     },
@@ -192,6 +113,7 @@ export const getUserSubscriptionStatus = query({
 export const getUserSubscription = query({
     handler: async (ctx) => {
         const identity = await ctx.auth.getUserIdentity();
+
         if (!identity) {
             return null;
         }

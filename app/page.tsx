@@ -13,7 +13,7 @@ export default function Home() {
       </div>
       <SideBySide />
       <MarketingCards />
-      <Pricing />
+      {/* <Pricing /> */}
       <AccordionComponent />
     </PageWrapper>
   );
