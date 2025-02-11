@@ -150,7 +150,7 @@ const PricingCard = ({
                 "text-gray-300": exclusive,
               })}
             >
-              /mo
+              {isYearly ? "/yr" : "/mo"}
             </span>
           </div>
 
