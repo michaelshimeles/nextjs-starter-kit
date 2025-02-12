@@ -41,17 +41,17 @@ To set up your Convex database, visit: [https://convex.link/rasmicstarter](https
 git clone https://github.com/michaelshimeles/nextjs-starter-kit.git
 ```
 
-1. Install dependencies:
+2. Install dependencies:
 ```bash
 bun install
 ```
 
-1. Set up environment variables:
+3. Set up environment variables:
 ```bash
 cp .env.example .env.local
 ```
 
-1. Configure your environment variables:
+4. Configure your environment variables:
 ```env
 # Authentication (Clerk)
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
