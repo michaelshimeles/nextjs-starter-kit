@@ -171,7 +171,7 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
 ```bash
 npx convex dev
 ```
-2. When prompted, create a new project and name it
+2. When prompted, create a new project and name it in the Convex dashboard
 3. The command will automatically add the `NEXT_PUBLIC_CONVEX_URL` to your `.env.local`
 4. Add these environment variables in the Convex dashboard:
    - `CLERK_SIGNING_KEY` (from Clerk JWT issuer URL)
@@ -266,7 +266,7 @@ GROQ_API_KEY=your_key
 ```
 
 ### Testing Your Setup
-1. Start the development server and visit http://localhost:3000
+1. Start the development server and visit [http://localhost:3000](http://localhost:3000)
 2. Try signing up and accessing the dashboard
 3. Test the subscription flow with these test card details:
    - Card number: `4242 4242 4242 4242`
