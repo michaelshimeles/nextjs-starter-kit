@@ -1,23 +1,21 @@
 import { Polar } from "@polar-sh/sdk";
 import { v } from "convex/values";
-import { api, internal } from "./_generated/api";
+import { api } from "./_generated/api";
 import {
     action,
     httpAction,
-    internalQuery,
     mutation,
     query
 } from "./_generated/server";
-import schema from "./schema";
 
 const createCheckout = async ({
     customerEmail,
-    productPriceId,
+    priceId,
     successUrl,
     metadata
 }: {
     customerEmail: string;
-    productPriceId: string;
+    priceId: string;
     successUrl: string;
     metadata?: Record<string, string>;
 }) => {
@@ -32,7 +30,7 @@ const createCheckout = async ({
     });
 
     const result = await polar.checkouts.custom.create({
-        productPriceId,
+        productPriceId: priceId,
         successUrl,
         customerEmail,
         metadata
@@ -40,18 +38,6 @@ const createCheckout = async ({
 
     return result;
 };
-
-export const getPlanByKey = internalQuery({
-    args: {
-        key: schema.tables.plans.validator.fields.key,
-    },
-    handler: async (ctx, args) => {
-        return ctx.db
-            .query("plans")
-            .withIndex("key", (q) => q.eq("key", args.key))
-            .unique();
-    },
-});
 
 export const getProOnboardingCheckoutUrl = action({
     args: {
@@ -67,12 +53,11 @@ export const getProOnboardingCheckoutUrl = action({
             userId: identity.subject,
             userEmail: identity.email,
             tokenIdentifier: identity.subject,
-            plan: "pro"
         };
 
         const checkout = await createCheckout({
             customerEmail: identity.email!,
-            productPriceId: args.priceId,
+            priceId: args.priceId,
             successUrl: `${process.env.FRONTEND_URL}/success`,
             metadata: metadata as Record<string, string>
         });
@@ -289,21 +274,15 @@ export const subscriptionStoreWebhook = mutation({
 
 export const paymentWebhook = httpAction(async (ctx, request) => {
 
-    console.log("Webhook received!", {
-        method: request.method,
-        url: request.url,
-        headers: request.headers
-    });
-
     try {
         const body = await request.json();
+        
 
         // track events and based on events store data
         await ctx.runMutation(api.subscriptions.subscriptionStoreWebhook, {
             body
         });
 
-        console.log("Webhook body:", body);
         return new Response(JSON.stringify({ message: "Webhook received!" }), {
             status: 200,
             headers: {

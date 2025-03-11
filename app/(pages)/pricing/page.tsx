@@ -17,7 +17,7 @@ export default async function PricingPage() {
   ];
 
   const { result } = await polar.products.list({
-    organizationId: process.env.POLAR_ORGANIZATION_ID
+    organizationId: process.env.POLAR_ORGANIZATION_ID!
   })
 
   return (
