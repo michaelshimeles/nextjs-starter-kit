@@ -291,7 +291,6 @@ export const paymentWebhook = httpAction(async (ctx, request) => {
         });
 
     } catch (error) {
-        console.log("No JSON body or parsing failed");
         return new Response(JSON.stringify({ error: "Invalid request body" }), {
             status: 400,
             headers: {
