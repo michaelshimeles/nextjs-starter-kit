@@ -59,7 +59,7 @@ export default function Footer() {
                                     <Github className="h-5 w-5" />
                                 </Button>
                             </Link>
-                            <Link href="https://twitter.com" target="_blank">
+                            <Link href="https://x.com/rasmickyy" target="_blank">
                                 <Button variant="ghost" size="icon">
                                     <Twitter className="h-5 w-5" />
                                 </Button>
