@@ -11,40 +11,71 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/convex/_generated/api";
-import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
-import { useAction, useQuery } from "convex/react";
+import { useAction } from "convex/react";
 import { CheckCircle2, DollarSign } from "lucide-react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+interface Price {
+  id: string;
+  priceAmount: number;
+  priceCurrency: string;
+  recurringInterval: 'month' | 'year';
+  productId?: string;
+}
+
+interface Benefit {
+  description: string;
+}
+
+interface Product {
+  id: string;
+  name: string;
+  description: string | null;
+  prices: Price[];
+  benefits: Benefit[];
+  isRecurring?: boolean;
+  isArchived?: boolean;
+  organizationId?: string;
+  createdAt?: Date;
+  modifiedAt?: Date | null;
+  metadata?: Record<string, any>;
+  medias?: any[];
+  attachedCustomFields?: any[];
+}
+
+interface PricingProps {
+  result: {
+    items: Product[];
+    pagination: {
+      totalCount: number;
+      maxPage: number;
+    };
+  };
+}
 
 type PricingSwitchProps = {
   onSwitch: (value: string) => void;
 };
 
 type PricingCardProps = {
-  user: any;
+  user: ReturnType<typeof useUser>['user'];
   isYearly?: boolean;
-  title: string;
-  monthlyPrice?: number;
-  yearlyPrice?: number;
+  name: string;
+  prices: Price[];
   description: string;
-  features: string[];
-  actionLabel: string;
-  popular?: boolean;
-  exclusive?: boolean;
+  benefits: Benefit[];
 };
 
-const PricingHeader = ({
-  title,
-  subtitle,
-}: {
+type PricingHeaderProps = {
   title: string;
   subtitle: string;
-}) => (
+};
+
+const PricingHeader = ({ title, subtitle }: PricingHeaderProps) => (
   <div className="text-center mb-10">
-    {/* Pill badge */}
     <div className="mx-auto w-fit rounded-full border border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-900/30 px-4 py-1 mb-6">
       <div className="flex items-center gap-2 text-sm font-medium text-blue-900 dark:text-blue-200">
         <DollarSign className="h-4 w-4" />
@@ -79,48 +110,66 @@ const PricingSwitch = ({ onSwitch }: PricingSwitchProps) => (
 const PricingCard = ({
   user,
   isYearly,
-  title,
-  monthlyPrice,
-  yearlyPrice,
+  name,
+  prices,
   description,
-  features,
-  actionLabel,
-  popular,
-  exclusive,
+  benefits,
 }: PricingCardProps) => {
   const router = useRouter();
-
   const getProCheckoutUrl = useAction(api.subscriptions.getProOnboardingCheckoutUrl);
-  const subscriptionStatus = useQuery(api.subscriptions.getUserSubscriptionStatus);
 
+  const currentPrice = prices.find(price =>
+    isYearly
+      ? price.recurringInterval === 'year'
+      : price.recurringInterval === 'month'
+  ) || prices[0];
 
+  const priceAmount = currentPrice ? (currentPrice.priceAmount / 100).toFixed(2) : '0';
+  const currency = currentPrice?.priceCurrency?.toUpperCase() || 'USD';
+  const interval = isYearly ? 'year' : 'month';
 
-  const handleCheckout = async (interval: "month" | "year") => {
+  const handleCheckout = async () => {
+    if (!currentPrice) return;
+
     try {
-      const checkoutProUrl = await getProCheckoutUrl({
-        interval
+      const checkout = await getProCheckoutUrl({
+        priceId: currentPrice.id,
       });
-
-      if (checkoutProUrl) {
-        window.location.href = checkoutProUrl;
-      }
+      window.location.href = checkout;
     } catch (error) {
       console.error("Failed to get checkout URL:", error);
     }
   };
 
+  const handleButtonClick = () => {
+    if (!user) {
+      router.push("/sign-in");
+      return;
+    }
+    handleCheckout();
+  };
+
+  const buttonText = !user
+    ? "Sign in to continue"
+    : !currentPrice
+      ? "No price available"
+      : "Get Started";
 
   return (
-    <Card
-      className={cn("w-full max-w-sm flex flex-col justify-between px-2 py-1", {
-        "relative border-2 border-blue-500 dark:border-blue-400": popular,
-        "shadow-2xl bg-gradient-to-b from-gray-900 to-gray-800 text-white":
-          exclusive,
-      })}
-    >
-      {popular && (
-        <div className="absolute -top-3 left-0 right-0 mx-auto w-fit rounded-full bg-blue-500 dark:bg-blue-400 px-3 py-1">
-          <p className="text-sm font-medium text-white">Most Popular</p>
+    <Card className="relative w-full max-w-sm mx-4 transition-all duration-300 hover:scale-105 hover:shadow-lg">
+      <CardHeader className="space-y-2">
+        <CardTitle className="text-2xl font-bold">{name}</CardTitle>
+        <CardDescription className="text-base">
+          {description}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="space-y-6">
+        <div className="flex items-baseline gap-2">
+          <span className="text-5xl font-bold tracking-tight">
+            {currency === 'USD' ? '$' : currency} {priceAmount}
+          </span>
+          <span className="text-lg text-muted-foreground">/{interval}</span>
         </div>
       )}
 
@@ -153,93 +202,86 @@ const PricingCard = ({
               {isYearly ? "/yr" : "/mo"}
             </span>
           </div>
+        <div className="space-y-3">
+          {benefits.map((benefit, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-blue-500" />
+              <p className="text-sm text-muted-foreground">{benefit.description}</p>
+            </div>
+          ))}
+        </div>
+      </CardContent>
 
-          <div className="mt-6 space-y-2">
-            {features.map((feature) => (
-              <div key={feature} className="flex gap-2">
-                <CheckCircle2
-                  className={cn("h-5 w-5 text-blue-500", {
-                    "text-blue-400": exclusive,
-                  })}
-                />
-                <p
-                  className={cn("text-muted-foreground", {
-                    "text-gray-300": exclusive,
-                  })}
-                >
-                  {feature}
-                </p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </div>
-
-      <CardFooter>
+      <CardFooter className="pt-4">
         <Button
-          onClick={() => {
-            if (!user) {
-              router.push("/sign-in");
-              return;
-            }
-            handleCheckout("month")
-          }}
-          className={cn("w-full", {
-            "bg-blue-500 hover:bg-blue-400": popular,
-            "bg-white text-gray-900 hover:bg-gray-100": exclusive,
-          })}
+          onClick={handleButtonClick}
+          className="w-full text-base font-semibold bg-blue-500 hover:bg-blue-600 text-white"
         >
-          {actionLabel}
+          {buttonText}
         </Button>
       </CardFooter>
     </Card>
   );
 };
 
-export default function Pricing() {
+export default function Pricing({ result }: PricingProps) {
   const [isYearly, setIsYearly] = useState<boolean>(false);
-  const togglePricingPeriod = (value: string) =>
-    setIsYearly(parseInt(value) === 1);
+  const [hasYearlyPlans, setHasYearlyPlans] = useState(false);
   const { user } = useUser();
 
-  const plans = [
-    {
-      title: "Pro",
-      monthlyPrice: 12,
-      yearlyPrice: 100,
-      description: "Advanced features for growing teams and businesses.",
-      features: [
-        "All Basic features",
-        "Up to 20 team members",
-        "50GB storage",
-        "Priority support",
-        "Advanced analytics",
-      ],
-      actionLabel: "Get Pro",
-      popular: true,
-    },
-  ];
+  const togglePricingPeriod = (value: string) => setIsYearly(parseInt(value) === 1);
+
+  useEffect(() => {
+    // Check if any products have yearly pricing
+    const hasYearly = result.items.some(product =>
+      product.prices.some(price => price.recurringInterval === 'year')
+    );
+    setHasYearlyPlans(hasYearly);
+
+    // If we're on yearly view but no yearly plans exist, switch to monthly
+    if (isYearly && !hasYearly) {
+      setIsYearly(false);
+    }
+  }, [result.items, isYearly]);
+
+  // Filter products based on current interval selection
+  const filteredProducts = result.items.filter(item =>
+    item.prices?.some(price =>
+      isYearly
+        ? price.recurringInterval === 'year'
+        : price.recurringInterval === 'month'
+    )
+  );
 
   return (
-    <section className="px-4">
+    <section className="px-4 py-16">
       <div className="max-w-7xl mx-auto">
         <PricingHeader
           title="Choose Your Plan"
           subtitle="Select the perfect plan for your needs. All plans include a 14-day free trial."
         />
-        <PricingSwitch onSwitch={togglePricingPeriod} />
+
+        {hasYearlyPlans && (
+          <div className="mt-8 mb-12">
+            <PricingSwitch onSwitch={togglePricingPeriod} />
+          </div>
+        )}
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="flex justify-center mt-10"
+          className="flex flex-col md:flex-row justify-center items-center gap-8 mt-8"
         >
-          {plans.map((plan) => (
+          {filteredProducts.map((item) => (
             <PricingCard
-              key={plan.title}
+              key={item.id}
               user={user}
-              {...plan}
+              name={item.name}
+              description={item.description || ''}
+              prices={item.prices}
+              benefits={item.benefits}
               isYearly={isYearly}
             />
           ))}

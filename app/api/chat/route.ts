@@ -21,8 +21,6 @@ export async function POST(req: Request) {
     systemPrompt,
   } = await req.json();
 
-  console.log("model", model);
-
   const defaultSystemPrompt = `
     You are an advanced AI assistant in an interactive playground environment. Your primary goals are:
     1. Knowledge & Assistance: Share knowledge and provide assistance across a wide range of topics

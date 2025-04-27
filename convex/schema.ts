@@ -36,18 +36,6 @@ export default defineSchema({
         credits: v.optional(v.string()),
         tokenIdentifier: v.string(),
     }).index("by_token", ["tokenIdentifier"]),
-    plans: defineTable({
-        key: v.string(),
-        name: v.string(),
-        description: v.string(),
-        polarProductId: v.string(),
-        prices: v.object({
-            month: v.optional(intervalPricesValidator),
-            year: v.optional(intervalPricesValidator),
-        }),
-    })
-        .index("key", ["key"])
-        .index("polarProductId", ["polarProductId"]),
     subscriptions: defineTable({
         userId: v.optional(v.string()),
         polarId: v.optional(v.string()),
