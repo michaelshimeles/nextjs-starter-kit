@@ -4,15 +4,7 @@ import {
   pgTable,
   text,
   timestamp,
-  uniqueIndex,
-  uuid,
 } from "drizzle-orm/pg-core";
-
-// Organizational roles
-export enum OrganizationRole {
-  ADMIN = "admin",
-  MEMBER = "member",
-}
 
 // Better Auth Tables
 export const user = pgTable("user", {
@@ -33,10 +25,6 @@ export const session = pgTable("session", {
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
   ipAddress: text("ipAddress"),
   userAgent: text("userAgent"),
-  activeOrganizationId: text("activeOrganizationId").references(
-    () => organization.id,
-    { onDelete: "cascade" },
-  ),
   userId: text("userId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
@@ -69,61 +57,6 @@ export const verification = pgTable("verification", {
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
 });
 
-export const organization = pgTable("organization", {
-  id: text("id").primaryKey(),
-  name: text("name").notNull(),
-  slug: text("slug").notNull().unique(),
-  logo: text("logo"),
-  createdAt: timestamp("createdAt").notNull().defaultNow(),
-  metadata: text("metadata"),
-});
-
-export const member = pgTable(
-  "member",
-  {
-    id: text("id").primaryKey(),
-    organizationId: text("organizationId")
-      .notNull()
-      .references(() => organization.id, { onDelete: "cascade" }),
-    userId: text("userId")
-      .notNull()
-      .references(() => user.id, { onDelete: "cascade" }),
-    role: text("role").notNull(),
-    createdAt: timestamp("createdAt").notNull().defaultNow(),
-  },
-  (table) => ({
-    uniqueOrgUser: uniqueIndex("idx_member_unique_org_user").on(
-      table.organizationId,
-      table.userId,
-    ),
-  }),
-);
-
-export const invitation = pgTable("invitation", {
-  id: text("id").primaryKey(),
-  organizationId: text("organizationId")
-    .notNull()
-    .references(() => organization.id, { onDelete: "cascade" }),
-  email: text("email").notNull(),
-  role: text("role"),
-  status: text("status").notNull(),
-  expiresAt: timestamp("expiresAt").notNull(),
-  inviterId: text("inviterId")
-    .notNull()
-    .references(() => user.id),
-  createdAt: timestamp("createdAt").notNull().defaultNow(),
-  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
-});
-
-export const onboarding_info = pgTable("onboarding_info", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  user_id: text("user_id").notNull(),
-  name: text("name").notNull(),
-  position: text("position").notNull(),
-  company_url: text("company_url").notNull(),
-  total_visitors: text("total_visitors").notNull(),
-});
-
 // Subscription table for Polar webhook data
 export const subscription = pgTable("subscription", {
   id: text("id").primaryKey(),
@@ -148,6 +81,5 @@ export const subscription = pgTable("subscription", {
   customerCancellationComment: text("customerCancellationComment"),
   metadata: text("metadata"), // JSON string
   customFieldData: text("customFieldData"), // JSON string
-  organizationId: text("organizationId").references(() => organization.id),
   userId: text("userId").references(() => user.id),
 });

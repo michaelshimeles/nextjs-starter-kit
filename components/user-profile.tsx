@@ -9,19 +9,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authClient } from "@/lib/auth/auth-client";
-import { ERROR_EVENTS, createClientErrorTracker } from "@/lib/posthog-client";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { usePostHog } from "posthog-js/react";
 import { useEffect, useState } from "react";
-import { Avatar, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface UserInfo {
-  name?: string;
-  image?: string;
   id: string;
-  email?: string;
+  name: string;
+  image?: string | null | undefined;
+  email: string;
+  emailVerified: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export default function UserProfile({ mini }: { mini?: boolean }) {
@@ -30,7 +32,6 @@ export default function UserProfile({ mini }: { mini?: boolean }) {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const posthog = usePostHog();
-  const trackError = createClientErrorTracker(posthog);
 
   useEffect(() => {
     fetchUserData();
@@ -39,25 +40,18 @@ export default function UserProfile({ mini }: { mini?: boolean }) {
   const fetchUserData = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const result = await authClient.getSession();
+
+      if (!result.data?.user) {
+        router.push("/sign-in");
+        return;
+      }
+
       setUserInfo(result.data?.user);
-      
-      // Track successful user profile load
-      posthog?.capture('user_profile_loaded', {
-        component: 'user_profile',
-        has_name: !!result.data?.user?.name,
-        has_image: !!result.data?.user?.image,
-        user_id: result.data?.user?.id
-      });
     } catch (error) {
       console.error("Error fetching user data:", error);
-      trackError(ERROR_EVENTS.AUTH_SESSION_ERROR, error, {
-        component: 'user_profile',
-        action: 'fetch_session_failed',
-        mini_mode: !!mini
-      });
       setError("Failed to load user profile. Please try refreshing the page.");
     } finally {
       setLoading(false);
@@ -65,9 +59,9 @@ export default function UserProfile({ mini }: { mini?: boolean }) {
   };
 
   const handleRetry = () => {
-    posthog?.capture('user_profile_retry', {
-      component: 'user_profile',
-      mini_mode: !!mini
+    posthog?.capture("user_profile_retry", {
+      component: "user_profile",
+      mini_mode: !!mini,
     });
     fetchUserData();
   };
@@ -84,7 +78,9 @@ export default function UserProfile({ mini }: { mini?: boolean }) {
 
   if (error) {
     return (
-      <div className={`flex gap-2 justify-start items-center w-full rounded ${mini ? "" : "px-4 pt-2 pb-3"}`}>
+      <div
+        className={`flex gap-2 justify-start items-center w-full rounded ${mini ? "" : "px-4 pt-2 pb-3"}`}
+      >
         <div className="text-red-500 text-sm flex-1">
           {mini ? "Error" : error}
         </div>
@@ -113,7 +109,15 @@ export default function UserProfile({ mini }: { mini?: boolean }) {
                 <Loader2 className="h-4 w-4 animate-spin" />
               </div>
             ) : (
-              <AvatarImage src={userInfo?.image} alt="User Avatar" />
+              <>
+                {userInfo?.image ? (
+                  <AvatarImage src={userInfo?.image} alt="User Avatar" />
+                ) : (
+                  <AvatarFallback>
+                    {userInfo?.name && userInfo.name.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                )}
+              </>
             )}
           </Avatar>
           {mini ? null : (

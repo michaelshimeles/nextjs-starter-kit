@@ -1,9 +1,5 @@
 import { db } from "@/db/drizzle";
-import {
-  member,
-  organization as organizationSchema,
-  subscription,
-} from "@/db/schema";
+import { subscription } from "@/db/schema";
 import {
   checkout,
   polar,
@@ -14,10 +10,8 @@ import {
 import { Polar } from "@polar-sh/sdk";
 import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
-import { organization } from "better-auth/plugins"; // Keep this as 'organization'
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { Pool } from "pg";
-import { sendOrganizationInvitation } from "../email";
 
 // Utility function to safely parse dates
 function safeParseDate(value: string | Date | null | undefined): Date | null {
@@ -56,54 +50,6 @@ export const auth = betterAuth({
     },
   },
   plugins: [
-    organization({
-      async sendInvitationEmail(data) {
-        const inviteLink = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/accept-invitation/${data.id}`;
-        sendOrganizationInvitation({
-          email: data.email,
-          invitedByUsername: data.inviter.user.name,
-          invitedByEmail: data.inviter.user.email,
-          teamName: data.organization.name,
-          inviteLink,
-        });
-      },
-      organizationCreation: {
-        disabled: false, // Set to true to disable organization creation
-        beforeCreate: async ({ organization, user }, request) => {
-          console.log("organization", organization);
-          console.log("user", user);
-          console.log("request", request);
-          try {
-            // Run custom logic before organization is created
-            // Optionally modify the organization data
-            return {
-              data: {
-                ...organization,
-                metadata: {
-                  customField: "value",
-                },
-              },
-            };
-          } catch (error) {
-            throw error;
-          }
-        },
-        afterCreate: async ({ organization, member, user }, request) => {
-          console.log("organization", organization);
-          console.log("member", member);
-          console.log("user", user);
-          console.log("request", request);
-          try {
-            // Run custom logic after organization is created
-            // e.g., create default resources, send notifications
-            // await setupDefaultResources(organization.id);
-          } catch (error) {
-            // Log but don't throw to avoid breaking organization creation
-            console.error("Error in afterCreate hook:", error);
-          }
-        },
-      },
-    }),
     polar({
       client: polarClient,
       createCustomerOnSignUp: true,
@@ -171,69 +117,6 @@ export const auth = betterAuth({
               try {
                 // STEP 1: Extract user ID from customer data
                 const userId = data.customer?.externalId;
-                let organizationId = null;
-
-                console.log("👤 Customer data:", {
-                  customerId: data.customerId,
-                  userId: userId,
-                  polarOrgId: data.customer?.organizationId,
-                });
-
-                // STEP 2: Map to local organization
-                if (userId) {
-                  // First try: Get user's admin organizations (they pay for subscriptions)
-                  const adminMemberships = await db
-                    .select({ organizationId: member.organizationId })
-                    .from(member)
-                    .where(
-                      and(
-                        eq(member.userId, userId),
-                        eq(member.role, "admin"), // Admins are the ones who can have subscriptions
-                      ),
-                    );
-
-                  if (adminMemberships.length > 0) {
-                    organizationId = adminMemberships[0].organizationId;
-                    console.log("✅ Found admin organization:", organizationId);
-                  } else {
-                    // Fallback: Get any organization they're a member of
-                    const anyMemberships = await db
-                      .select({ organizationId: member.organizationId })
-                      .from(member)
-                      .where(eq(member.userId, userId))
-                      .limit(1);
-
-                    if (anyMemberships.length > 0) {
-                      organizationId = anyMemberships[0].organizationId;
-                      console.log(
-                        "✅ Found member organization:",
-                        organizationId,
-                      );
-                    } else {
-                      console.log("❌ No organization found for user:", userId);
-                    }
-                  }
-                }
-
-                // STEP 3: Additional fallback - check metadata for referenceId
-                if (!organizationId && data.metadata?.referenceId) {
-                  // Check if referenceId is actually an organizationId
-                  const referenceId = String(data.metadata.referenceId);
-                  const orgExists = await db
-                    .select({ id: organizationSchema.id })
-                    .from(organizationSchema)
-                    .where(eq(organizationSchema.id, referenceId))
-                    .limit(1);
-
-                  if (orgExists.length > 0) {
-                    organizationId = referenceId;
-                    console.log(
-                      "✅ Found organization from metadata:",
-                      organizationId,
-                    );
-                  }
-                }
-
                 // STEP 4: Build subscription data
                 const subscriptionData = {
                   id: data.id,
@@ -266,14 +149,12 @@ export const auth = betterAuth({
                   customFieldData: data.customFieldData
                     ? JSON.stringify(data.customFieldData)
                     : null,
-                  organizationId: organizationId as string | null,
                   userId: userId as string | null,
                 };
 
                 console.log("💾 Final subscription data:", {
                   id: subscriptionData.id,
                   status: subscriptionData.status,
-                  organizationId: subscriptionData.organizationId,
                   userId: subscriptionData.userId,
                   amount: subscriptionData.amount,
                 });
@@ -292,17 +173,11 @@ export const auth = betterAuth({
                       status: subscriptionData.status,
                       currentPeriodEnd: subscriptionData.currentPeriodEnd,
                       modifiedAt: subscriptionData.modifiedAt || new Date(),
-                      organizationId: organizationId as string | null,
                       userId: userId as string | null,
                     })
                     .where(eq(subscription.id, data.id));
                   console.log("✅ Updated subscription:", data.id);
                 } else {
-                  if (!organizationId) {
-                    console.log(
-                      "⚠️ Warning: Creating subscription without organizationId",
-                    );
-                  }
                   await db.insert(subscription).values(subscriptionData);
                   console.log("✅ Created subscription:", data.id);
                 }

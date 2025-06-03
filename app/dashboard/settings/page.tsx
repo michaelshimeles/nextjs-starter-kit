@@ -15,14 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { authClient } from "@/lib/auth/auth-client";
-import {
-  Building2,
-  ExternalLink,
-  Mail,
-  PlusCircle,
-  Settings2,
-  Users,
-} from "lucide-react";
+import { ExternalLink, Settings2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -32,33 +25,6 @@ interface User {
   name: string;
   email: string;
   image?: string | null;
-}
-
-interface Member {
-  id: string;
-  role: string;
-  user: {
-    email: string;
-    name: string;
-    image?: string;
-  };
-  userId: string;
-}
-
-interface Organization {
-  id: string;
-  name: string;
-  slug: string;
-  createdAt: Date;
-  members?: Member[];
-}
-
-interface Invitation {
-  id: string;
-  email: string;
-  role: string;
-  status: string;
-  expiresAt: Date;
 }
 
 interface OrderItem {
@@ -90,15 +56,8 @@ interface OrdersResponse {
 
 function SettingsContent() {
   const [user, setUser] = useState<User | null>(null);
-  const [organization, setOrganization] = useState<Organization | null>(null);
-  const [members, setMembers] = useState<Member[]>([]);
-  const [pendingInvitations, setPendingInvitations] = useState<Invitation[]>(
-    [],
-  );
   const [orders, setOrders] = useState<OrdersResponse | null>(null);
-  const [newInviteEmail, setNewInviteEmail] = useState("");
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [currentTab, setCurrentTab] = useState("profile");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -131,38 +90,6 @@ function SettingsContent() {
           setUser(session.data.user);
           setName(session.data.user.name || "");
           setEmail(session.data.user.email || "");
-        }
-
-        // Get organization data
-        const listInvites = await authClient.organization.listInvitations({});
-
-        console.log("listInvites", listInvites);
-        if (listInvites.data) {
-          setPendingInvitations(
-            listInvites.data?.filter((invite) => invite.status === "pending"),
-          );
-        }
-
-        if (organizations?.[0]?.id) {
-          const response = await authClient.organization.setActive({
-            organizationId: organizations?.[0]?.id,
-          });
-
-          console.log("resres", response);
-          setOrganization(response.data);
-          console.log("");
-          setMembers(response.data?.members || []);
-
-          // Check if current user is admin
-          if (session.data?.user) {
-            const currentUserMember = response.data?.members?.find(
-              (member) => member.userId === session.data.user.id,
-            );
-            setIsAdmin(
-              currentUserMember?.role === "admin" ||
-                currentUserMember?.role === "owner",
-            );
-          }
         }
 
         // Try to fetch orders and customer state with better error handling
@@ -266,62 +193,6 @@ function SettingsContent() {
       setUploadingImage(false);
     }
   };
-
-  const handleInviteMember = async () => {
-    if (!newInviteEmail || !organization) return;
-
-    try {
-      await authClient.organization.inviteMember({
-        email: newInviteEmail,
-        role: "member",
-      });
-
-      // Refresh the pending invitations list
-      const listInvites = await authClient.organization.listInvitations();
-      if (listInvites.data) {
-        setPendingInvitations(
-          listInvites.data.filter((invite) => invite.status === "pending"),
-        );
-      }
-
-      setNewInviteEmail("");
-      toast.success("Invitation sent successfully");
-    } catch {
-      toast.error("Failed to send invitation");
-    }
-  };
-
-  const handleRemoveMember = async (email: string) => {
-    try {
-      const result = await authClient.organization.removeMember({
-        memberIdOrEmail: email,
-      });
-
-      console.log("responseyyy", result);
-
-      setMembers(members.filter((m) => m.user.email !== email));
-      toast.success("Member removed successfully");
-    } catch {
-      toast.error("Failed to remove member");
-    }
-  };
-
-  const handleCancelInvitation = async (invitationId: string) => {
-    try {
-      const response = await authClient.organization.cancelInvitation({
-        invitationId,
-      });
-
-      console.log("remove", response);
-      setPendingInvitations(
-        pendingInvitations.filter((inv) => inv.id !== invitationId),
-      );
-      toast.success("Invitation cancelled successfully");
-    } catch {
-      toast.error("Failed to cancel invitation");
-    }
-  };
-
   if (loading) {
     return (
       <div className="flex flex-col gap-6 p-6">
@@ -422,7 +293,6 @@ function SettingsContent() {
       >
         <TabsList>
           <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="organization">Organization</TabsTrigger>
           <TabsTrigger value="billing">Billing</TabsTrigger>
         </TabsList>
 
@@ -520,243 +390,6 @@ function SettingsContent() {
               </div>
 
               <Button onClick={handleUpdateProfile}>Save Changes</Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="organization" className="space-y-6">
-          {/* Organization Details */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Building2 className="h-5 w-5" />
-                Organization Details
-              </CardTitle>
-              <CardDescription>
-                Manage your organization settings and information
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {organization ? (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Organization Name</Label>
-                      <Input
-                        disabled
-                        value={organization.name}
-                        placeholder="Organization name"
-                        readOnly
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Organization Slug</Label>
-                      <Input
-                        disabled
-                        value={organization.slug}
-                        placeholder="organization-slug"
-                        readOnly
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Created</Label>
-                    <Input
-                      disabled
-                      value={(() => {
-                        try {
-                          const date =
-                            organization.createdAt instanceof Date
-                              ? organization.createdAt
-                              : new Date(organization.createdAt);
-                          return isNaN(date.getTime())
-                            ? "Invalid date"
-                            : date.toLocaleDateString();
-                        } catch {
-                          return "Invalid date";
-                        }
-                      })()}
-                      readOnly
-                    />
-                  </div>
-                </div>
-              ) : (
-                <p className="text-muted-foreground">No organization found</p>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Team Members */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                Team Members
-              </CardTitle>
-              <CardDescription>
-                {isAdmin
-                  ? "Manage your team members and send invitations"
-                  : "View your team members"}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Info message for non-admin users */}
-              {!isAdmin && (
-                <div className="p-4 rounded-lg bg-blue-50 border border-blue-200 dark:bg-blue-950/20 dark:border-blue-800">
-                  <div className="flex items-start gap-3">
-                    <div className="p-1 rounded-full bg-blue-100 dark:bg-blue-900/50">
-                      <Users className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
-                        Member View Only
-                      </p>
-                      <p className="text-sm text-blue-700 dark:text-blue-200">
-                        You can view team members but cannot invite or remove
-                        members. Contact an admin for member management.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Invite new member - Only show for admins */}
-              {isAdmin && (
-                <div className="space-y-2">
-                  <Label>Invite Team Member</Label>
-                  <div className="flex gap-2">
-                    <div className="relative flex-1">
-                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground pointer-events-none">
-                        <Mail className="h-4 w-4" />
-                      </div>
-                      <Input
-                        placeholder="colleague@example.com"
-                        className="pl-10"
-                        value={newInviteEmail}
-                        onChange={(e) => setNewInviteEmail(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            handleInviteMember();
-                          }
-                        }}
-                      />
-                    </div>
-                    <Button
-                      onClick={handleInviteMember}
-                      disabled={!newInviteEmail}
-                      size="icon"
-                    >
-                      <PlusCircle className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {/* Pending invites - Only show for admins */}
-              {isAdmin && pendingInvitations.length > 0 && (
-                <div className="space-y-2">
-                  <Label>Pending Invitations</Label>
-                  <div className="space-y-2">
-                    {pendingInvitations?.length > 0 ? (
-                      pendingInvitations.map((invitation) => {
-                        if (invitation.status === "pending") {
-                          return (
-                            <div
-                              key={invitation.id}
-                              className="flex items-center justify-between p-3 border rounded-lg bg-yellow-50 dark:bg-yellow-950/20"
-                            >
-                              <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-full bg-yellow-100 dark:bg-yellow-900/50">
-                                  <Mail className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
-                                </div>
-                                <div>
-                                  <p className="font-medium">
-                                    {invitation.email}
-                                  </p>
-                                  <p className="text-sm text-muted-foreground">
-                                    Invitation expires on{" "}
-                                    {new Date(
-                                      invitation.expiresAt,
-                                    ).toLocaleDateString()}{" "}
-                                    • Role: {invitation.role}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Badge
-                                  variant="outline"
-                                  className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300"
-                                >
-                                  {invitation.status}
-                                </Badge>
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() =>
-                                    handleCancelInvitation(invitation.id)
-                                  }
-                                >
-                                  Cancel
-                                </Button>
-                              </div>
-                            </div>
-                          );
-                        }
-                      })
-                    ) : (
-                      <div className="text-center text-sm text-muted-foreground">
-                        No pending invitations.
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Current members */}
-              <div className="space-y-2">
-                <Label>Current Members</Label>
-                <div className="space-y-2">
-                  {members.map((member) => (
-                    <div
-                      key={member.id}
-                      className="flex items-center justify-between p-3 border rounded-lg"
-                    >
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-8 w-8">
-                          <AvatarImage src={member.user?.image || ""} />
-                          <AvatarFallback>
-                            {member.user?.name
-                              ?.split(" ")
-                              .map((n: string) => n[0])
-                              .join("")}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="font-medium">{member.user?.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {member.user?.email}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline">{member.role}</Badge>
-                        {isAdmin && member.userId !== user?.id && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() =>
-                              handleRemoveMember(member.user.email)
-                            }
-                          >
-                            Remove
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </CardContent>
           </Card>
         </TabsContent>

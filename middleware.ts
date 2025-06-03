@@ -10,18 +10,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Handle invitation routes
-  if (pathname.startsWith("/accept-invitation/")) {
-    if (!sessionCookie) {
-      // Redirect to sign-in with the invitation URL as return parameter
-      const signInUrl = new URL("/sign-in", request.url);
-      signInUrl.searchParams.set("returnTo", pathname);
-      return NextResponse.redirect(signInUrl);
-    }
-    // User is authenticated, allow them to proceed to invitation page
-    return NextResponse.next();
-  }
-
   if (sessionCookie && ["/sign-in", "/sign-up"].includes(pathname)) {
     // Check if there's a returnTo parameter
     const returnTo = request.nextUrl.searchParams.get("returnTo");
