@@ -72,22 +72,6 @@ export const auth = betterAuth({
                   );
                 })(),
             },
-            {
-              productId:
-                process.env.NEXT_PUBLIC_PROFESSIONAL_TIER ||
-                (() => {
-                  throw new Error(
-                    "NEXT_PUBLIC_PROFESSIONAL_TIER environment variable is required",
-                  );
-                })(),
-              slug:
-                process.env.NEXT_PUBLIC_PROFESSIONAL_SLUG ||
-                (() => {
-                  throw new Error(
-                    "NEXT_PUBLIC_PROFESSIONAL_SLUG environment variable is required",
-                  );
-                })(),
-            },
           ],
           successUrl: process.env.POLAR_SUCCESS_URL,
           authenticatedUsersOnly: true,

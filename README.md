@@ -134,8 +134,6 @@ R2_UPLOAD_IMAGE_BUCKET_NAME="your-r2-bucket-name"
 # Polar.sh Pricing Tiers
 NEXT_PUBLIC_STARTER_TIER="your-starter-product-id"
 NEXT_PUBLIC_STARTER_SLUG="your-starter-slug"
-NEXT_PUBLIC_PROFESSIONAL_TIER="your-professional-product-id"
-NEXT_PUBLIC_PROFESSIONAL_SLUG="your-professional-slug"
 ```
 
 4. **Database Setup**

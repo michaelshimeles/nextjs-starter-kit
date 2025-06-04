@@ -74,9 +74,7 @@ export default function PricingTable({
   const PROFESSIONAL_SLUG = process.env.NEXT_PUBLIC_PROFESSIONAL_SLUG;
 
   if (!PROFESSIONAL_TIER || !PROFESSIONAL_SLUG) {
-    throw new Error(
-      "Missing required environment variables for Professional tier",
-    );
+    throw new Error("Missing required environment variables for Professional tier");
   }
 
   const isCurrentPlan = (tierProductId: string) => {
@@ -160,11 +158,11 @@ export default function PricingTable({
                 )}
               </div>
             ) : subscriptionDetails.hasSubscription ? (
-              <Button className="w-full" onClick={handleManageSubscription}>
-                {subscriptionDetails.subscription?.productId ===
-                PROFESSIONAL_TIER
-                  ? "Downgrade"
-                  : "Change Plan"}
+              <Button
+                className="w-full"
+                onClick={handleManageSubscription}
+              >
+                {subscriptionDetails.subscription?.productId === PROFESSIONAL_TIER ? "Downgrade" : "Change Plan"}
               </Button>
             ) : (
               <Button
@@ -238,17 +236,16 @@ export default function PricingTable({
                 )}
               </div>
             ) : subscriptionDetails.hasSubscription ? (
-              <Button className="w-full" onClick={handleManageSubscription}>
-                {subscriptionDetails.subscription?.productId === STARTER_TIER
-                  ? "Upgrade"
-                  : "Change Plan"}
+              <Button
+                className="w-full"
+                onClick={handleManageSubscription}
+              >
+                {subscriptionDetails.subscription?.productId === STARTER_TIER ? "Upgrade" : "Change Plan"}
               </Button>
             ) : (
               <Button
                 className="w-full"
-                onClick={() =>
-                  handleCheckout(PROFESSIONAL_TIER, PROFESSIONAL_SLUG)
-                }
+                onClick={() => handleCheckout(PROFESSIONAL_TIER, PROFESSIONAL_SLUG)}
               >
                 Get Started
               </Button>
