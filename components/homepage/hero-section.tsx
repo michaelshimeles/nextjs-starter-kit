@@ -34,10 +34,12 @@ export default function HeroSection() {
         </div>
 
         <div className="relative mt-8 overflow-hidden rounded-3xl bg-black/10">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1547623641-d2c56c03e2a7?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
             className="absolute inset-0 size-full object-cover"
+            width={1920}
+            height={1080}
           />
 
           <div className="bg-background rounded-(--radius) relative m-4 overflow-hidden border border-transparent shadow-xl shadow-black/15 ring-1 ring-black/10 sm:m-8 md:m-12">

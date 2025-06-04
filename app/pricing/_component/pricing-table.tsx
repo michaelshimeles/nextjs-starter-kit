@@ -54,6 +54,15 @@ export default function PricingTable({
     }
   };
 
+  const handleManageSubscription = async () => {
+    try {
+      await authClient.customer.portal();
+    } catch (error) {
+      console.error("Failed to open customer portal:", error);
+      toast.error("Failed to open subscription management");
+    }
+  };
+
   const STARTER_TIER = process.env.NEXT_PUBLIC_STARTER_TIER;
   const STARTER_SLUG = process.env.NEXT_PUBLIC_STARTER_SLUG;
 
@@ -87,7 +96,7 @@ export default function PricingTable({
   };
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen px-4">
+    <section className="flex flex-col items-center justify-center px-4 mb-24">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold tracking-tight mb-4">
           Simple, transparent pricing
@@ -96,62 +105,6 @@ export default function PricingTable({
           Choose the plan that fits your needs
         </p>
       </div>
-
-      {/* Current Subscription Summary */}
-      {subscriptionDetails.hasSubscription &&
-        subscriptionDetails.subscription && (
-          <div className="mb-8 w-full max-w-2xl">
-            <Card className="border-2 border-green-200 bg-green-50">
-              <CardHeader className="text-center pb-4">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Badge
-                    variant="secondary"
-                    className="bg-green-100 text-green-800"
-                  >
-                    Current Subscription
-                  </Badge>
-                </div>
-                <CardTitle className="text-xl">
-                  {subscriptionDetails.subscription.productId ===
-                  PROFESSIONAL_TIER
-                    ? "Professional Plan"
-                    : subscriptionDetails.subscription.productId ===
-                        STARTER_TIER
-                      ? "Starter Plan"
-                      : "Active Plan"}
-                </CardTitle>
-                <CardDescription>
-                  ${subscriptionDetails.subscription.amount / 100}{" "}
-                  {subscriptionDetails.subscription.currency.toUpperCase()} /{" "}
-                  {subscriptionDetails.subscription.recurringInterval}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-center">
-                {subscriptionDetails.error ? (
-                  <div className="space-y-2">
-                    <p className="text-sm text-orange-600 font-medium">
-                      {subscriptionDetails.error}
-                    </p>
-                    {subscriptionDetails.subscription.cancelAtPeriodEnd && (
-                      <p className="text-sm text-muted-foreground">
-                        Access continues until{" "}
-                        {formatDate(
-                          subscriptionDetails.subscription.currentPeriodEnd,
-                        )}
-                      </p>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    {subscriptionDetails.subscription.cancelAtPeriodEnd
-                      ? `Expires on ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`
-                      : `Next billing date: ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`}
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        )}
 
       <div className="grid md:grid-cols-2 gap-8 max-w-4xl w-full">
         {/* Starter Tier */}
@@ -206,6 +159,13 @@ export default function PricingTable({
                   </p>
                 )}
               </div>
+            ) : subscriptionDetails.hasSubscription ? (
+              <Button className="w-full" onClick={handleManageSubscription}>
+                {subscriptionDetails.subscription?.productId ===
+                PROFESSIONAL_TIER
+                  ? "Downgrade"
+                  : "Change Plan"}
+              </Button>
             ) : (
               <Button
                 className="w-full"
@@ -277,6 +237,12 @@ export default function PricingTable({
                   </p>
                 )}
               </div>
+            ) : subscriptionDetails.hasSubscription ? (
+              <Button className="w-full" onClick={handleManageSubscription}>
+                {subscriptionDetails.subscription?.productId === STARTER_TIER
+                  ? "Upgrade"
+                  : "Change Plan"}
+              </Button>
             ) : (
               <Button
                 className="w-full"
