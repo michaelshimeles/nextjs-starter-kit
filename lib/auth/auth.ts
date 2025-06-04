@@ -73,7 +73,7 @@ export const auth = betterAuth({
                 })(),
             },
           ],
-          successUrl: process.env.POLAR_SUCCESS_URL,
+          successUrl: `${process.env.NEXT_PUBLIC_APP_URL}/${process.env.POLAR_SUCCESS_URL}`,
           authenticatedUsersOnly: true,
         }),
         portal(),
