@@ -4,7 +4,7 @@ import { ThemeProvider } from "../components/provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Next.js Starter Kit",
+  title: "Next.js Starter Kit - Launch Your SAAS",
   description:
     "A modern, full-stack Next.js starter kit with authentication, payments, and dashboard. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
   openGraph: {
