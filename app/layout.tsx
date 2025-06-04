@@ -4,19 +4,21 @@ import { ThemeProvider } from "../components/provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Nextjs Starter Kit",
-  description: "Generate and manage Nextjs Starter Kit",
+  title: "Next.js Starter Kit",
+  description:
+    "A modern, full-stack Next.js starter kit with authentication, payments, and dashboard. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
   openGraph: {
-    title: "Nextjs Starter Kit",
-    description: "Generate and manage Nextjs Starter Kit",
-    url: "https://apple-pass.vercel.app",
-    siteName: "Nextjs Starter Kit",
+    title: "Next.js Starter Kit",
+    description:
+      "A modern, full-stack Next.js starter kit with authentication, payments, and dashboard. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
+    url: "nextstarter.xyz",
+    siteName: "Next.js Starter Kit",
     images: [
       {
-        url: "https://jdj14ctwppwprnqu.public.blob.vercel-storage.com/lockscreen_opengraph-XZlGCb1IL4X735kYqgdRIo2XDjSIBk",
+        url: "https://jdj14ctwppwprnqu.public.blob.vercel-storage.com/nsk-w9fFwBBmLDLxrB896I4xqngTUEEovS.png",
         width: 1200,
         height: 630,
-        alt: "Lockscreen AI",
+        alt: "Next.js Starter Kit",
       },
     ],
     locale: "en-US",
