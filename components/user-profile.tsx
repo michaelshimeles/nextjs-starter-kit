@@ -12,8 +12,7 @@ import { authClient } from "@/lib/auth/auth-client";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { usePostHog } from "posthog-js/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface UserInfo {
@@ -31,13 +30,8 @@ export default function UserProfile({ mini }: { mini?: boolean }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const posthog = usePostHog();
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -56,15 +50,11 @@ export default function UserProfile({ mini }: { mini?: boolean }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
 
-  const handleRetry = () => {
-    posthog?.capture("user_profile_retry", {
-      component: "user_profile",
-      mini_mode: !!mini,
-    });
+  useEffect(() => {
     fetchUserData();
-  };
+  }, [fetchUserData]);
 
   const handleSignOut = async () => {
     await authClient.signOut({
@@ -84,15 +74,6 @@ export default function UserProfile({ mini }: { mini?: boolean }) {
         <div className="text-red-500 text-sm flex-1">
           {mini ? "Error" : error}
         </div>
-        {!mini && (
-          <button
-            onClick={handleRetry}
-            className="text-xs text-blue-500 hover:text-blue-700 underline ml-2"
-            disabled={loading}
-          >
-            {loading ? "Retrying..." : "Retry"}
-          </button>
-        )}
       </div>
     );
   }

@@ -36,8 +36,9 @@ A comprehensive, production-ready SaaS starter kit built with Next.js 15, featur
 ### 🗄️ Database & Storage
 - **Neon PostgreSQL** - Serverless database
 - **Drizzle ORM** - Type-safe database toolkit
-- **Cloudflare R2** - Scalable file storage
+- **Cloudflare R2** - Scalable file storage with zero egress fees
 - Database migrations with Drizzle Kit
+- Drag & drop file uploads with progress tracking
 
 ### 📊 Analytics & Monitoring
 - **PostHog** integration for product analytics
@@ -66,6 +67,7 @@ A comprehensive, production-ready SaaS starter kit built with Next.js 15, featur
 │   ├── dashboard/           # Protected dashboard area
 │   │   ├── _components/     # Dashboard components
 │   │   ├── chat/           # AI chat interface
+│   │   ├── upload/         # File upload with R2
 │   │   ├── payment/        # Subscription management
 │   │   └── settings/       # User settings & billing
 │   ├── pricing/            # Public pricing page
@@ -76,7 +78,7 @@ A comprehensive, production-ready SaaS starter kit built with Next.js 15, featur
 ├── lib/
 │   ├── auth/              # Authentication config
 │   ├── subscription.ts    # Subscription utilities
-│   └── r2.ts             # File storage config
+│   └── upload-image.ts    # R2 file upload utilities
 └── db/
     ├── schema.ts          # Database schema
     └── drizzle.ts         # Database connection
@@ -87,9 +89,10 @@ A comprehensive, production-ready SaaS starter kit built with Next.js 15, featur
 ### Prerequisites
 - Node.js 18+
 - PostgreSQL database (Neon recommended)
-- Cloudflare R2 bucket
-- Polar.sh account
-- OpenAI API key
+- Cloudflare R2 bucket for file storage
+- Polar.sh account for subscriptions
+- OpenAI API key for AI features
+- Google OAuth credentials (optional)
 
 ### Installation
 
@@ -122,15 +125,17 @@ POLAR_WEBHOOK_SECRET="your-webhook-secret"
 # OpenAI
 OPENAI_API_KEY="your-openai-api-key"
 
-# Cloudflare R2
-R2_ACCOUNT_ID="your-r2-account-id"
-R2_ACCESS_KEY_ID="your-access-key"
-R2_SECRET_ACCESS_KEY="your-secret-key"
-R2_BUCKET_NAME="your-bucket-name"
+# Cloudflare R2 Storage
+CLOUDFLARE_ACCOUNT_ID="your-cloudflare-account-id"
+R2_UPLOAD_IMAGE_ACCESS_KEY_ID="your-r2-access-key-id"
+R2_UPLOAD_IMAGE_SECRET_ACCESS_KEY="your-r2-secret-access-key"
+R2_UPLOAD_IMAGE_BUCKET_NAME="your-r2-bucket-name"
 
-# PostHog
-NEXT_PUBLIC_POSTHOG_KEY="your-posthog-key"
-NEXT_PUBLIC_POSTHOG_HOST="https://app.posthog.com"
+# Polar.sh Pricing Tiers
+NEXT_PUBLIC_STARTER_TIER="your-starter-product-id"
+NEXT_PUBLIC_STARTER_SLUG="your-starter-slug"
+NEXT_PUBLIC_PROFESSIONAL_TIER="your-professional-product-id"
+NEXT_PUBLIC_PROFESSIONAL_SLUG="your-professional-slug"
 ```
 
 4. **Database Setup**
@@ -140,7 +145,18 @@ npx drizzle-kit generate
 npx drizzle-kit push
 ```
 
-5. **Start Development Server**
+5. **Cloudflare R2 Setup**
+- Create a Cloudflare account and set up R2 storage
+- Create a bucket for file uploads
+- Generate API tokens with R2 permissions
+- Configure CORS settings for your domain
+
+6. **Polar.sh Setup**
+- Create products for your pricing tiers
+- Set up webhook endpoints for subscription events
+- Configure your pricing structure
+
+7. **Start Development Server**
 ```bash
 npm run dev
 ```
@@ -161,9 +177,12 @@ Open [http://localhost:3000](http://localhost:3000) to see your application.
 - Conversation history and context
 
 ### File Upload System
-- Cloudflare R2 integration
-- Image optimization and validation
-- Secure upload handling
+- **Cloudflare R2 integration** with S3-compatible API
+- **Drag & drop interface** with visual feedback
+- **File validation** - Type checking and size limits
+- **Progress tracking** - Real-time upload progress
+- **Image gallery** - View uploaded files with metadata
+- **Copy URLs** - Easy sharing and integration
 
 ### Analytics & Tracking
 - PostHog event tracking

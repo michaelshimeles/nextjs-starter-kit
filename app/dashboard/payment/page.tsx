@@ -10,6 +10,8 @@ import { getSubscriptionDetails } from "@/lib/subscription";
 import Link from "next/link";
 import ManageSubscription from "./_components/manage-subscription";
 
+export const dynamic = 'force-dynamic';
+
 export default async function PaymentPage() {
   const subscriptionDetails = await getSubscriptionDetails();
 
