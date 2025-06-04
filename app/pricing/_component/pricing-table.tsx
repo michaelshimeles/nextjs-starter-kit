@@ -12,6 +12,8 @@ import {
 import { authClient } from "@/lib/auth/auth-client";
 import { Check } from "lucide-react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type SubscriptionDetails = {
   id: string;
@@ -41,7 +43,27 @@ interface PricingTableProps {
 export default function PricingTable({
   subscriptionDetails,
 }: PricingTableProps) {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const session = await authClient.getSession();
+        setIsAuthenticated(!!session.data?.user);
+      } catch (error) {
+        setIsAuthenticated(false);
+      }
+    };
+    checkAuth();
+  }, []);
+
   const handleCheckout = async (productId: string, slug: string) => {
+    if (isAuthenticated === false) {
+      router.push("/sign-in");
+      return;
+    }
+
     try {
       await authClient.checkout({
         products: [productId],
@@ -157,7 +179,7 @@ export default function PricingTable({
                 className="w-full"
                 onClick={() => handleCheckout(STARTER_TIER, STARTER_SLUG)}
               >
-                Get Started
+                {isAuthenticated === false ? "Sign In to Get Started" : "Get Started"}
               </Button>
             )}
           </CardFooter>
