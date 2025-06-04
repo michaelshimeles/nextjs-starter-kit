@@ -1,4 +1,5 @@
 "use client";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,10 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { authClient } from "@/lib/auth/auth-client";
 import { Check } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 type SubscriptionDetails = {
@@ -39,22 +38,14 @@ interface PricingTableProps {
   subscriptionDetails: SubscriptionDetailsResult;
 }
 
-export default function PricingTable({ subscriptionDetails }: PricingTableProps) {
-  const router = useRouter();
+export default function PricingTable({
+  subscriptionDetails,
+}: PricingTableProps) {
   const handleCheckout = async (productId: string, slug: string) => {
     try {
-      const orgResponse = await authClient.organization.list();
-      const organizationId = orgResponse?.data?.[0]?.id;
-
-      if (!organizationId) {
-        router.push("/onboarding");
-        return; // Critical: prevent checkout from proceeding
-      }
-
       await authClient.checkout({
         products: [productId],
         slug: slug,
-        referenceId: organizationId,
       });
     } catch (error) {
       console.error("Checkout failed:", error);
@@ -80,16 +71,18 @@ export default function PricingTable({ subscriptionDetails }: PricingTableProps)
   }
 
   const isCurrentPlan = (tierProductId: string) => {
-    return subscriptionDetails.hasSubscription && 
-           subscriptionDetails.subscription?.productId === tierProductId &&
-           subscriptionDetails.subscription?.status === "active";
+    return (
+      subscriptionDetails.hasSubscription &&
+      subscriptionDetails.subscription?.productId === tierProductId &&
+      subscriptionDetails.subscription?.status === "active"
+    );
   };
 
   const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -105,57 +98,70 @@ export default function PricingTable({ subscriptionDetails }: PricingTableProps)
       </div>
 
       {/* Current Subscription Summary */}
-      {subscriptionDetails.hasSubscription && subscriptionDetails.subscription && (
-        <div className="mb-8 w-full max-w-2xl">
-          <Card className="border-2 border-green-200 bg-green-50">
-            <CardHeader className="text-center pb-4">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <Badge variant="secondary" className="bg-green-100 text-green-800">
-                  Current Subscription
-                </Badge>
-              </div>
-              <CardTitle className="text-xl">
-                {subscriptionDetails.subscription.productId === PROFESSIONAL_TIER 
-                  ? "Professional Plan" 
-                  : subscriptionDetails.subscription.productId === STARTER_TIER 
-                  ? "Starter Plan" 
-                  : "Active Plan"}
-              </CardTitle>
-              <CardDescription>
-                ${subscriptionDetails.subscription.amount / 100} {subscriptionDetails.subscription.currency.toUpperCase()} / {subscriptionDetails.subscription.recurringInterval}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="text-center">
-              {subscriptionDetails.error ? (
-                <div className="space-y-2">
-                  <p className="text-sm text-orange-600 font-medium">
-                    {subscriptionDetails.error}
-                  </p>
-                  {subscriptionDetails.subscription.cancelAtPeriodEnd && (
-                    <p className="text-sm text-muted-foreground">
-                      Access continues until {formatDate(subscriptionDetails.subscription.currentPeriodEnd)}
-                    </p>
-                  )}
+      {subscriptionDetails.hasSubscription &&
+        subscriptionDetails.subscription && (
+          <div className="mb-8 w-full max-w-2xl">
+            <Card className="border-2 border-green-200 bg-green-50">
+              <CardHeader className="text-center pb-4">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Badge
+                    variant="secondary"
+                    className="bg-green-100 text-green-800"
+                  >
+                    Current Subscription
+                  </Badge>
                 </div>
-              ) : (
-                <p className="text-sm text-muted-foreground">
-                  {subscriptionDetails.subscription.cancelAtPeriodEnd 
-                    ? `Expires on ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`
-                    : `Next billing date: ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`
-                  }
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      )}
+                <CardTitle className="text-xl">
+                  {subscriptionDetails.subscription.productId ===
+                  PROFESSIONAL_TIER
+                    ? "Professional Plan"
+                    : subscriptionDetails.subscription.productId ===
+                        STARTER_TIER
+                      ? "Starter Plan"
+                      : "Active Plan"}
+                </CardTitle>
+                <CardDescription>
+                  ${subscriptionDetails.subscription.amount / 100}{" "}
+                  {subscriptionDetails.subscription.currency.toUpperCase()} /{" "}
+                  {subscriptionDetails.subscription.recurringInterval}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="text-center">
+                {subscriptionDetails.error ? (
+                  <div className="space-y-2">
+                    <p className="text-sm text-orange-600 font-medium">
+                      {subscriptionDetails.error}
+                    </p>
+                    {subscriptionDetails.subscription.cancelAtPeriodEnd && (
+                      <p className="text-sm text-muted-foreground">
+                        Access continues until{" "}
+                        {formatDate(
+                          subscriptionDetails.subscription.currentPeriodEnd,
+                        )}
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    {subscriptionDetails.subscription.cancelAtPeriodEnd
+                      ? `Expires on ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`
+                      : `Next billing date: ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`}
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
       <div className="grid md:grid-cols-2 gap-8 max-w-4xl w-full">
         {/* Starter Tier */}
         <Card className="relative h-fit">
           {isCurrentPlan(STARTER_TIER) && (
             <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-              <Badge variant="secondary" className="bg-green-100 text-green-800">
+              <Badge
+                variant="secondary"
+                className="bg-green-100 text-green-800"
+              >
                 Current Plan
               </Badge>
             </div>
@@ -171,19 +177,19 @@ export default function PricingTable({ subscriptionDetails }: PricingTableProps)
           <CardContent className="space-y-4">
             <div className="flex items-center gap-3">
               <Check className="h-5 w-5 text-green-500" />
-              <span>1 Pass</span>
+              <span>5 Projects</span>
             </div>
             <div className="flex items-center gap-3">
               <Check className="h-5 w-5 text-green-500" />
-              <span>15k push notifications per month</span>
+              <span>10GB Storage</span>
             </div>
             <div className="flex items-center gap-3">
               <Check className="h-5 w-5 text-green-500" />
-              <span>1 seat per workspace</span>
+              <span>1 Team Member</span>
             </div>
             <div className="flex items-center gap-3">
               <Check className="h-5 w-5 text-green-500" />
-              <span>Email support</span>
+              <span>Email Support</span>
             </div>
           </CardContent>
           <CardFooter>
@@ -194,10 +200,9 @@ export default function PricingTable({ subscriptionDetails }: PricingTableProps)
                 </Button>
                 {subscriptionDetails.subscription && (
                   <p className="text-sm text-muted-foreground text-center">
-                    {subscriptionDetails.subscription.cancelAtPeriodEnd 
+                    {subscriptionDetails.subscription.cancelAtPeriodEnd
                       ? `Expires ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`
-                      : `Renews ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`
-                    }
+                      : `Renews ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`}
                   </p>
                 )}
               </div>
@@ -216,7 +221,10 @@ export default function PricingTable({ subscriptionDetails }: PricingTableProps)
         <Card className="relative border-primary">
           <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
             {isCurrentPlan(PROFESSIONAL_TIER) ? (
-              <Badge variant="secondary" className="bg-green-100 text-green-800">
+              <Badge
+                variant="secondary"
+                className="bg-green-100 text-green-800"
+              >
                 Current Plan
               </Badge>
             ) : (
@@ -236,23 +244,23 @@ export default function PricingTable({ subscriptionDetails }: PricingTableProps)
           <CardContent className="space-y-4">
             <div className="flex items-center gap-3">
               <Check className="h-5 w-5 text-green-500" />
-              <span>5 Passes</span>
+              <span>Unlimited Projects</span>
             </div>
             <div className="flex items-center gap-3">
               <Check className="h-5 w-5 text-green-500" />
-              <span>150K push notifications per month</span>
+              <span>100GB Storage</span>
             </div>
             <div className="flex items-center gap-3">
               <Check className="h-5 w-5 text-green-500" />
-              <span>3 seats per organization</span>
+              <span>10 Team Members</span>
             </div>
             <div className="flex items-center gap-3">
               <Check className="h-5 w-5 text-green-500" />
-              <span>Priority support</span>
+              <span>Priority Support</span>
             </div>
             <div className="flex items-center gap-3">
               <Check className="h-5 w-5 text-green-500" />
-              <span className="font-medium">No branding watermark</span>
+              <span className="font-medium">Advanced Analytics</span>
             </div>
           </CardContent>
           <CardFooter>
@@ -263,10 +271,9 @@ export default function PricingTable({ subscriptionDetails }: PricingTableProps)
                 </Button>
                 {subscriptionDetails.subscription && (
                   <p className="text-sm text-muted-foreground text-center">
-                    {subscriptionDetails.subscription.cancelAtPeriodEnd 
+                    {subscriptionDetails.subscription.cancelAtPeriodEnd
                       ? `Expires ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`
-                      : `Renews ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`
-                    }
+                      : `Renews ${formatDate(subscriptionDetails.subscription.currentPeriodEnd)}`}
                   </p>
                 )}
               </div>

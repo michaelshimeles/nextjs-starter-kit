@@ -4,9 +4,9 @@ import UserProfile from "@/components/user-profile";
 import clsx from "clsx";
 import {
   Banknote,
-  GitGraph,
   HomeIcon,
   LucideIcon,
+  MessageCircleIcon,
   Settings,
 } from "lucide-react";
 import Link from "next/link";
@@ -25,12 +25,12 @@ const navItems: NavItem[] = [
     icon: HomeIcon,
   },
   {
-    label: "Analytics",
-    href: "/dashboard/analytics",
-    icon: GitGraph,
+    label: "Chat",
+    href: "/dashboard/chat",
+    icon: MessageCircleIcon,
   },
   {
-    label: "Payment",
+    label: "Payment Gated",
     href: "/dashboard/payment",
     icon: Banknote,
   },

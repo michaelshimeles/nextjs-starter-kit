@@ -9,8 +9,7 @@ export default function Home() {
             Nextjs Starter Kit
           </h2>
           <p className="mt-4">
-            Built using the best technologies Nextjs, TailwindCSS, TypeScript,
-            and more.
+            Built using Nextjs, BetterAuth, Neon PostgreSQL, and more
           </p>
 
           <div className="mt-4 flex flex-wrap justify-center gap-4">
@@ -21,7 +20,12 @@ export default function Home() {
             </Button>
 
             <Button asChild variant="outline">
-              <Link href="/dashboard/create" prefetch={true}>
+              <Link
+                href="https://github.com/michaelshimeles/nextjs-starter-kit"
+                target="_blank"
+                rel="noopener noreferrer"
+                prefetch={true}
+              >
                 <span>Github</span>
               </Link>
             </Button>

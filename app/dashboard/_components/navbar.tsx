@@ -9,8 +9,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import UserProfile from "@/components/user-profile";
 import {
-  BookOpen,
   Brush,
   HomeIcon,
   LucideGitBranchPlus,
@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
-import UserProfile from "@/components/user-profile";
 
 export default function DashboardTopNav({ children }: { children: ReactNode }) {
   return (
@@ -75,16 +74,6 @@ export default function DashboardTopNav({ children }: { children: ReactNode }) {
         </Dialog>
         <div className="flex justify-center items-center gap-2 ml-auto">
           <UserProfile mini={true} />
-          <Link href="/tutorial">
-            <Button size="icon" variant="outline">
-              <BookOpen />
-            </Button>
-          </Link>
-          <Link prefetch={true} href="/dashboard/create">
-            <Button variant="outline" size="sm">
-              Create Pass
-            </Button>
-          </Link>
         </div>
       </header>
       {children}

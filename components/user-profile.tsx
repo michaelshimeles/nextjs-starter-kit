@@ -140,12 +140,6 @@ export default function UserProfile({ mini }: { mini?: boolean }) {
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
-          <Link href="/dashboard/settings?tab=organization">
-            <DropdownMenuItem>
-              Organization
-              <DropdownMenuShortcut>⌘O</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
           <Link href="/dashboard/settings?tab=billing">
             <DropdownMenuItem>
               Billing
