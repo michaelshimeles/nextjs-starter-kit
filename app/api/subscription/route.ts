@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth/auth";
+import { auth } from "@/lib/auth";
 import { getSubscriptionDetails } from "@/lib/subscription";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";

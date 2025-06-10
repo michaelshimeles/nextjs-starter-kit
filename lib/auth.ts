@@ -1,5 +1,5 @@
 import { db } from "@/db/drizzle";
-import { subscription } from "@/db/schema";
+import { account, session, subscription, user, verification } from "@/db/schema";
 import {
   checkout,
   polar,
@@ -9,8 +9,8 @@ import {
 } from "@polar-sh/better-auth";
 import { Polar } from "@polar-sh/sdk";
 import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
-import { Pool } from "pg";
 
 // Utility function to safely parse dates
 function safeParseDate(value: string | Date | null | undefined): Date | null {
@@ -31,8 +31,15 @@ export const auth = betterAuth({
     enabled: true,
     maxAge: 5 * 60, // Cache duration in seconds
   },
-  database: new Pool({
-    connectionString: process.env.DATABASE_URL,
+  database: drizzleAdapter(db, {
+    provider: "pg",
+    schema: {
+      user,
+      session,
+      account,
+      verification,
+      subscription,
+    },
   }),
   socialProviders: {
     google: {
