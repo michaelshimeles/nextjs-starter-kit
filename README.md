@@ -107,6 +107,13 @@ cd next-starter-2.0
 npm install
 ```
 
+**Note:** there will be 4 moderate vulnerabilities. The vulnerabilities come from drizzle-kit.
+
+It's in the devDependencies - it's only used for:
+  - Generating database migrations during development
+  - Managing your Drizzle ORM schema
+  - NOT included in your production build
+
 3. **Environment Setup**
 Create a `.env.local` file with:
 ```env
