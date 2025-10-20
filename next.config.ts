@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "pub-6f0cf05705c7412b93a792350f3b3aa5.r2.dev",
+        hostname: process.env.R2_PUBLIC_URL?.replace(/^https?:\/\//, "") || "",
       },
       {
         protocol: "https",

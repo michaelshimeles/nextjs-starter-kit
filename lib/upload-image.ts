@@ -23,6 +23,6 @@ export const uploadImageAssets = async (buffer: Buffer, key: string) => {
     })
   );
 
-  const publicUrl = `https://pub-6f0cf05705c7412b93a792350f3b3aa5.r2.dev/${key}`;
+  const publicUrl = `${process.env.R2_PUBLIC_URL}/${key}`;
   return publicUrl;
 };
