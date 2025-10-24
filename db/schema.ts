@@ -4,6 +4,8 @@ import {
   pgTable,
   text,
   timestamp,
+  decimal,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 // Better Auth Tables
@@ -15,6 +17,9 @@ export const user = pgTable("user", {
   image: text("image"),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+  // Medical fields for SPE-M
+  crm: text("crm"),
+  specialty: text("specialty"),
 });
 
 export const session = pgTable("session", {
@@ -82,4 +87,90 @@ export const subscription = pgTable("subscription", {
   metadata: text("metadata"), // JSON string
   customFieldData: text("customFieldData"), // JSON string
   userId: text("userId").references(() => user.id),
+});
+
+// SPE-M System Tables
+
+// Patients table
+export const patients = pgTable("patients", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  cpf: text("cpf").notNull().unique(), // Will be encrypted in application layer
+  birthDate: timestamp("birthDate"),
+  phone: text("phone"),
+  email: text("email"),
+  address: text("address"),
+  notes: text("notes"),
+  userId: text("userId")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+  deletedAt: timestamp("deletedAt"), // Soft delete for LGPD compliance
+});
+
+// SPE-M Forms table
+export const forms = pgTable("forms", {
+  id: text("id").primaryKey(),
+  patientId: text("patientId")
+    .notNull()
+    .references(() => patients.id, { onDelete: "cascade" }),
+  userId: text("userId")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  status: text("status").notNull().default("draft"), // draft, finalized, archived
+  totalScore: decimal("totalScore", { precision: 5, scale: 2 }),
+  profileClassification: text("profileClassification"), // low, medium, high
+  generalNotes: text("generalNotes"),
+  recommendations: text("recommendations"),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+  finalizedAt: timestamp("finalizedAt"),
+  version: integer("version").notNull().default(1),
+});
+
+// Form Criteria - 8 criteria per form
+export const formCriteria = pgTable("formCriteria", {
+  id: text("id").primaryKey(),
+  formId: text("formId")
+    .notNull()
+    .references(() => forms.id, { onDelete: "cascade" }),
+  criterionNumber: integer("criterionNumber").notNull(), // 1-8
+  criterionName: text("criterionName").notNull(),
+  data: jsonb("data").notNull(), // Stores all fields for this criterion
+  score: decimal("score", { precision: 4, scale: 2 }),
+  notes: text("notes"),
+  recommendations: text("recommendations"),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+});
+
+// Form Images - 6 photos per form
+export const formImages = pgTable("formImages", {
+  id: text("id").primaryKey(),
+  formId: text("formId")
+    .notNull()
+    .references(() => forms.id, { onDelete: "cascade" }),
+  imageType: text("imageType").notNull(), // frontal, profile_right, profile_left, oblique_right, oblique_left, base
+  storageUrl: text("storageUrl").notNull(),
+  thumbnailUrl: text("thumbnailUrl"),
+  annotations: jsonb("annotations"), // Canvas drawings stored as JSON
+  metadata: jsonb("metadata"), // Size, mime type, dimensions, etc
+  uploadedAt: timestamp("uploadedAt").notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+});
+
+// Audit Logs for LGPD compliance
+export const auditLogs = pgTable("auditLogs", {
+  id: text("id").primaryKey(),
+  userId: text("userId")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  action: text("action").notNull(), // create, read, update, delete, export, print
+  entityType: text("entityType").notNull(), // patient, form, image
+  entityId: text("entityId").notNull(),
+  ipAddress: text("ipAddress"),
+  userAgent: text("userAgent"),
+  metadata: jsonb("metadata"), // Additional context about the action
+  timestamp: timestamp("timestamp").notNull().defaultNow(),
 });

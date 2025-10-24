@@ -9,6 +9,8 @@ import {
   MessageCircleIcon,
   Settings,
   Upload,
+  Users,
+  FileText,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -24,6 +26,16 @@ const navItems: NavItem[] = [
     label: "Overview",
     href: "/dashboard",
     icon: HomeIcon,
+  },
+  {
+    label: "Pacientes",
+    href: "/dashboard/patients",
+    icon: Users,
+  },
+  {
+    label: "Formulários SPE-M",
+    href: "/dashboard/forms",
+    icon: FileText,
   },
   {
     label: "Chat",
@@ -55,7 +67,7 @@ export default function DashboardSideBar() {
             className="flex items-center font-semibold hover:cursor-pointer"
             href="/"
           >
-            <span>Nextjs Starter Kit</span>
+            <span>Sistema SPE-M</span>
           </Link>
         </div>
 
