@@ -77,7 +77,7 @@ export async function PUT(
 
     const { id } = await params;
     const body = await request.json();
-    const { name, cpf, birthDate, phone, email, address, notes } = body;
+    const { name, cpf, birthDate, phone, email, address, notes, medicalHistory, allergies, currentMedications } = body;
 
     // Check if patient exists and belongs to user
     const existingPatient = await db
@@ -105,6 +105,9 @@ export async function PUT(
       email: email !== undefined ? email : existingPatient[0].email,
       address: address !== undefined ? address : existingPatient[0].address,
       notes: notes !== undefined ? notes : existingPatient[0].notes,
+      medicalHistory: medicalHistory !== undefined ? medicalHistory : existingPatient[0].medicalHistory,
+      allergies: allergies !== undefined ? allergies : existingPatient[0].allergies,
+      currentMedications: currentMedications !== undefined ? currentMedications : existingPatient[0].currentMedications,
       updatedAt: new Date(),
     };
 

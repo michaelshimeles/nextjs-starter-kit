@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Search, Edit, Trash2, FileText } from "lucide-react";
+import { Plus, Search, Edit, Trash2, FileText, Eye } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -35,6 +35,9 @@ interface Patient {
   email: string | null;
   address: string | null;
   notes: string | null;
+  medicalHistory: string | null;
+  allergies: string | null;
+  currentMedications: string | null;
   createdAt: string;
 }
 
@@ -54,6 +57,9 @@ export default function PatientsPage() {
     email: "",
     address: "",
     notes: "",
+    medicalHistory: "",
+    allergies: "",
+    currentMedications: "",
   });
 
   // Fetch patients
@@ -147,6 +153,9 @@ export default function PatientsPage() {
       email: "",
       address: "",
       notes: "",
+      medicalHistory: "",
+      allergies: "",
+      currentMedications: "",
     });
   };
 
@@ -163,6 +172,9 @@ export default function PatientsPage() {
       email: patient.email || "",
       address: patient.address || "",
       notes: patient.notes || "",
+      medicalHistory: patient.medicalHistory || "",
+      allergies: patient.allergies || "",
+      currentMedications: patient.currentMedications || "",
     });
     setIsAddDialogOpen(true);
   };
@@ -302,6 +314,45 @@ export default function PatientsPage() {
                       rows={3}
                     />
                   </div>
+                  <div className="col-span-2">
+                    <Label htmlFor="medicalHistory">Histórico Médico</Label>
+                    <Textarea
+                      id="medicalHistory"
+                      value={formData.medicalHistory}
+                      onChange={(e) =>
+                        setFormData({ ...formData, medicalHistory: e.target.value })
+                      }
+                      placeholder="Histórico de cirurgias, doenças, etc."
+                      rows={3}
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label htmlFor="allergies">Alergias</Label>
+                    <Textarea
+                      id="allergies"
+                      value={formData.allergies}
+                      onChange={(e) =>
+                        setFormData({ ...formData, allergies: e.target.value })
+                      }
+                      placeholder="Alergias conhecidas a medicamentos, materiais, etc."
+                      rows={2}
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label htmlFor="currentMedications">Medicações Atuais</Label>
+                    <Textarea
+                      id="currentMedications"
+                      value={formData.currentMedications}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          currentMedications: e.target.value,
+                        })
+                      }
+                      placeholder="Medicamentos que o paciente está tomando atualmente"
+                      rows={2}
+                    />
+                  </div>
                 </div>
                 <div className="flex justify-end gap-2 pt-4">
                   <Button
@@ -369,7 +420,14 @@ export default function PatientsPage() {
               ) : (
                 patients.map((patient) => (
                   <TableRow key={patient.id}>
-                    <TableCell className="font-medium">{patient.name}</TableCell>
+                    <TableCell className="font-medium">
+                      <Link
+                        href={`/dashboard/patients/${patient.id}`}
+                        className="hover:underline hover:text-primary transition-colors"
+                      >
+                        {patient.name}
+                      </Link>
+                    </TableCell>
                     <TableCell>{formatCPF(patient.cpf)}</TableCell>
                     <TableCell>{patient.phone || "-"}</TableCell>
                     <TableCell>{patient.email || "-"}</TableCell>
@@ -382,6 +440,17 @@ export default function PatientsPage() {
                           variant="ghost"
                           size="sm"
                           asChild
+                          title="Ver detalhes"
+                        >
+                          <Link href={`/dashboard/patients/${patient.id}`}>
+                            <Eye className="w-4 h-4" />
+                          </Link>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          asChild
+                          title="Ver formulários"
                         >
                           <Link href={`/dashboard/forms?patient=${patient.id}`}>
                             <FileText className="w-4 h-4" />
@@ -391,6 +460,7 @@ export default function PatientsPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => openEditDialog(patient)}
+                          title="Editar"
                         >
                           <Edit className="w-4 h-4" />
                         </Button>
@@ -398,6 +468,7 @@ export default function PatientsPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(patient.id, patient.name)}
+                          title="Excluir"
                         >
                           <Trash2 className="w-4 h-4 text-destructive" />
                         </Button>

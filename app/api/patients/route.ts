@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, cpf, birthDate, phone, email, address, notes } = body;
+    const { name, cpf, birthDate, phone, email, address, notes, medicalHistory, allergies, currentMedications } = body;
 
     // Validation
     if (!name || !cpf) {
@@ -122,6 +122,9 @@ export async function POST(request: NextRequest) {
       email: email || null,
       address: address || null,
       notes: notes || null,
+      medicalHistory: medicalHistory || null,
+      allergies: allergies || null,
+      currentMedications: currentMedications || null,
       userId: session.user.id,
       createdAt: new Date(),
       updatedAt: new Date(),

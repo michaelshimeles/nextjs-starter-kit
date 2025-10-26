@@ -101,6 +101,9 @@ export const patients = pgTable("patients", {
   email: text("email"),
   address: text("address"),
   notes: text("notes"),
+  medicalHistory: text("medicalHistory"), // Patient's medical history
+  allergies: text("allergies"), // Known allergies
+  currentMedications: text("currentMedications"), // Current medications
   userId: text("userId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),

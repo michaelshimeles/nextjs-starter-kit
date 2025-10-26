@@ -15,6 +15,13 @@
       "when": 1761338699298,
       "tag": "0001_wooden_mindworm",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1761442247834,
+      "tag": "0002_thick_scourge",
+      "breakpoints": true
     }
   ]
 }
