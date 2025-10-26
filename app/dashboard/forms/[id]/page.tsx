@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Edit, FileDown, Loader2 } from "lucide-react";
+import { ArrowLeft, Edit, FileDown, Loader2, Camera } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { SPE_M_CRITERIA, classifyProfile } from "@/lib/spe-m-criteria";
@@ -113,6 +113,12 @@ export default function ViewFormPage() {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          <Button variant="outline" asChild>
+            <Link href={`/dashboard/forms/${formId}/photos`}>
+              <Camera className="w-4 h-4 mr-2" />
+              Fotos ({formData.images.length}/6)
+            </Link>
+          </Button>
           {formData.form.status !== "finalized" && (
             <Button asChild>
               <Link href={`/dashboard/forms/${formId}/edit`}>
