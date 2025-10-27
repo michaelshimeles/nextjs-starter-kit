@@ -43,79 +43,337 @@
     --radius-xl: 20px;
 }
 
+/* ============================================
+   SPE-M DESIGN SYSTEM
+   Apple Vision Pro Inspired
+   ============================================ */
+
 :root {
-    /* Apple Light Theme Colors */
+    /* --- LIGHT MODE --- */
+
+    /* Backgrounds */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f7;
+    --bg-tertiary: #e8e8ed;
+    --bg-elevated: #ffffff;
+
+    /* Surfaces (Cards, Modals) - Glassmorphism */
+    --surface-glass: rgba(255, 255, 255, 0.72);
+    --surface-glass-border: rgba(255, 255, 255, 0.18);
+
+    /* Text Hierarchy */
+    --text-primary: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --text-tertiary: #86868b;
+    --text-inverse: #ffffff;
+
+    /* Medical Primary (Blue) - Adaptado SPE-M */
+    --color-primary: #007aff;
+    --color-primary-hover: #0051d5;
+    --color-primary-light: #e5f1ff;
+
+    /* Semantic Colors */
+    --color-secondary: #34c759; /* Verde - Sucesso */
+    --color-accent: #bf5af2;    /* Roxo - Highlights */
+    --color-warning: #ff9500;   /* Laranja */
+    --color-error: #ff3b30;     /* Vermelho */
+
+    /* Borders */
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-medium: rgba(0, 0, 0, 0.15);
+    --border-strong: rgba(0, 0, 0, 0.25);
+
+    /* Apple Depth Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.10);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+    --shadow-glass: 0 8px 32px rgba(31, 38, 135, 0.15);
+
+    /* Risk Classification (Medical Context) */
+    --risk-low: #34c759;
+    --risk-low-bg: rgba(52, 199, 89, 0.15);
+    --risk-medium: #ff9500;
+    --risk-medium-bg: rgba(255, 149, 0, 0.15);
+    --risk-high: #ff3b30;
+    --risk-high-bg: rgba(255, 59, 48, 0.15);
+
+    /* Standard Shadcn/ui compatibility */
     --background: #ffffff;
-    --foreground: #000000;
+    --foreground: #1d1d1f;
     --card: #ffffff;
-    --card-foreground: #000000;
+    --card-foreground: #1d1d1f;
     --popover: #ffffff;
-    --popover-foreground: #000000;
-    --primary: #0071e3; /* Apple Blue */
+    --popover-foreground: #1d1d1f;
+    --primary: #007aff;
     --primary-foreground: #ffffff;
-    --secondary: #f5f5f7; /* Apple Light Gray */
+    --secondary: #f5f5f7;
     --secondary-foreground: #1d1d1f;
     --muted: #f5f5f7;
     --muted-foreground: #86868b;
-    --accent: #0071e3; /* Apple Blue */
+    --accent: #007aff;
     --accent-foreground: #ffffff;
-    --destructive: #ff3b30; /* Apple Red */
+    --destructive: #ff3b30;
     --destructive-foreground: #ffffff;
-    --border: #e2e2e7; /* Lighter, more subtle border */
+    --border: rgba(0, 0, 0, 0.08);
     --input: #f5f5f7;
-    --ring: #0071e3;
-    --chart-1: #0071e3; /* Apple Blue */
-    --chart-2: #34c759; /* Apple Green */
-    --chart-3: #ff9500; /* Apple Orange */
-    --chart-4: #ffcc00; /* Apple Yellow */
-    --chart-5: #af52de; /* Apple Purple */
+    --ring: #007aff;
+
+    /* Chart colors */
+    --chart-1: #007aff;
+    --chart-2: #34c759;
+    --chart-3: #ff9500;
+    --chart-4: #ffcc00;
+    --chart-5: #bf5af2;
+
+    /* Sidebar */
     --sidebar: #f5f5f7;
     --sidebar-foreground: #1d1d1f;
-    --sidebar-primary: #0071e3;
+    --sidebar-primary: #007aff;
     --sidebar-primary-foreground: #ffffff;
     --sidebar-accent: #e8e8ed;
     --sidebar-accent-foreground: #1d1d1f;
-    --sidebar-border: #e2e2e7; /* Lighter border */
-    --sidebar-ring: #0071e3;
-    /* Apple Fonts */
+    --sidebar-border: rgba(0, 0, 0, 0.08);
+    --sidebar-ring: #007aff;
+
+    /* Typography */
     --font-apple-system:
         -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue",
         Helvetica, sans-serif;
-    --font-sf-mono: "SF Mono", Menlo, monospace;
+    --font-sf-mono: "SF Mono", Menlo, Monaco, monospace;
     --font-sans: var(--font-apple-system);
     --font-serif: "New York", Georgia, serif;
     --font-mono: var(--font-sf-mono);
-    /* Apple uses more rounded corners */
+
+    /* Spacing Scale (Apple Standard) */
+    --spacing-xs: 0.25rem;   /* 4px */
+    --spacing-sm: 0.5rem;    /* 8px */
+    --spacing-md: 1rem;      /* 16px */
+    --spacing-lg: 1.5rem;    /* 24px */
+    --spacing-xl: 2rem;      /* 32px */
+    --spacing-2xl: 3rem;     /* 48px */
+    --spacing-3xl: 4rem;     /* 64px */
+
+    /* Border Radius */
     --radius: 10px;
-    /* Apple-style shadows */
-    --shadow-2xs: 0px 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-xs: 0px 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-sm: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    --shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0px 8px 16px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0px 12px 24px rgba(0, 0, 0, 0.1);
-    --shadow-2xl: 0px 16px 32px rgba(0, 0, 0, 0.1);
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+    --radius-xl: 20px;
 }
+
+.dark {
+    /* --- DARK MODE --- */
+
+    /* Backgrounds */
+    --bg-primary: #000000;
+    --bg-secondary: #1c1c1e;
+    --bg-tertiary: #2c2c2e;
+    --bg-elevated: #1c1c1e;
+
+    /* Surfaces (Cards, Modals) - Glassmorphism */
+    --surface-glass: rgba(28, 28, 30, 0.72);
+    --surface-glass-border: rgba(255, 255, 255, 0.12);
+
+    /* Text Hierarchy */
+    --text-primary: #ffffff;
+    --text-secondary: #98989d;
+    --text-tertiary: #636366;
+    --text-inverse: #000000;
+
+    /* Medical Primary (Blue) - Brightened for dark BG */
+    --color-primary: #0a84ff;
+    --color-primary-hover: #409cff;
+    --color-primary-light: rgba(10, 132, 255, 0.15);
+
+    /* Semantic Colors - Brightened */
+    --color-secondary: #30d158;
+    --color-accent: #bf5af2;
+    --color-warning: #ff9f0a;
+    --color-error: #ff453a;
+
+    /* Borders */
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-medium: rgba(255, 255, 255, 0.15);
+    --border-strong: rgba(255, 255, 255, 0.25);
+
+    /* Apple Depth Shadows - Enhanced for dark */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.7);
+    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+    /* Risk Classification (Medical Context) - Brightened */
+    --risk-low: #30d158;
+    --risk-low-bg: rgba(48, 209, 88, 0.2);
+    --risk-medium: #ff9f0a;
+    --risk-medium-bg: rgba(255, 159, 10, 0.2);
+    --risk-high: #ff453a;
+    --risk-high-bg: rgba(255, 69, 58, 0.2);
+
+    /* Standard Shadcn/ui compatibility */
+    --background: #000000;
+    --foreground: #ffffff;
+    --card: #1c1c1e;
+    --card-foreground: #ffffff;
+    --popover: #1c1c1e;
+    --popover-foreground: #ffffff;
+    --primary: #0a84ff;
+    --primary-foreground: #ffffff;
+    --secondary: #1c1c1e;
+    --secondary-foreground: #ffffff;
+    --muted: #2c2c2e;
+    --muted-foreground: #98989d;
+    --accent: #0a84ff;
+    --accent-foreground: #ffffff;
+    --destructive: #ff453a;
+    --destructive-foreground: #ffffff;
+    --border: rgba(255, 255, 255, 0.08);
+    --input: #1c1c1e;
+    --ring: #0a84ff;
+
+    /* Chart colors - Brightened */
+    --chart-1: #0a84ff;
+    --chart-2: #30d158;
+    --chart-3: #ff9f0a;
+    --chart-4: #ffd60a;
+    --chart-5: #bf5af2;
+
+    /* Sidebar */
+    --sidebar: #1c1c1e;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #0a84ff;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #2c2c2e;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: rgba(255, 255, 255, 0.08);
+    --sidebar-ring: #0a84ff;
+}
+
+/* ============================================
+   UTILITY CLASSES - Apple Vision Pro Effects
+   ============================================ */
+
+/* Glassmorphism Effect */
+.glass-effect {
+    background: var(--surface-glass);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid var(--surface-glass-border);
+    box-shadow: var(--shadow-glass);
+}
+
+/* Depth Shadows */
+.depth-1 {
+    box-shadow: var(--shadow-sm);
+}
+
+.depth-2 {
+    box-shadow: var(--shadow-md);
+}
+
+.depth-3 {
+    box-shadow: var(--shadow-lg);
+}
+
+/* Transitions - Organic & Fluid */
+.transition-base {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-fast {
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover Effects */
+.hover-lift {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 20px var(--color-primary);
+}
+
+/* Background Colors */
+.bg-primary {
+    background-color: var(--bg-primary);
+}
+
+.bg-secondary {
+    background-color: var(--bg-secondary);
+}
+
+.bg-tertiary {
+    background-color: var(--bg-tertiary);
+}
+
+.bg-elevated {
+    background-color: var(--bg-elevated);
+}
+
+/* Text Colors */
+.text-primary {
+    color: var(--text-primary);
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}
+
+.text-tertiary {
+    color: var(--text-tertiary);
+}
+
+.text-inverse {
+    color: var(--text-inverse);
+}
+
+/* Border Colors */
+.border-subtle {
+    border-color: var(--border-subtle);
+}
+
+.border-medium {
+    border-color: var(--border-medium);
+}
+
+.border-strong {
+    border-color: var(--border-strong);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
 
 @layer base {
     * {
         @apply border-border outline-ring/50;
     }
+
     body {
         @apply bg-background text-foreground font-sans;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+
+    /* Interactive Elements - Focus & Transitions */
     button,
     input,
     select,
     textarea {
         @apply focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-200;
     }
+
     button {
         @apply hover:cursor-pointer;
     }
+
+    /* Typography - Apple Style */
     h1,
     h2,
     h3,
@@ -123,5 +381,205 @@
     h5,
     h6 {
         @apply font-medium tracking-tight;
+    }
+
+    h1 {
+        @apply text-4xl leading-tight;
+    }
+
+    h2 {
+        @apply text-3xl leading-tight;
+    }
+
+    h3 {
+        @apply text-2xl leading-tight;
+    }
+
+    h4 {
+        @apply text-xl leading-normal;
+    }
+
+    h5 {
+        @apply text-lg leading-normal;
+    }
+
+    h6 {
+        @apply text-base leading-normal;
+    }
+
+    /* Links */
+    a {
+        @apply text-primary hover:opacity-80 transition-opacity duration-200;
+    }
+
+    /* Code blocks */
+    code {
+        @apply font-mono text-sm bg-muted px-1 py-0.5 rounded;
+    }
+
+    pre {
+        @apply font-mono text-sm bg-muted p-4 rounded-lg overflow-x-auto;
+    }
+
+    /* Selection */
+    ::selection {
+        background-color: var(--color-primary-light);
+        color: var(--text-primary);
+    }
+
+    /* Scrollbar - macOS Style */
+    ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--border-medium);
+        border-radius: 6px;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--border-strong);
+        border: 2px solid transparent;
+        background-clip: padding-box;
+    }
+}
+
+/* ============================================
+   MEDICAL CONTEXT - Risk Classification
+   ============================================ */
+
+.risk-badge-low {
+    background-color: var(--risk-low-bg);
+    color: var(--risk-low);
+}
+
+.risk-badge-medium {
+    background-color: var(--risk-medium-bg);
+    color: var(--risk-medium);
+}
+
+.risk-badge-high {
+    background-color: var(--risk-high-bg);
+    color: var(--risk-high);
+}
+
+/* ============================================
+   ANIMATION UTILITIES
+   ============================================ */
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-up {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-down {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scale-in {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-in-up {
+    animation: slide-in-up 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-in-down {
+    animation: slide-in-down 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-scale-in {
+    animation: scale-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* Focus visible for keyboard navigation */
+.focus-visible:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Skip to main content link */
+.skip-to-main {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+}
+
+.skip-to-main:focus {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-elevated);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .border-subtle {
+        border-color: var(--border-strong);
+    }
+
+    .text-secondary {
+        color: var(--text-primary);
     }
 }
