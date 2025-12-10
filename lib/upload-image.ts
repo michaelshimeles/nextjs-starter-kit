@@ -23,6 +23,12 @@ export const uploadImageAssets = async (buffer: Buffer, key: string) => {
     })
   );
 
-  const publicUrl = `${process.env.R2_PUBLIC_URL}/${key}`;
+  const baseUrl = process.env.R2_PUBLIC_URL;
+  if (!baseUrl) {
+    throw new Error("R2_PUBLIC_URL environment variable is not configured");
+  }
+  const normalizedBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const publicUrl = `${normalizedBase}/${key}`;
+  return publicUrl;
   return publicUrl;
 };
