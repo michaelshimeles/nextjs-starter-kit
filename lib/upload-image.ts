@@ -23,6 +23,12 @@ export const uploadImageAssets = async (buffer: Buffer, key: string) => {
     })
   );
 
-  const publicUrl = `https://pub-6f0cf05705c7412b93a792350f3b3aa5.r2.dev/${key}`;
+  const baseUrl = process.env.R2_PUBLIC_URL;
+  if (!baseUrl) {
+    throw new Error("R2_PUBLIC_URL environment variable is not configured");
+  }
+  // Normalize: remove trailing slash if present
+  const normalizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+  const publicUrl = `${normalizedBase}/${key}`;
   return publicUrl;
 };
