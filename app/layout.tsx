@@ -4,26 +4,27 @@ import { ThemeProvider } from "../components/provider";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 export const metadata: Metadata = {
-  title: "Next.js Starter Kit - Launch Your SAAS",
+  title: "SPE-M - Sistema de Pontuação Estética Médica",
   description:
-    "A modern, full-stack Next.js starter kit with authentication, payments, and dashboard. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
+    "Sistema profissional de avaliação estética médica. Gerencie pacientes, registre avaliações detalhadas e acompanhe resultados com segurança e compliance LGPD.",
   openGraph: {
-    title: "Next.js Starter Kit",
+    title: "SPE-M - Sistema de Pontuação Estética Médica",
     description:
-      "A modern, full-stack Next.js starter kit with authentication, payments, and dashboard. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-    url: "nextstarter.xyz",
-    siteName: "Next.js Starter Kit",
-    images: [
-      {
-        url: "https://jdj14ctwppwprnqu.public.blob.vercel-storage.com/nsk-w9fFwBBmLDLxrB896I4xqngTUEEovS.png",
-        width: 1200,
-        height: 630,
-        alt: "Next.js Starter Kit",
-      },
-    ],
-    locale: "en-US",
+      "Sistema profissional de avaliação estética médica com compliance LGPD e design Apple Vision Pro.",
+    url: "https://spe-m.app",
+    siteName: "SPE-M",
+    locale: "pt-BR",
     type: "website",
   },
+  keywords: [
+    "estética médica",
+    "avaliação estética",
+    "prontuário digital",
+    "LGPD",
+    "sistema médico",
+    "dermatologia",
+    "cirurgia plástica",
+  ],
 };
 
 export default function RootLayout({
@@ -32,13 +33,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="pt-BR" suppressHydrationWarning>
       <body className={`font-[-apple-system,BlinkMacSystemFont]antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="system"
           enableSystem
-          forcedTheme="light"
           disableTransitionOnChange
         >
           {children}
