@@ -16,9 +16,10 @@ export default function Error({
         // Only report if BugMail is configured (provider will handle the check)
         if (bugmail) {
             bugmail.captureException(error);
+        } else {
+            // Fallback: Log to console if BugMail is not configured
+            console.error(error);
         }
-        // Fallback: Log to console
-        console.error(error);
     }, [error, bugmail]);
 
     return (
