@@ -42,6 +42,7 @@ A comprehensive, production-ready SaaS starter kit built with Next.js 15, featur
 
 ### 📊 Analytics & Monitoring
 - **PostHog** integration for product analytics
+- **BugMail** integration for simple error tracking (alternative to Sentry and posthog)
 - User behavior tracking
 - Custom event monitoring
 - Error tracking and insights
@@ -57,6 +58,7 @@ A comprehensive, production-ready SaaS starter kit built with Next.js 15, featur
 - **AI**: OpenAI SDK
 - **Storage**: Cloudflare R2
 - **Analytics**: PostHog
+- **Error Tracking**: BugMail (Optional)
 - **Deployment**: Vercel (recommended)
 
 ## 📁 Project Structure
@@ -161,6 +163,22 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to see your application.
 
+## 🐛 BugMail Setup (Optional)
+
+This starter kit includes optional integration with [BugMail](https://bugmail.site) for simple, inbox-style error tracking. BugMail is a simpler alternative to Sentry/PostHog for micro-SaaS and indie devs — no config hell, no bloated dashboards, just get emailed when stuff breaks in production (30 seconds setup).
+
+1.  **Create an Account:** Go to [BugMail.site](https://bugmail.site) and sign up.
+2.  **Create a Project:** Follow the onboarding steps to create your first project.
+3.  **Get Credentials:** Copy your **API Key** and **Project ID** from the dashboard.
+4.  **Configure Environment:** Add the following to your `.env` file:
+
+    ```bash
+    NEXT_PUBLIC_BUGMAIL_API_KEY=your_api_key_here
+    NEXT_PUBLIC_BUGMAIL_PROJECT_ID=your_project_id_here
+    ```
+
+That's it! Errors will now be captured and sent to your BugMail inbox. If you don't provide these keys, the integration will be automatically disabled.
+
 ## 🎯 Key Features Explained
 
 ### Subscription Management
@@ -183,7 +201,10 @@ Open [http://localhost:3000](http://localhost:3000) to see your application.
 - **Copy URLs** - Easy sharing and integration
 
 ### Analytics & Tracking
-- PostHog event tracking
+### Analytics & Tracking
+- **PostHog** integration for product analytics
+- **BugMail** integration for simple error tracking (alternative to Sentry)
+- **Zero Config:** No complex dashboards, just email alerts
 - User behavior monitoring
 - Custom analytics dashboard
 

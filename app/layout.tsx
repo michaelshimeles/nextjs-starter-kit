@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { ThemeProvider } from "../components/provider";
+import { SafeBugMailProvider } from "@/components/bugmail-provider";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 export const metadata: Metadata = {
@@ -41,7 +42,9 @@ export default function RootLayout({
           forcedTheme="light"
           disableTransitionOnChange
         >
-          {children}
+          <SafeBugMailProvider>
+            {children}
+          </SafeBugMailProvider>
           <Toaster />
           <Analytics />
         </ThemeProvider>
