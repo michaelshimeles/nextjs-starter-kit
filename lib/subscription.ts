@@ -27,8 +27,13 @@ export type SubscriptionDetailsResult = {
 
 export async function getSubscriptionDetails(): Promise<SubscriptionDetailsResult> {
   try {
+    const h = headers();
+    const headersObj: Record<string, string> = {};
+    for (const [key, value] of h.entries()) headersObj[key] = value;
+
     const session = await auth.api.getSession({
-      headers: await headers(),
+      headers: headersObj,
+      query: {},
     });
 
     if (!session?.user?.id) {

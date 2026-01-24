@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.3.22",
@@ -14,8 +14,8 @@
     "@hookform/resolvers": "^5.0.1",
     "@icons-pack/react-simple-icons": "^12.7.0",
     "@neondatabase/serverless": "^1.0.0",
-    "@polar-sh/better-auth": "^1.0.1",
-    "@polar-sh/sdk": "^0.32.16",
+    "@polar-sh/better-auth": "^1.6.4",
+    "@polar-sh/sdk": "^0.42.2",
     "@radix-ui/react-avatar": "^1.1.7",
     "@radix-ui/react-checkbox": "^1.3.2",
     "@radix-ui/react-dialog": "^1.1.11",
@@ -54,14 +54,14 @@
     "lucide-react": "^0.503.0",
     "motion": "^12.10.5",
     "nanoid": "^5.1.5",
-    "next": "15.3.8",
+    "next": "16.1.4",
     "next-themes": "^0.4.6",
     "pg": "^8.16.0",
     "posthog-js": "^1.248.1",
     "posthog-node": "^4.18.0",
     "qrcode.react": "^4.2.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
     "react-hook-form": "^7.56.1",
     "react-markdown": "^10.1.0",
     "react-resizable-panels": "^2.1.8",
@@ -77,18 +77,21 @@
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/lodash": "^4.17.17",
     "@types/node": "^20.17.31",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "19.2.9",
+    "@types/react-dom": "19.2.3",
     "@types/slug": "^5.0.9",
     "drizzle-kit": "^0.31.0",
     "eslint": "^9",
-    "eslint-config-next": "15.3.1",
+    "eslint-config-next": "16.1.4",
     "tailwindcss": "^4.1.7",
     "tw-animate-css": "^1.3.0",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@types/react": "19.2.9",
+    "@types/react-dom": "19.2.3"
   }
 }
