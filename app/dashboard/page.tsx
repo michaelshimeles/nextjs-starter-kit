@@ -11,6 +11,7 @@ export default async function Dashboard() {
 
   const result = await auth.api.getSession({
     headers: headersObj, // you need to pass the headers object
+    query: {},
   });
 
   if (!result?.session?.userId) {

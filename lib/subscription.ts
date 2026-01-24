@@ -33,6 +33,7 @@ export async function getSubscriptionDetails(): Promise<SubscriptionDetailsResul
 
     const session = await auth.api.getSession({
       headers: headersObj,
+      query: {},
     });
 
     if (!session?.user?.id) {

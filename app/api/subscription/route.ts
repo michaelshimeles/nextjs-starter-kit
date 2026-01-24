@@ -11,6 +11,7 @@ export async function GET() {
 
     const result = await auth.api.getSession({
       headers: headersObj,
+      query: {},
     });
 
     if (!result?.session?.userId) {
