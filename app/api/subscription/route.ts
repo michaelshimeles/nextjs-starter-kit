@@ -5,8 +5,12 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
+    const h = headers();
+    const headersObj: Record<string, string> = {};
+    for (const [key, value] of h.entries()) headersObj[key] = value;
+
     const result = await auth.api.getSession({
-      headers: await headers(),
+      headers: headersObj,
     });
 
     if (!result?.session?.userId) {

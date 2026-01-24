@@ -5,8 +5,12 @@ import { SectionCards } from "./_components/section-cards";
 import { ChartAreaInteractive } from "./_components/chart-interactive";
 
 export default async function Dashboard() {
+  const h = headers();
+  const headersObj: Record<string, string> = {};
+  for (const [key, value] of h.entries()) headersObj[key] = value;
+
   const result = await auth.api.getSession({
-    headers: await headers(), // you need to pass the headers object.
+    headers: headersObj, // you need to pass the headers object
   });
 
   if (!result?.session?.userId) {
