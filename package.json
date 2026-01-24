@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint ."
   },
@@ -14,8 +14,8 @@
     "@hookform/resolvers": "^5.0.1",
     "@icons-pack/react-simple-icons": "^12.7.0",
     "@neondatabase/serverless": "^1.0.0",
-    "@polar-sh/better-auth": "^1.0.1",
-    "@polar-sh/sdk": "^0.32.16",
+    "@polar-sh/better-auth": "^1.6.4",
+    "@polar-sh/sdk": "^0.42.2",
     "@radix-ui/react-avatar": "^1.1.7",
     "@radix-ui/react-checkbox": "^1.3.2",
     "@radix-ui/react-dialog": "^1.1.11",

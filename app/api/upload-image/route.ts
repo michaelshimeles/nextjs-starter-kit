@@ -1,38 +1,33 @@
 import { uploadImageAssets } from "@/lib/upload-image";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const config = {
-  api: { bodyParser: false }, // Disable default body parsing
-};
+export const runtime = "nodejs"; // ensures Buffer + many SDKs work (not Edge)
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
-    // Parse the form data
     const formData = await req.formData();
-    const file = formData.get("file") as File | null;
+    const file = formData.get("file");
 
-    if (!file) {
+    if (!(file instanceof File)) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    // Validate MIME type - only allow image files
-    const allowedMimeTypes = [
+    const allowedMimeTypes = new Set([
       "image/jpeg",
       "image/jpg",
       "image/png",
       "image/gif",
       "image/webp",
       "image/svg+xml",
-    ];
+    ]);
 
-    if (!allowedMimeTypes.includes(file.type)) {
+    if (!allowedMimeTypes.has(file.type)) {
       return NextResponse.json(
         { error: "Invalid file type. Only image files are allowed." },
         { status: 400 },
       );
     }
 
-    // Validate file size - limit to 10MB
     const maxSizeInBytes = 10 * 1024 * 1024; // 10MB
     if (file.size > maxSizeInBytes) {
       return NextResponse.json(
@@ -41,16 +36,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Convert file to buffer
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Generate a unique filename with original extension
-    const fileExt = file.name.split(".").pop() || "";
-    const timestamp = Date.now();
-    const filename = `upload-${timestamp}.${fileExt || "png"}`;
+    // extension (very light sanitization)
+    const rawExt = file.name.split(".").pop()?.toLowerCase() ?? "";
+    const safeExt = rawExt.match(/^[a-z0-9]+$/) ? rawExt : "png";
 
-    // Upload the file
+    const filename = `upload-${Date.now()}.${safeExt}`;
+
     const url = await uploadImageAssets(buffer, filename);
 
     return NextResponse.json({ url });
