@@ -17,6 +17,6 @@ export const POST = createRouteHandler(
       },
     });
 
-    return result.toDataStreamResponse() as NextResponse;
+    return result.toDataStreamResponse() as unknown as NextResponse;
   },
 );
