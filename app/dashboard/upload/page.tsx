@@ -1,5 +1,6 @@
 "use client";
 
+import { uploadImageAction } from "@/app/actions/upload";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -62,19 +63,10 @@ export default function UploadPage() {
           });
         }, 200);
 
-        const response = await fetch("/api/upload-image", {
-          method: "POST",
-          body: formData,
-        });
+        const { url } = await uploadImageAction(formData);
 
         clearInterval(progressInterval);
         setUploadProgress(100);
-
-        if (!response.ok) {
-          throw new Error("Upload failed");
-        }
-
-        const { url } = await response.json();
 
         const uploadedFile: UploadedFile = {
           id: crypto.randomUUID(),

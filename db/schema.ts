@@ -57,6 +57,17 @@ export const verification = pgTable("verification", {
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
 });
 
+// Uploaded images table
+export const userImage = pgTable("userImage", {
+  id: text("id").primaryKey(),
+  url: text("url").notNull(),
+  filename: text("filename").notNull(),
+  userId: text("userId")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+});
+
 // Subscription table for Polar webhook data
 export const subscription = pgTable("subscription", {
   id: text("id").primaryKey(),

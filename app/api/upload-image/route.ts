@@ -1,13 +1,16 @@
+import { db } from "@/db/drizzle";
+import { userImage } from "@/db/schema";
+import { createRouteHandler } from "@/lib/routeHandler";
 import { uploadImageAssets } from "@/lib/upload-image";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export const config = {
-  api: { bodyParser: false }, // Disable default body parsing
+  api: { bodyParser: false },
 };
 
-export async function POST(req: NextRequest) {
-  try {
-    // Parse the form data
+export const POST = createRouteHandler(
+  { isAuthenticated: true },
+  async (req) => {
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
 
@@ -15,7 +18,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    // Validate MIME type - only allow image files
     const allowedMimeTypes = [
       "image/jpeg",
       "image/jpg",
@@ -32,8 +34,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validate file size - limit to 10MB
-    const maxSizeInBytes = 10 * 1024 * 1024; // 10MB
+    const maxSizeInBytes = 10 * 1024 * 1024;
     if (file.size > maxSizeInBytes) {
       return NextResponse.json(
         { error: "File too large. Maximum size allowed is 10MB." },
@@ -41,24 +42,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Convert file to buffer
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Generate a unique filename with original extension
     const fileExt = file.name.split(".").pop() || "";
     const timestamp = Date.now();
     const filename = `upload-${timestamp}.${fileExt || "png"}`;
 
-    // Upload the file
     const url = await uploadImageAssets(buffer, filename);
 
+    await db.insert(userImage).values({
+      id: crypto.randomUUID(),
+      url,
+      filename,
+      userId: req.user.id,
+    });
+
     return NextResponse.json({ url });
-  } catch (error) {
-    console.error("Upload error:", error);
-    return NextResponse.json(
-      { error: "Failed to process upload" },
-      { status: 500 },
-    );
-  }
-}
+  },
+);
