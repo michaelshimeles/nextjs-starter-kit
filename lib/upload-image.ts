@@ -1,3 +1,16 @@
+/**
+ * @deprecated Direct AWS SDK uploads are superseded by pushduck.
+ *
+ * The preferred approach is the pushduck router at `app/api/upload/route.ts`,
+ * which handles auth, validation, presigned-URL generation, and progress
+ * tracking — all without manual AWS SDK calls.
+ *
+ * The upload page at `app/dashboard/upload/page.tsx` now uses the
+ * `pushduck/client` hooks to talk to that router.
+ *
+ * This module is kept for any legacy server-side callers. New code should
+ * import from `pushduck/server` or use the `createUploadClient` hook instead.
+ */
 import {
   S3Client,
   PutObjectCommand,
