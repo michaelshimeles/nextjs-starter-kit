@@ -42,6 +42,7 @@ A comprehensive, production-ready SaaS starter kit built with Next.js 15, featur
 
 ### 📊 Analytics & Monitoring
 - **PostHog** integration for product analytics
+- **Gizmo Analytics** for cookieless, privacy-friendly traffic analytics (opt-in via `NEXT_PUBLIC_GIZMO_KEY`)
 - User behavior tracking
 - Custom event monitoring
 - Error tracking and insights
@@ -56,7 +57,7 @@ A comprehensive, production-ready SaaS starter kit built with Next.js 15, featur
 - **Payments**: Polar.sh
 - **AI**: OpenAI SDK
 - **Storage**: Cloudflare R2
-- **Analytics**: PostHog
+- **Analytics**: PostHog (product) + [Gizmo Analytics](https://gizmoanalytics.io) (cookieless traffic, optional)
 - **Deployment**: Vercel (recommended)
 
 ## 📁 Project Structure
@@ -134,6 +135,9 @@ R2_UPLOAD_IMAGE_BUCKET_NAME="your-r2-bucket-name"
 # Polar.sh Pricing Tiers
 NEXT_PUBLIC_STARTER_TIER="your-starter-product-id"
 NEXT_PUBLIC_STARTER_SLUG="your-starter-slug"
+
+# Gizmo Analytics (optional — cookieless web analytics, leave blank to disable)
+NEXT_PUBLIC_GIZMO_KEY="ak_public_your-site-key"
 ```
 
 4. **Database Setup**

@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { ThemeProvider } from "../components/provider";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
@@ -44,6 +45,13 @@ export default function RootLayout({
           {children}
           <Toaster />
           <Analytics />
+          {process.env.NEXT_PUBLIC_GIZMO_KEY ? (
+            <Script
+              src="https://gizmoanalytics.io/script.js"
+              data-key={process.env.NEXT_PUBLIC_GIZMO_KEY}
+              strategy="afterInteractive"
+            />
+          ) : null}
         </ThemeProvider>
       </body>
     </html>
