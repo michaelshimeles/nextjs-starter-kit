@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     const filename = `upload-${timestamp}.${fileExt || "png"}`;
 
     // Upload the file
-    const url = await uploadImageAssets(buffer, filename);
+    const url = await uploadImageAssets(buffer, filename, file.type);
 
     return NextResponse.json({ url });
   } catch (error) {

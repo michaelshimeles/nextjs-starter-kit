@@ -149,6 +149,15 @@ npx drizzle-kit push
 - Generate API tokens with R2 permissions
 - Configure CORS settings for your domain
 
+   **Optional: Neon Object Storage instead of R2**
+   - Create a `public_read` bucket: `neon buckets create images --access-level public_read`
+   - Create a credential: `neon credentials create --scope storage:read --scope storage:write`
+   - Set `STORAGE_PROVIDER=neon`, the `AWS_*` variables (`neon env pull` writes them) and `NEON_STORAGE_BUCKET_NAME`
+
+   **Optional: Neon AI Gateway instead of OpenAI**
+   - Create a credential: `neon credentials create --scope ai_gateway:invoke`
+   - Set `AI_PROVIDER=neon`, `NEON_AI_GATEWAY_BASE_URL` and `NEON_AI_GATEWAY_TOKEN` (`neon env pull` writes them). The chat uses `gpt-5-mini` with web search.
+
 6. **Polar.sh Setup**
 - Create products for your pricing tiers
 - Set up webhook endpoints for subscription events
